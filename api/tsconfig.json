@@ -1,0 +1,25 @@
+{
+  "strict": true,
+  "compilerOptions": {
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "target": "es6",
+    "noImplicitAny": true,
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "outDir": "dist",
+    "baseUrl": ".",
+    "paths": {
+      "src/*": [
+        "*"
+      ]
+    },
+  },
+  "include": [
+    "*"
+  ],
+  "exclude": [
+    "node_modules",
+  ]
+}
