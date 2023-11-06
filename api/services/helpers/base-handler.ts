@@ -9,28 +9,18 @@ export type HandlerResponse =
     /** `res.json(data)` */
     data: any
     redirect?: string
-    file?: File
   }
   | {
     /** `res.status(status).redirect(redirect)` */
     status: number
     redirect: string
     data?: any
-    file?: File
-  }
-  | {
-    /** `res.status(status).pipe(file)` */
-    status: number
-    file: File
-    data?: any
-    redirect?: string
   }
   | {
     /** `res.status(status).pipe(stream)` */
     status: number
     data?: any
     redirect?: string
-    file?: File
   }
 
 export type HandlerRequest = {
