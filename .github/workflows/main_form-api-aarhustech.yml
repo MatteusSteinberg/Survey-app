@@ -34,7 +34,7 @@ jobs:
         run: |
           cd api
           ls
-          zip release.zip /dist/* -r
+          zip release.zip ./dist/* -r
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
