@@ -21,11 +21,12 @@ jobs:
         with:
           node-version: '18.x'
 
-      - name: yarn, build
+      - name: yarn, build, copy
         run: |
           cd api
           yarn
           yarn build
+          yarn copy
 
       - name: Zip artifact for deployment
         run: |
