@@ -1,7 +1,7 @@
-import formModel from "models/form.model"
 import { FilterQuery, HydratedDocument } from "mongoose"
 import { ISubmission, ISubmissionFilter } from "../../interfaces/submission.interfaces"
 import { IUser } from "../../interfaces/user.interfaces"
+import formModel from "../../models/form.model"
 import submissionModel from "../../models/submission.model"
 
 
