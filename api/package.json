@@ -9,7 +9,7 @@
     "server": "nodemon server.ts",
     "copy": "cp package.json dist/ && cp yarn.lock dist/",
     "build": "tsc --project ./",
-    "start:prod": "node dist/server.js"
+    "start:prod": "node server.js"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.1",
