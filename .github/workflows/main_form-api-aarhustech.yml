@@ -23,6 +23,7 @@ jobs:
 
       - name: yarn, build
         run: |
+          cd api
           yarn
           yarn build
 
