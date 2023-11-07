@@ -6,7 +6,9 @@
   "license": "MIT",
   "scripts": {
     "dev": "concurrently --kill-others-on-fail \"yarn server\"",
-    "server": "nodemon server.ts"
+    "server": "nodemon server.ts",
+    "build": "tsc --project ./",
+    "start:prod": "node dist/server.js"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.1",

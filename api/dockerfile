@@ -1,0 +1,17 @@
+FROM node
+
+# Set the working directory
+WORKDIR /usr/src/app
+
+# Copy package.json and yarn.lock
+COPY package.json yarn.lock ./
+
+# Install dependencies
+RUN yarn install
+
+# Bundle app source
+COPY . .
+RUN yarn build
+
+EXPOSE 8080
+CMD [ "yarn", "start:prod" ]
