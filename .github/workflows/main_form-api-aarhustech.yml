@@ -36,7 +36,7 @@ jobs:
       - name: check current repo
         run: |
           ls
-          cd /api
+          cd api
           ls
         
       - name: Upload artifact for deployment job
