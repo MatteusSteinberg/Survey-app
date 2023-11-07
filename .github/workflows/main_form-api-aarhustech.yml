@@ -27,8 +27,11 @@ jobs:
           yarn
           yarn build
 
+      - name: check current repo
+        run: ls
+
       - name: Zip artifact for deployment
-        run: zip release.zip /api -r
+        run: zip release.zip /dist/* -r
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
