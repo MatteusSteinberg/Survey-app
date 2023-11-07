@@ -27,19 +27,23 @@ jobs:
           yarn
           yarn build
 
-      - name: check current repo
-        run: ls
-
       - name: Zip artifact for deployment
         run: |
           cd api/dist
           zip release.zip ./* -r
 
+        
+      - name: check current repo
+        run: |
+          ls
+          cd /api
+          ls
+        
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
           name: node-app
-          path: release.zip
+          path: /api/release.zip
 
   deploy:
     runs-on: ubuntu-latest
