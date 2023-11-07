@@ -31,6 +31,7 @@ jobs:
       - name: Zip artifact for deployment
         run: |
           cd api/dist
+          yarn
           zip release.zip ./* -r
 
         
