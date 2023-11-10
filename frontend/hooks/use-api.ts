@@ -57,7 +57,7 @@ const useAPI = <T>({ url, params, id }: { url: string; params?: any; id?: string
 
     } catch (error: any) {
       console.error(error)
-      setRequestData((r) => ({ ...r, error: error?.response?.data?.error || error, loading: false }))
+      setRequestData((r) => ({ ...r, error: error, loading: false }))
     }
   }, [url, queryString, opts.config, setRequestData])
 
@@ -70,14 +70,14 @@ const useAPI = <T>({ url, params, id }: { url: string; params?: any; id?: string
       const { data, status } = await axios.post(`${url}${withQueryString ? queryString : ""}`, body, opts.config)
 
       if (!noRequestUpdate) {
-        setRequestData({ data, statusCode: status, loading: false, error: data?.error })
+        setRequestData({ data, statusCode: status, loading: false, error: data })
       }
 
-      return { data, statusCode: status, loading: false, error: data?.error }
+      return { data, statusCode: status, loading: false, error: data }
     } catch (error: any) {
       console.error(error)
-      setRequestData((r) => ({ ...r, error: error?.response?.data?.error || error, loading: false }))
-      return { data: error.response?.data, statusCode: error.response?.status, error: error.response?.data.error }
+      setRequestData((r) => ({ ...r, error: error, loading: false }))
+      return { error: error }
     }
   }
 
@@ -91,10 +91,10 @@ const useAPI = <T>({ url, params, id }: { url: string; params?: any; id?: string
         setRequestData({ data: data as any, statusCode: status, loading: false, error: undefined })
       }
 
-      return { data, statusCode: status, loading: false, error: data?.error }
+      return { data, statusCode: status, loading: false }
     } catch (error: any) {
-      setRequestData((r) => ({ ...r, error: error?.response?.data?.error || error, loading: false }))
-      return { data: error.response?.data, statusCode: error.response?.status, error: error.response?.data.error }
+      setRequestData((r) => ({ ...r, error: error, loading: false }))
+      return { error: error }
     }
   }
 
@@ -116,7 +116,7 @@ const useAPI = <T>({ url, params, id }: { url: string; params?: any; id?: string
       return { data, statusCode: status, loading: false, error: undefined }
     } catch (error: any) {
       console.error(error)
-      setRequestData((r) => ({ ...r, error: error?.response?.data?.error || error, loading: false }))
+      setRequestData((r) => ({ ...r, error: error, loading: false }))
 
       return { data: error.response?.data, statusCode: error.response?.status, error: error.response?.data.error }
     }

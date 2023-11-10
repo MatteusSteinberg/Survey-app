@@ -27,7 +27,7 @@ export default function SignupScreen() {
     const register = await request({ method: "post", body: form })
     const auth = await authenticate(form.email || "", form.password || "")
 
-    if (!register.error && !auth.error) {
+    if (!register?.error && !auth?.error) {
       setRegisterSuccess(true)
     }
   }

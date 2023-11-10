@@ -57,7 +57,7 @@ export const AuthProvider = memo(({ children }: { children: React.ReactNode }) =
 
       return {}
     } catch (error: any) {
-      return { error: error?.response?.data?.error || error }
+      return { error: error }
     }
   }
 
