@@ -12,7 +12,7 @@ interface IButton {
 const Button = (props: IButton) => {
     return (
         <SButton {...props} onPress={props.onPress}>
-            <SView>
+            <SView {...props}>
                 <SText {...props}>{props.title}</SText>
                 {props.icon && <SIcon>{props.icon}</SIcon>}
             </SView>
@@ -27,6 +27,7 @@ const SButton = styled.Pressable<IButton>`
     text-align: center;
     padding: 22px 26px;
     border: 2px solid transparent;
+    width: 100%;
 
     ${props =>
         props.variant === "primary" &&
@@ -57,15 +58,17 @@ const SButton = styled.Pressable<IButton>`
         `}
 `
 
-const SView = styled.View`
+const SView = styled.View<IButton>`
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: ${props => (props.icon ? "space-between" : "center")};
     align-items: center;
+    width: 90%;
+    margin: 0 auto;
 `
 
 const SText = styled.Text<IButton>`
-    font-size: 18px;
+    font-size: 19px;
     font-weight: 500;
     text-align: center;
     font-family: 'Nunito_700Bold';
@@ -96,11 +99,4 @@ const SText = styled.Text<IButton>`
 
 `
 
-const SIcon = styled.View`
-    margin-left: 10px;
-
-    svg {
-        width: 24px;
-        height: 24px;
-    }
-`
+const SIcon = styled.View``
