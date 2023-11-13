@@ -1,12 +1,15 @@
 import React, { useState } from "react"
-import { StyleSheet, Text, TextInput, View } from "react-native"
+import { View } from "react-native"
 
 // Components
-import { Button } from "../components/elements/index"
+import styled from "styled-components/native"
+import AuthHeader from "../components/AuthHeader"
+import { Button } from "../components/elements"
+import Input from "../components/elements/Input"
 import useAPI from "../hooks/use-api"
 import { useAuth } from "../hooks/use-auth"
 
-export default function SignupScreen() {
+export default function SignupScreen({ navigation }: any) {
     const { request, loading, error } = useAPI({ url: "/user/register" }, { autoGet: false })
 
     const { authenticate, refresh, user } = useAuth()
@@ -33,79 +36,113 @@ export default function SignupScreen() {
     }
 
     return (
-        <View style={styles.welcomeOuter}>
-            <View style={styles.welcomeLogo}>
-                <View style={styles.loginContainer}>
-                    <View style={styles.loginContainer}>
-                        <View style={styles.inputContainer}>
-                            <Text style={styles.inputLabel}>Email</Text>
-                            <TextInput style={styles.textInput} textContentType="emailAddress" onChangeText={v => setForm({ ...form, email: v })} />
-                        </View>
-
-                        <View style={styles.inputContainer}>
-                            <Text style={styles.inputLabel}>Username</Text>
-                            <TextInput style={styles.textInput} textContentType="username" onChangeText={v => setForm({ ...form, username: v })} />
-                        </View>
-
-                        <View style={styles.inputContainer}>
-                            <Text style={styles.inputLabel}>Password</Text>
-                            <TextInput secureTextEntry textContentType="password" style={styles.textInput} onChangeText={v => setForm({ ...form, password: v })} />
-                        </View>
-                        <View style={styles.inputContainer}>
-                            <Text style={styles.inputLabel}>Repeat Password</Text>
-                            <TextInput secureTextEntry textContentType="password" style={styles.textInput} onChangeText={v => setForm({ ...form, repeatPassword: v })} />
-                        </View>
-                    </View>
-
-                    <View style={styles.registerButtonContainer}>
-                        <Button variant="primary" full={true} onPress={handleOnRegister} title={"Register"} />
-                    </View>
-                </View>
-            </View>
-        </View>
+        <>
+            <SHeader>
+                <AuthHeader />
+            </SHeader>
+            <SContainer>
+                <SContent>
+                    <STitle>Sign up!</STitle>
+                    <SText>Let’s build some awesome surveys!</SText>
+                    <SForm>
+                        <SFormText>Fill out the form</SFormText>
+                        <SFormItem>
+                            <Input placeholder="Username..." variant="dark" textContentType="username" onChangeText={v => setForm({ ...form, username: v })} />
+                        </SFormItem>
+                        <SFormItem>
+                            <Input placeholder="E-mail..." variant="dark" textContentType="emailAddress" onChangeText={v => setForm({ ...form, email: v })} />
+                        </SFormItem>
+                        <SFormItem>
+                            <Input placeholder="Password..." variant="dark" secureTextEntry textContentType="password" onChangeText={v => setForm({ ...form, password: v })} />
+                        </SFormItem>
+                        <SFormItem>
+                            <Input placeholder="Confirm password..." variant="dark" secureTextEntry textContentType="password" onChangeText={v => setForm({ ...form, repeatPassword: v })} />
+                        </SFormItem>
+                        <SFormItem>
+                            <Button variant="primary" onPress={handleOnRegister} title={"Register"} />
+                        </SFormItem>
+                    </SForm>
+                    <SFooter>
+                        <SLogin>
+                            Already have an account? <SLoginLink onPress={() => navigation.navigate("LoginScreen")}>Sign in</SLoginLink>
+                        </SLogin>
+                    </SFooter>
+                </SContent>
+            </SContainer>
+        </>
     )
 }
 
-const styles = StyleSheet.create({
-    welcomeOuter: {
-        backgroundColor: "#000",
-        flex: 1,
-        paddingRight: 15,
-        paddingLeft: 15,
-    },
-    welcomeLogo: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    registerButtonContainer: {
-        width: "100%",
-        marginTop: 40,
-    },
-    loginContainer: {
-        display: "flex",
-        justifyContent: "flex-end",
-        alignItems: "center",
-        width: "100%",
-        gap: 8,
-    },
-    inputContainer: {
-        width: "100%",
-    },
-    inputLabel: {
-        color: "white",
-        width: "100%",
-    },
-    textInput: {
-        backgroundColor: "#9b9b9b3d",
-        width: "100%",
-        paddingTop: 8,
-        color: "white",
-        fontWeight: "700",
-        paddingBottom: 8,
-        paddingRight: 16,
-        paddingLeft: 16,
-        borderBottomColor: "#9b9b9b",
-        borderWidth: 3,
-    },
-})
+const SContainer = styled(View)`
+    padding: 0 16px 20px 16px;
+    height: 100%;
+    background-color: ${props => props.theme["WHITE"]};
+`
+
+const SHeader = styled(View)`
+    background-color: ${props => props.theme["WHITE"]};
+`
+
+const SContent = styled(View)`
+    flex: 1;
+    height: 100%;
+    justify-content: flex-start;
+    margin-top: 32px;
+    align-items: center;
+`
+
+const STitle = styled.Text`
+    font-size: 42px;
+    margin-bottom: 8px;
+    color: ${props => props.theme["TEXT"]};
+    font-family: "Nunito_700Bold";
+`
+
+const SText = styled.Text`
+    font-size: 18px;
+    font-weight: 400;
+    color: ${props => props.theme["TEXT"]};
+    font-family: "Nunito_400Regular";
+`
+
+const SForm = styled.View`
+    margin-top: 40px;
+    width: 100%;
+`
+
+const SFormText = styled.Text`
+    font-size: 18px;
+    font-weight: 400;
+    color: ${props => props.theme["TEXT"]};
+    font-family: "Nunito_600SemiBold";
+    margin-bottom: 16px;
+`
+
+const SFormItem = styled.View`
+    margin-bottom: 16px;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+`
+
+const SFooter = styled.View`
+    width: 100%;
+    align-items: center;
+    margin-top: 10px;
+`
+
+const SLogin = styled.Text`
+    font-size: 18px;
+    font-weight: 400;
+    color: ${props => props.theme["TEXT"]};
+    font-family: "Nunito_400Regular";
+`
+
+const SLoginLink = styled.Text`
+    font-size: 18px;
+    font-weight: 400;
+    color: ${props => props.theme["PRIMARY_COLOR"]};
+    font-family: "Nunito_600SemiBold";
+    text-decoration: underline;
+`

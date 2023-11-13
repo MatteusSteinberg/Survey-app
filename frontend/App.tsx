@@ -9,6 +9,7 @@ const Stack = createNativeStackNavigator()
 // Screens
 import { Nunito_300Light, Nunito_400Regular, Nunito_500Medium, Nunito_600SemiBold, Nunito_700Bold, Nunito_800ExtraBold, useFonts } from "@expo-google-fonts/nunito"
 import { AuthProvider } from "./hooks/use-auth"
+import DashboardScreen from "./routes/DashboardScreen"
 import LoginScreen from "./routes/LoginScreen"
 import SignupScreen from "./routes/SignupScreen"
 import WelcomeScreen from "./routes/WelcomeScreen"
@@ -36,6 +37,7 @@ export default function App() {
                         <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
                         <Stack.Screen name="SignupScreen" component={SignupScreen} />
                         <Stack.Screen name="LoginScreen" component={LoginScreen} />
+                        <Stack.Screen name="DashboardScreen" component={DashboardScreen} />
                     </Stack.Navigator>
                 </AuthProvider>
             </NavigationContainer>
