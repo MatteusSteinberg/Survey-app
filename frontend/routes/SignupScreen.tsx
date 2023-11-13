@@ -58,7 +58,7 @@ export default function SignupScreen() {
                     </View>
 
                     <View style={styles.registerButtonContainer}>
-                        <Button full={true} onPress={handleOnRegister} title={"Register"} />
+                        <Button variant="primary" full={true} onPress={handleOnRegister} title={"Register"} />
                     </View>
                 </View>
             </View>
