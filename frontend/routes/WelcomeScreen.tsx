@@ -7,27 +7,30 @@ import styled from "styled-components/native"
 import Logo from "../assets/Logo"
 import Pattern from "../assets/Pattern"
 import { Button } from "../components/elements/index"
+import AppScreen from "../components/hoc/AppScreen"
 
 const WelcomeScreen = ({ navigation }: any) => {
-    const [pincode, setPincode] = useState("")
+  const [pincode, setPincode] = useState("")
 
-    return (
-        <SContainer>
-            <PatternTop PatternWidth={240} PatternHeight={290} />
-            <SInner>
-                <Logo LogoWidth={114} LogoHeight={114} />
-                <SWelcomeText>Welcome</SWelcomeText>
-                <SWelcomeSub>Create and share surveys effortlessly!</SWelcomeSub>
-            </SInner>
-            <SActions>
-                <Button variant="dark" icon={<Octicons name="arrow-right" size={24} color="#fff" />} onPress={() => navigation.navigate("SignupScreen")} full={true} title={"Register"} />
-                <SLogin onPress={() => navigation.navigate("LoginScreen")}>
-                    <SLoginText>Already have an account?</SLoginText>
-                </SLogin>
-            </SActions>
-            <PatternBottom PatternWidth={240} PatternHeight={290} />
-        </SContainer>
-    )
+  return (
+    <AppScreen>
+      <SContainer>
+        <PatternTop PatternWidth={240} PatternHeight={290} />
+        <SInner>
+          <Logo LogoWidth={114} LogoHeight={114} />
+          <SWelcomeText>Welcome</SWelcomeText>
+          <SWelcomeSub>Create and share surveys effortlessly!</SWelcomeSub>
+        </SInner>
+        <SActions>
+          <Button variant="dark" icon={<Octicons name="arrow-right" size={24} color="#fff" />} onPress={() => navigation.navigate("SignupScreen")} full={true} title={"Register"} />
+          <SLogin onPress={() => navigation.navigate("LoginScreen")}>
+            <SLoginText>Already have an account?</SLoginText>
+          </SLogin>
+        </SActions>
+        <PatternBottom PatternWidth={240} PatternHeight={290} />
+      </SContainer>
+    </AppScreen>
+  )
 }
 
 export default WelcomeScreen
@@ -102,7 +105,7 @@ const SLoginText = styled(Text)`
 `
 
 {
-    /* <View style={styles.welcomeLogo}>
-                <PinInput codeLength={6} onChange={p => setPincode(p)} currentValue={pincode} />
-            </View> */
+  /* <View style={styles.welcomeLogo}>
+              <PinInput codeLength={6} onChange={p => setPincode(p)} currentValue={pincode} />
+          </View> */
 }

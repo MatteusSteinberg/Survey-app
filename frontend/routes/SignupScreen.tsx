@@ -6,6 +6,7 @@ import styled from "styled-components/native"
 import AuthHeader from "../components/AuthHeader"
 import { Button } from "../components/elements"
 import Input from "../components/elements/Input"
+import AppScreen from "../components/hoc/AppScreen"
 import useAPI from "../hooks/use-api"
 import { useAuth } from "../hooks/use-auth"
 
@@ -36,7 +37,7 @@ export default function SignupScreen({ navigation }: any) {
   }
 
   return (
-    <>
+    <AppScreen>
       <SHeader>
         <AuthHeader />
       </SHeader>
@@ -69,7 +70,7 @@ export default function SignupScreen({ navigation }: any) {
           </SFooter>
         </SContent>
       </SContainer>
-    </>
+    </AppScreen>
   )
 }
 
