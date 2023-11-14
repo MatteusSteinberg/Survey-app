@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Keyboard, TouchableWithoutFeedback, View } from "react-native"
+import { View } from "react-native"
 
 // Components
 import styled from "styled-components/native"
@@ -10,71 +10,67 @@ import useAPI from "../hooks/use-api"
 import { useAuth } from "../hooks/use-auth"
 
 export default function SignupScreen({ navigation }: any) {
-    const { request, loading, error } = useAPI({ url: "/user/register" }, { autoGet: false })
+  const { request, loading, error } = useAPI({ url: "/user/register" }, { autoGet: false })
 
-    const { authenticate, refresh, user } = useAuth()
+  const { authenticate, refresh, user } = useAuth()
 
-    const [registerSuccess, setRegisterSuccess] = useState(false)
+  const [registerSuccess, setRegisterSuccess] = useState(false)
 
-    const [form, setForm] = useState({
-        email: "",
-        username: "",
-        password: "",
-        repeatPassword: "",
-    })
+  const [form, setForm] = useState({
+    email: "",
+    username: "",
+    password: "",
+    repeatPassword: "",
+  })
 
-    const handleOnRegister = async () => {
-        if (form.password !== form.repeatPassword) {
-            return
-        }
-        const register = await request({ method: "post", body: form })
-        const auth = await authenticate(form.email || "", form.password || "")
-
-        if (!register?.error && !auth?.error) {
-            setRegisterSuccess(true)
-        }
+  const handleOnRegister = async () => {
+    if (form.password !== form.repeatPassword) {
+      return
     }
+    const register = await request({ method: "post", body: form })
+    const auth = await authenticate(form.email || "", form.password || "")
 
-    return (
-        <>
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <View>
-                    <SHeader>
-                        <AuthHeader />
-                    </SHeader>
-                    <SContainer>
-                        <SContent>
-                            <STitle>Sign up!</STitle>
-                            <SText>Let’s build some awesome surveys!</SText>
-                            <SForm>
-                                <SFormText>Fill out the form</SFormText>
-                                <SFormItem>
-                                    <Input placeholder="Username..." variant="dark" textContentType="username" onChangeText={v => setForm({ ...form, username: v })} />
-                                </SFormItem>
-                                <SFormItem>
-                                    <Input placeholder="E-mail..." variant="dark" textContentType="emailAddress" onChangeText={v => setForm({ ...form, email: v })} />
-                                </SFormItem>
-                                <SFormItem>
-                                    <Input placeholder="Password..." variant="dark" secureTextEntry textContentType="password" onChangeText={v => setForm({ ...form, password: v })} />
-                                </SFormItem>
-                                <SFormItem>
-                                    <Input placeholder="Confirm password..." variant="dark" secureTextEntry textContentType="password" onChangeText={v => setForm({ ...form, repeatPassword: v })} />
-                                </SFormItem>
-                                <SFormItem>
-                                    <Button variant="primary" onPress={handleOnRegister} title={"Register"} />
-                                </SFormItem>
-                            </SForm>
-                            <SFooter>
-                                <SLogin>
-                                    Already have an account? <SLoginLink onPress={() => navigation.navigate("LoginScreen")}>Sign in</SLoginLink>
-                                </SLogin>
-                            </SFooter>
-                        </SContent>
-                    </SContainer>
-                </View>
-            </TouchableWithoutFeedback>
-        </>
-    )
+    if (!register?.error && !auth?.error) {
+      setRegisterSuccess(true)
+    }
+  }
+
+  return (
+    <>
+      <SHeader>
+        <AuthHeader />
+      </SHeader>
+      <SContainer>
+        <SContent>
+          <STitle>Sign up!</STitle>
+          <SText>Let’s build some awesome surveys!</SText>
+          <SForm>
+            <SFormText>Fill out the form</SFormText>
+            <SFormItem>
+              <Input placeholder="Username..." variant="dark" textContentType="username" onChangeText={v => setForm({ ...form, username: v })} />
+            </SFormItem>
+            <SFormItem>
+              <Input placeholder="E-mail..." variant="dark" textContentType="emailAddress" onChangeText={v => setForm({ ...form, email: v })} />
+            </SFormItem>
+            <SFormItem>
+              <Input placeholder="Password..." variant="dark" secureTextEntry textContentType="password" onChangeText={v => setForm({ ...form, password: v })} />
+            </SFormItem>
+            <SFormItem>
+              <Input placeholder="Confirm password..." variant="dark" secureTextEntry textContentType="password" onChangeText={v => setForm({ ...form, repeatPassword: v })} />
+            </SFormItem>
+            <SFormItem>
+              <Button variant="primary" onPress={handleOnRegister} title={"Register"} />
+            </SFormItem>
+          </SForm>
+          <SFooter>
+            <SLogin>
+              Already have an account? <SLoginLink onPress={() => navigation.navigate("LoginScreen")}>Sign in</SLoginLink>
+            </SLogin>
+          </SFooter>
+        </SContent>
+      </SContainer>
+    </>
+  )
 }
 
 const SContainer = styled(View)`

@@ -15,9 +15,7 @@ const LoginScreen = ({ navigation }: any) => {
   const { authenticate } = useAuth()
 
   const handleOnLogin = async () => {
-    console.log(form.email)
     if (!form?.email || !form?.password) return
-    console.log("JADA")
     const result = await authenticate(form?.email, form?.password)
 
     if (!result?.error) {
