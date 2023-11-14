@@ -27,7 +27,7 @@ const LoginScreen = ({ navigation }: any) => {
     return (
         <>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <ScrollView>
+                <SScroll>
                     <SHeader>
                         <AuthHeader />
                     </SHeader>
@@ -44,17 +44,17 @@ const LoginScreen = ({ navigation }: any) => {
                                     <Input placeholder="Password..." variant="dark" value={form.password} secureTextEntry textContentType="password" onChangeText={(v) => setForm({ ...form, password: v })} />
                                 </SFormItem>
                                 <SFormItem>
-                                    <Button variant="primary" title={"Sign in"} onPress={handleOnLogin} />
+                                    <Button variant="primary" title={"Sign in"} onPress={() => navigation.navigate("DashboardScreen")} />
                                 </SFormItem>
                             </SForm>
+                            <SFooter>
+                                <SLogin>
+                                    Don't have an account? <SLoginLink onPress={() => navigation.navigate("SignupScreen")}>Sign up</SLoginLink>
+                                </SLogin>
+                            </SFooter>
                         </SContent>
-                        <SFooter>
-                            <SLogin>
-                                Don't have an account? <SLoginLink onPress={() => navigation.navigate("SignupScreen")}>Sign up</SLoginLink>
-                            </SLogin>
-                        </SFooter>
                     </SContainer>
-                </ScrollView>
+                </SScroll>
             </TouchableWithoutFeedback>
         </>
     )
@@ -137,4 +137,10 @@ const SLoginLink = styled.Text`
     color: ${(props) => props.theme["PRIMARY_COLOR"]};
     font-family: "Nunito_600SemiBold";
     text-decoration: underline;
+`
+
+const SScroll = styled(ScrollView)`
+    width: 100%;
+    height: 100%;
+    text-align: center;
 `

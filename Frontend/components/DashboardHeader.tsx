@@ -1,105 +1,113 @@
-import { Calendar } from "@nandorojo/heroicons/24/outline";
-import { format } from 'date-fns';
-import React from "react";
-import { Text, View } from "react-native";
-import styled from "styled-components/native";
-import { useAuth } from "../hooks/use-auth";
-import Input from "./elements/Input";
+import { Octicons } from "@expo/vector-icons"
+import { format } from "date-fns"
+import React from "react"
+import { Text, TextInput, View } from "react-native"
+import styled from "styled-components/native"
+import { useAuth } from "../hooks/use-auth"
 
-interface IDashboardHeader { }
+interface IDashboardHeader {}
 
 const DashboardHeader = (props: IDashboardHeader) => {
+    const { user } = useAuth()
 
-  const { user } = useAuth()
+    const date = new Date()
+    const formattedDate = format(date, "EEE, dd MMM yyyy")
 
-  const date = new Date()
-  const formattedDate = format(date, 'EEE, dd MMM yyyy')
-
-  return (
-    <SContainer>
-      <SDateContainer>
-        <SDateIcon >
-          <SCalendar />
-        </SDateIcon>
-        <SDateText>{formattedDate.toUpperCase()}</SDateText>
-      </SDateContainer>
-
-      <SWelcomeContainer>
-        <SWelcome>Welcome back</SWelcome>
-        <SWelcomeUsernameContainer>
-          <SWelcomeUsername>{user?.username}! 👋</SWelcomeUsername>
-        </SWelcomeUsernameContainer>
-      </SWelcomeContainer>
-
-      <SSearchFormContainer>
-        <Input icon="magnifying-glass" variant="dark" placeholder="Search for a form..." />
-      </SSearchFormContainer>
-    </SContainer>
-  )
+    return (
+        <SHeader>
+            <SHeaderInner>
+                <SHeaderDate>
+                    <SHeaderDateIcon size={24} name="calendar" color="#ffffff70" />
+                    <SHeaderDateText>{formattedDate.toUpperCase()}</SHeaderDateText>
+                </SHeaderDate>
+                <SHeaderMessage>
+                    <SheaderMessageWelcome style={{ color: "#ffffff" }}>Welcome back</SheaderMessageWelcome>
+                    <SheaderMessageUser>{user?.username || "Username"} 👋</SheaderMessageUser>
+                </SHeaderMessage>
+                <SHeaderSearch>
+                    <SInput placeholderTextColor="#ffffff40" placeholder="Search for a survey..." />
+                </SHeaderSearch>
+            </SHeaderInner>
+        </SHeader>
+    )
 }
 
 export default DashboardHeader
 
-const SContainer = styled(View)`
+const SHeader = styled(View)`
     position: relative;
     width: 100%;
-    height: 281px;
-    background-color: ${props => props.theme["PRIMARY_COLOR"]};
-    align-items: start;
-    padding-top: 60px;
-    justify-content: start;
+    height: 320px;
+    background-color: ${(props) => props.theme["PRIMARY_COLOR"]};
+    align-items: center;
+    justify-content: center;
     border-bottom-left-radius: 65px;
     border-bottom-right-radius: 65px;
+`
+const SHeaderInner = styled(View)`
+    padding: 80px 22px 16px 22px;
     display: flex;
-    padding-left: 16px;
-    padding-right: 16px;
+    align-items: flex-start;
+    justify-content: space-between;
+    z-index: 10;
+    height: 100%;
+    padding-top: 75px;
+    width: 100%;
 `
-
-const SDateContainer = styled(View)`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 5px;
+const SHeaderDate = styled(View)`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    z-index: 10;
 `
-
-const SDateText = styled(Text)`
-  color: white;
-  opacity: 0.6;
-  font-size: 12px;
+const SHeaderDateIcon = styled(Octicons)`
+    padding-bottom: 4px;
 `
-
-const SDateIcon = styled(View)`
-  
+const SHeaderDateText = styled(Text)`
+    font-size: 16px;
+    font-weight: 500;
+    font-family: "Nunito_700Bold";
+    color: ${(props) => props.theme["WHITE"]};
+    opacity: 0.6;
 `
-
-const SWelcomeContainer = styled(View)`
-  margin-top: 25px;
+const SHeaderMessage = styled(View)`
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    z-index: 10;
 `
-
-const SWelcome = styled(Text)`
-  color: white;
-  opacity: 0.5;
+const SheaderMessageWelcome = styled(Text)`
+    font-size: 20px;
+    opacity: 0.5;
+    font-family: "Nunito_600SemiBold";
+    color: ${(props) => props.theme["WHITE"]};
 `
-
-const SWelcomeUsernameContainer = styled(View)`
-  display: flex;
-  flex-direction: row;
+const SheaderMessageUser = styled(Text)`
+    font-size: 44px;
+    font-family: "Nunito_700Bold";
+    color: ${(props) => props.theme["WHITE"]};
 `
-
-const SWelcomeUsername = styled(Text)`
-  font-size: 32px;
-  font-weight: 700;
-  color: white;
+const SHeaderSearch = styled(View)`
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    z-index: 10;
+    width: 100%;
 `
-
-const SCalendar = styled(Calendar)`
-  height: 24px;
-  width: 24px;
-  color: white;
-  opacity: 0.5;
-`
-
-const SSearchFormContainer = styled(View)`
-  margin-top: 12px;
-  width: 100%;
+const SInput = styled(TextInput)`
+    background-color: rgba(35, 35, 35, 0.3);
+    width: 100%;
+    font-size: 18px;
+    font-family: "Nunito_600SemiBold";
+    color: ${(props) => props.theme["WHITE"]};
+    border-radius: 24px;
+    padding: 12px 18px;
+    margin-bottom: 10px;
+    &::placeholder {
+        font-size: 18px;
+        font-family: "Nunito_600SemiBold";
+        color: ${(props) => props.theme["WHITE"]} !important;
+    }
 `

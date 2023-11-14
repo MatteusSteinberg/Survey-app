@@ -1,5 +1,5 @@
 import { Octicons } from "@expo/vector-icons"
-import moment from "moment"
+import { format } from "date-fns"
 import React from "react"
 import { Text, TextInput, View } from "react-native"
 import styled from "styled-components/native"
@@ -8,16 +8,17 @@ import { useAuth } from "../hooks/use-auth"
 interface IDashboardHeader {}
 
 const DashboardHeader = (props: IDashboardHeader) => {
-    const currentDate = moment().format("ddd, DD MMM YYYY")
-
     const { user } = useAuth()
+
+    const date = new Date()
+    const formattedDate = format(date, "EEE, dd MMM yyyy")
 
     return (
         <SHeader>
             <SHeaderInner>
                 <SHeaderDate>
                     <SHeaderDateIcon size={24} name="calendar" color="#ffffff70" />
-                    <SHeaderDateText>{currentDate}</SHeaderDateText>
+                    <SHeaderDateText>{formattedDate.toUpperCase()}</SHeaderDateText>
                 </SHeaderDate>
                 <SHeaderMessage>
                     <SheaderMessageWelcome style={{ color: "#ffffff" }}>Welcome back</SheaderMessageWelcome>
@@ -43,7 +44,6 @@ const SHeader = styled(View)`
     border-bottom-left-radius: 65px;
     border-bottom-right-radius: 65px;
 `
-
 const SHeaderInner = styled(View)`
     padding: 80px 22px 16px 22px;
     display: flex;
@@ -54,7 +54,6 @@ const SHeaderInner = styled(View)`
     padding-top: 75px;
     width: 100%;
 `
-
 const SHeaderDate = styled(View)`
     display: flex;
     flex-direction: row;
@@ -63,11 +62,9 @@ const SHeaderDate = styled(View)`
     gap: 8px;
     z-index: 10;
 `
-
 const SHeaderDateIcon = styled(Octicons)`
     padding-bottom: 4px;
 `
-
 const SHeaderDateText = styled(Text)`
     font-size: 16px;
     font-weight: 500;
@@ -75,27 +72,23 @@ const SHeaderDateText = styled(Text)`
     color: ${(props) => props.theme["WHITE"]};
     opacity: 0.6;
 `
-
 const SHeaderMessage = styled(View)`
     display: flex;
     align-items: flex-start;
     justify-content: center;
     z-index: 10;
 `
-
 const SheaderMessageWelcome = styled(Text)`
     font-size: 20px;
     opacity: 0.5;
     font-family: "Nunito_600SemiBold";
     color: ${(props) => props.theme["WHITE"]};
 `
-
 const SheaderMessageUser = styled(Text)`
     font-size: 44px;
     font-family: "Nunito_700Bold";
     color: ${(props) => props.theme["WHITE"]};
 `
-
 const SHeaderSearch = styled(View)`
     display: flex;
     align-items: flex-start;
@@ -103,7 +96,6 @@ const SHeaderSearch = styled(View)`
     z-index: 10;
     width: 100%;
 `
-
 const SInput = styled(TextInput)`
     background-color: rgba(35, 35, 35, 0.3);
     width: 100%;
@@ -113,7 +105,6 @@ const SInput = styled(TextInput)`
     border-radius: 24px;
     padding: 12px 18px;
     margin-bottom: 10px;
-
     &::placeholder {
         font-size: 18px;
         font-family: "Nunito_600SemiBold";
