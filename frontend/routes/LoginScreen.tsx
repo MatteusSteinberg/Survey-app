@@ -6,7 +6,6 @@ import styled from "styled-components/native"
 import AuthHeader from "../components/AuthHeader"
 import { Button } from "../components/elements"
 import Input from "../components/elements/Input"
-import AppScreen from "../components/hoc/AppScreen"
 import { useAuth } from "../hooks/use-auth"
 
 const LoginScreen = ({ navigation }: any) => {
@@ -26,7 +25,7 @@ const LoginScreen = ({ navigation }: any) => {
   }
 
   return (
-    <AppScreen>
+    <>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View>
           <SHeader>
@@ -57,7 +56,7 @@ const LoginScreen = ({ navigation }: any) => {
           </SContainer>
         </View>
       </TouchableWithoutFeedback>
-    </AppScreen>
+    </>
   )
 }
 
