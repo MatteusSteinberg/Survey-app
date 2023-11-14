@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { View } from "react-native"
+import { Keyboard, TouchableWithoutFeedback, View } from "react-native"
 
 // Components
 import styled from "styled-components/native"
@@ -37,38 +37,42 @@ export default function SignupScreen({ navigation }: any) {
 
   return (
     <>
-      <SHeader>
-        <AuthHeader />
-      </SHeader>
-      <SContainer>
-        <SContent>
-          <STitle>Sign up!</STitle>
-          <SText>Let’s build some awesome surveys!</SText>
-          <SForm>
-            <SFormText>Fill out the form</SFormText>
-            <SFormItem>
-              <Input placeholder="Username..." variant="dark" textContentType="username" onChangeText={v => setForm({ ...form, username: v })} />
-            </SFormItem>
-            <SFormItem>
-              <Input placeholder="E-mail..." variant="dark" textContentType="emailAddress" onChangeText={v => setForm({ ...form, email: v })} />
-            </SFormItem>
-            <SFormItem>
-              <Input placeholder="Password..." variant="dark" secureTextEntry textContentType="password" onChangeText={v => setForm({ ...form, password: v })} />
-            </SFormItem>
-            <SFormItem>
-              <Input placeholder="Confirm password..." variant="dark" secureTextEntry textContentType="password" onChangeText={v => setForm({ ...form, repeatPassword: v })} />
-            </SFormItem>
-            <SFormItem>
-              <Button variant="primary" onPress={handleOnRegister} title={"Register"} />
-            </SFormItem>
-          </SForm>
-          <SFooter>
-            <SLogin>
-              Already have an account? <SLoginLink onPress={() => navigation.navigate("LoginScreen")}>Sign in</SLoginLink>
-            </SLogin>
-          </SFooter>
-        </SContent>
-      </SContainer>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View>
+          <SHeader>
+            <AuthHeader />
+          </SHeader>
+          <SContainer>
+            <SContent>
+              <STitle>Sign up!</STitle>
+              <SText>Let’s build some awesome surveys!</SText>
+              <SForm>
+                <SFormText>Fill out the form</SFormText>
+                <SFormItem>
+                  <Input placeholder="Username..." variant="dark" textContentType="username" onChangeText={v => setForm({ ...form, username: v })} />
+                </SFormItem>
+                <SFormItem>
+                  <Input placeholder="E-mail..." variant="dark" textContentType="emailAddress" onChangeText={v => setForm({ ...form, email: v })} />
+                </SFormItem>
+                <SFormItem>
+                  <Input placeholder="Password..." variant="dark" secureTextEntry textContentType="password" onChangeText={v => setForm({ ...form, password: v })} />
+                </SFormItem>
+                <SFormItem>
+                  <Input placeholder="Confirm password..." variant="dark" secureTextEntry textContentType="password" onChangeText={v => setForm({ ...form, repeatPassword: v })} />
+                </SFormItem>
+                <SFormItem>
+                  <Button variant="primary" onPress={handleOnRegister} title={"Register"} />
+                </SFormItem>
+              </SForm>
+              <SFooter>
+                <SLogin>
+                  Already have an account? <SLoginLink onPress={() => navigation.navigate("LoginScreen")}>Sign in</SLoginLink>
+                </SLogin>
+              </SFooter>
+            </SContent>
+          </SContainer>
+        </View>
+      </TouchableWithoutFeedback>
     </>
   )
 }
