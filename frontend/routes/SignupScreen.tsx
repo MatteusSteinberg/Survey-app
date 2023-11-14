@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Keyboard, TouchableWithoutFeedback, View } from "react-native"
+import { Keyboard, ScrollView, TouchableWithoutFeedback, View } from "react-native"
 
 // Components
 import styled from "styled-components/native"
@@ -38,7 +38,7 @@ export default function SignupScreen({ navigation }: any) {
   return (
     <>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View>
+        <ScrollView>
           <SHeader>
             <AuthHeader />
           </SHeader>
@@ -71,7 +71,7 @@ export default function SignupScreen({ navigation }: any) {
               </SFooter>
             </SContent>
           </SContainer>
-        </View>
+        </ScrollView>
       </TouchableWithoutFeedback>
     </>
   )

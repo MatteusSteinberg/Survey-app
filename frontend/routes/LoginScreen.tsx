@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Keyboard, TouchableWithoutFeedback, View } from "react-native"
+import { Keyboard, ScrollView, TouchableWithoutFeedback, View } from "react-native"
 
 // Components
 import styled from "styled-components/native"
@@ -27,7 +27,7 @@ const LoginScreen = ({ navigation }: any) => {
   return (
     <>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View>
+        <ScrollView>
           <SHeader>
             <AuthHeader />
           </SHeader>
@@ -54,7 +54,7 @@ const LoginScreen = ({ navigation }: any) => {
               </SLogin>
             </SFooter>
           </SContainer>
-        </View>
+        </ScrollView>
       </TouchableWithoutFeedback>
     </>
   )
