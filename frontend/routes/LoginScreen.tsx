@@ -77,6 +77,7 @@ const SContent = styled(View)`
     flex: 1;
     justify-content: flex-start;
     margin-top: 32px;
+    height: 100%;
     align-items: center;
 `
 
@@ -117,7 +118,6 @@ const SFormItem = styled.View`
 
 const SFooter = styled.View`
     width: 100%;
-    flex: 1;
     align-items: center;
     justify-content: center;
 `

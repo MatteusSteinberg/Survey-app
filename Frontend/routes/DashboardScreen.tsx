@@ -1,10 +1,12 @@
 import React from "react"
-import { Text } from "react-native"
+import { Button } from "../components/elements"
+import { useAuth } from "../hooks/use-auth"
 
-interface IDashboard {}
+interface IDashboard { }
 
 const DashboardScreen = (props: IDashboard) => {
-    return <Text>Dashboard</Text>
+  const { unauthenticate } = useAuth()
+  return <Button title="Jada" variant="dark" onPress={unauthenticate} />
 }
 
 export default DashboardScreen
