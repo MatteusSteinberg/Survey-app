@@ -17,6 +17,7 @@
     "@react-navigation/native-stack": "^6.9.17",
     "@types/lodash": "^4.14.200",
     "axios": "^1.6.0",
+    "date-fns": "^2.30.0",
     "expo": "~49.0.15",
     "expo-cli": "^6.3.10",
     "expo-secure-store": "^12.5.0",
