@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { View } from "react-native"
 
 // Components
@@ -6,38 +6,54 @@ import styled from "styled-components/native"
 import AuthHeader from "../components/AuthHeader"
 import { Button } from "../components/elements"
 import Input from "../components/elements/Input"
+import { useAuth } from "../hooks/use-auth"
 
 const LoginScreen = ({ navigation }: any) => {
-    return (
-        <>
-            <SHeader>
-                <AuthHeader />
-            </SHeader>
-            <SContainer>
-                <SContent>
-                    <STitle>Sign in!</STitle>
-                    <SText>Let’s build some awesome surveys!</SText>
-                    <SForm>
-                        <SFormText>Fill out the form</SFormText>
-                        <SFormItem>
-                            <Input placeholder="E-mail..." variant="dark" textContentType="emailAddress" />
-                        </SFormItem>
-                        <SFormItem>
-                            <Input placeholder="Password..." variant="dark" secureTextEntry textContentType="password" />
-                        </SFormItem>
-                        <SFormItem>
-                            <Button variant="primary" title={"Sign in"} onPress={() => navigation.navigate("DashboardScreen")} />
-                        </SFormItem>
-                    </SForm>
-                </SContent>
-                <SFooter>
-                    <SLogin>
-                        Don't have an account? <SLoginLink onPress={() => navigation.navigate("SignupScreen")}>Sign up</SLoginLink>
-                    </SLogin>
-                </SFooter>
-            </SContainer>
-        </>
-    )
+  const [form, setForm] = useState<{ password?: string, email?: string }>({})
+  const [success, setSuccess] = useState(false)
+
+  const { authenticate } = useAuth()
+
+  const handleOnLogin = async () => {
+    if (!form?.email || !form?.password) return
+    const result = await authenticate(form?.email, form?.password)
+
+    if (!result?.error) {
+      setSuccess(true)
+      navigation.navigate("DashboardScreen")
+    }
+  }
+
+  return (
+    <>
+      <SHeader>
+        <AuthHeader />
+      </SHeader>
+      <SContainer>
+        <SContent>
+          <STitle>Sign in!</STitle>
+          <SText>Let’s build some awesome surveys!</SText>
+          <SForm>
+            <SFormText>Fill out the form</SFormText>
+            <SFormItem>
+              <Input placeholder="E-mail..." variant="dark" textContentType="emailAddress" onChangeText={(v) => setForm({ ...form, email: v })} />
+            </SFormItem>
+            <SFormItem>
+              <Input placeholder="Password..." variant="dark" value={form.password} secureTextEntry textContentType="password" onChangeText={(v) => setForm({ ...form, password: v })} />
+            </SFormItem>
+            <SFormItem>
+              <Button variant="primary" title={"Sign in"} onPress={handleOnLogin} />
+            </SFormItem>
+          </SForm>
+        </SContent>
+        <SFooter>
+          <SLogin>
+            Don't have an account? <SLoginLink onPress={() => navigation.navigate("SignupScreen")}>Sign up</SLoginLink>
+          </SLogin>
+        </SFooter>
+      </SContainer>
+    </>
+  )
 }
 
 export default LoginScreen

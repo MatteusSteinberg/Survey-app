@@ -2,6 +2,9 @@ import axios, { AxiosRequestConfig } from "axios"
 import _ from "lodash"
 import { useCallback, useEffect, useMemo, useState } from "react"
 
+// @ts-expect-error
+import { API_URL } from '@env'
+
 export interface useAPIOptions {
   /** Will retrieve GET method data - default: true */
   autoGet?: boolean
@@ -35,7 +38,7 @@ export interface IRequestData<T = any> {
 const useAPI = <T>({ url, params, id }: { url: string; params?: any; id?: string }, opts: useAPIOptions = defaultOptions) => {
   opts = { ...defaultOptions, ...opts }
 
-  url = `${process.env.EXPO_PUBLIC_API_URL || ''}/api${url}` + (id ? `/${id}` : "")
+  url = `${API_URL || ''}/api${url}` + (id ? `/${id}` : "")
 
   const queryString = useMemo(() => {
     const qStr = new URLSearchParams(params || {}).toString().trim()
@@ -57,6 +60,7 @@ const useAPI = <T>({ url, params, id }: { url: string; params?: any; id?: string
 
     } catch (error: any) {
       console.error(error)
+      console.log(process.env.EXPO_PUBLIC_API_URL)
       setRequestData((r) => ({ ...r, error: error, loading: false }))
     }
   }, [url, queryString, opts.config, setRequestData])
