@@ -1,8 +1,13 @@
 import axios from "axios"
 import _ from "lodash"
-import React, { memo, useContext, useState } from "react"
+import React, { memo, useContext, useEffect, useState } from "react"
 import { IUser } from "../../api/interfaces/user.interfaces"
 import useAPI, { IRequestData } from "./use-api"
+
+import * as SecureStore from 'expo-secure-store'
+
+// @ts-expect-error
+import { API_URL } from '@env'
 
 interface IAuth {
   authenticate: (email: string, password: string) => Promise<{ error?: any }>
@@ -31,7 +36,7 @@ export const useAuth = () => {
   return useContext<IAuth>(AuthContext)
 }
 
-const api = (process.env.EXPO_PUBLIC_API_URL || '') + "/api"
+const api = (API_URL || '') + "/api"
 
 export const AuthProvider = memo(({ children }: { children: React.ReactNode }) => {
   const [token, setToken] = useState<string | undefined>(undefined)
@@ -51,6 +56,8 @@ export const AuthProvider = memo(({ children }: { children: React.ReactNode }) =
         password,
       })
 
+      SecureStore.setItemAsync("token", data.token)
+
       setToken(data.token)
 
       await mutate()
@@ -62,6 +69,7 @@ export const AuthProvider = memo(({ children }: { children: React.ReactNode }) =
   }
 
   const unauthenticate = () => {
+    SecureStore.deleteItemAsync("token")
     setToken(undefined)
     setData(undefined)
     delete axios.defaults.headers.common.Authorization
@@ -71,6 +79,21 @@ export const AuthProvider = memo(({ children }: { children: React.ReactNode }) =
     setData(_.cloneDeep(user))
     return await update({ body: user })
   }
+
+  useEffect(() => {
+    SecureStore.getItemAsync("token")
+      .then(token => {
+        if (token) {
+          setToken(token)
+          mutate()
+        }
+      })
+
+    return () => {
+
+    }
+  }, [])
+
 
   const context = {
     authenticate,

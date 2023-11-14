@@ -60,7 +60,6 @@ const useAPI = <T>({ url, params, id }: { url: string; params?: any; id?: string
 
     } catch (error: any) {
       console.error(error)
-      console.log(process.env.EXPO_PUBLIC_API_URL)
       setRequestData((r) => ({ ...r, error: error, loading: false }))
     }
   }, [url, queryString, opts.config, setRequestData])
