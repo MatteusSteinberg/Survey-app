@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Keyboard, TouchableWithoutFeedback, View } from "react-native"
+import { Keyboard, ScrollView, TouchableWithoutFeedback, View } from "react-native"
 
 // Components
 import styled from "styled-components/native"
@@ -27,7 +27,7 @@ const LoginScreen = ({ navigation }: any) => {
     return (
         <>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <View>
+                <ScrollView>
                     <SHeader>
                         <AuthHeader />
                     </SHeader>
@@ -44,17 +44,17 @@ const LoginScreen = ({ navigation }: any) => {
                                     <Input placeholder="Password..." variant="dark" value={form.password} secureTextEntry textContentType="password" onChangeText={(v) => setForm({ ...form, password: v })} />
                                 </SFormItem>
                                 <SFormItem>
-                                    <Button variant="primary" title={"Sign in"} onPress={() => navigation.navigate("DashboardScreen")} />
+                                    <Button variant="primary" title={"Sign in"} onPress={handleOnLogin} />
                                 </SFormItem>
                             </SForm>
-                            <SFooter>
-                                <SLogin>
-                                    Don't have an account? <SLoginLink onPress={() => navigation.navigate("SignupScreen")}>Sign up</SLoginLink>
-                                </SLogin>
-                            </SFooter>
                         </SContent>
+                        <SFooter>
+                            <SLogin>
+                                Don't have an account? <SLoginLink onPress={() => navigation.navigate("SignupScreen")}>Sign up</SLoginLink>
+                            </SLogin>
+                        </SFooter>
                     </SContainer>
-                </View>
+                </ScrollView>
             </TouchableWithoutFeedback>
         </>
     )
@@ -77,6 +77,7 @@ const SContent = styled(View)`
     flex: 1;
     justify-content: flex-start;
     margin-top: 32px;
+    height: 100%;
     align-items: center;
 `
 

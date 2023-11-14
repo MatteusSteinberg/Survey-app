@@ -1,30 +1,34 @@
 import { Octicons } from "@expo/vector-icons"
-import React from "react"
-import { TextInput, View } from "react-native"
+import React, { useRef } from "react"
+import { Pressable, TextInput, View } from "react-native"
 import styled, { css } from "styled-components/native"
 
 interface IInput {
-    variant: "primary" | "dark"
-    placeholder: string
-    value?: string
-    icon?: string
-    textContentType?: any
-    onChangeText?: (v: string) => void
-    secureTextEntry?: boolean
+  variant: "primary" | "dark"
+  placeholder: string
+  value?: string
+  icon?: string
+  textContentType?: any
+  onChangeText?: (v: string) => void
+  secureTextEntry?: boolean
 }
 
 const Input = (props: IInput) => {
-    return (
-        <SWrapper {...props}>
-            <SIcon name={props.icon as any} color="#232323" size={20} />
-            <SInput secureTextEntry={props.secureTextEntry} textContentType={props.textContentType} onChangeText={props.onChangeText} placeholderTextColor="#232323" placeholder={props.placeholder} value={props.value} />
-        </SWrapper>
-    )
+  const ref = useRef<TextInput>(null)
+
+  return (
+    <Pressable onPress={() => ref.current?.focus()}>
+      <SWrapper {...props}>
+        <SIcon name={props.icon as any} color="#232323" size={20} />
+        <SInput ref={ref} secureTextEntry={props.secureTextEntry} textContentType={props.textContentType} onChangeText={props.onChangeText} placeholderTextColor="#232323" placeholder={props.placeholder} value={props.value} />
+      </SWrapper>
+    </Pressable>
+  )
 }
 
 export default Input
 
-const SWrapper = styled(View)<IInput>`
+const SWrapper = styled(View) <IInput>`
     width: 100%;
 
     border: 1px solid transparent;
@@ -34,14 +38,14 @@ const SWrapper = styled(View)<IInput>`
     gap: 12px;
 
     ${props =>
-        props.variant === "primary" &&
-        css`
+    props.variant === "primary" &&
+    css`
             border-color: ${props.theme["PRIMARY_COLOR"]};
         `}
 
     ${props =>
-        props.variant === "dark" &&
-        css`
+    props.variant === "dark" &&
+    css`
             border-color: ${props.theme["TEXT"]};
         `}
 `
