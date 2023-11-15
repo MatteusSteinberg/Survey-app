@@ -20,8 +20,7 @@ const Navigation = (props: INavigation) => {
                     },
                     shadowOpacity: 0.08,
                     shadowRadius: 5,
-                }}
-            >
+                }}>
                 <SContent>
                     <SMenuItem active={true}>
                         <Octicons name="home" size={24} color="black" />
@@ -29,7 +28,7 @@ const Navigation = (props: INavigation) => {
                     <SMenuItemAdd>
                         <Octicons name="plus" size={24} color="white" />
                     </SMenuItemAdd>
-                    <SMenuItem active={false}>
+                    <SMenuItem active={false} onPress={() => props.navigation.navigate("ProfileScreen")}>
                         <Octicons name="person" size={24} color="black" />
                     </SMenuItem>
                 </SContent>
@@ -55,7 +54,7 @@ const SContent = styled(View)`
     flex-direction: row;
     align-items: center;
     width: fit-content;
-    background-color: ${props => props.theme["WHITE"]};
+    background-color: ${(props) => props.theme["WHITE"]};
     border-radius: 26px;
     padding: 12px;
     gap: 8px;
@@ -70,7 +69,7 @@ const SMenuItem = styled(Pressable)<{ active: boolean }>`
 
     border-radius: 21px;
 
-    ${props =>
+    ${(props) =>
         props.active &&
         `
         background-color: ${props.theme["PRIMARY_COLOR_LIGHT"]};
@@ -81,7 +80,7 @@ const SMenuItemAdd = styled(Pressable)`
     justify-content: center;
     align-items: center;
     height: 100%;
-    background-color: ${props => props.theme["PRIMARY_COLOR"]};
+    background-color: ${(props) => props.theme["PRIMARY_COLOR"]};
     height: 75px;
     width: 75px;
     border-radius: 21px;

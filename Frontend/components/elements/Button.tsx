@@ -6,7 +6,7 @@ interface IButton {
     onPress?: () => void
     full?: boolean
     icon?: React.ReactNode
-    variant: "primary" | "primary-outline" | "dark" | "dark-outline"
+    variant: "primary" | "primary-outline" | "dark" | "dark-outline" | "error" | "error-outline"
 }
 
 const Button = (props: IButton) => {
@@ -29,28 +29,42 @@ const SButton = styled.Pressable<IButton>`
     border: 2px solid transparent;
     width: 100%;
 
-    ${props =>
+    ${(props) =>
         props.variant === "primary" &&
         css`
             background-color: ${props.theme["PRIMARY_COLOR"]};
             border-color: ${props.theme["PRIMARY_COLOR"]};
         `}
 
-    ${props =>
+    ${(props) =>
         props.variant === "dark" &&
         css`
             background-color: ${props.theme["TEXT"]};
             border-color: ${props.theme["TEXT"]};
         `}
 
-    ${props =>
+        ${(props) =>
+        props.variant === "error" &&
+        css`
+            background-color: ${props.theme["ERROR"]};
+            border-color: ${props.theme["ERROR"]};
+        `}
+
+        ${(props) =>
+        props.variant === "error-outline" &&
+        css`
+            background-color: transparent;
+            border-color: ${props.theme["ERROR"]};
+        `}
+
+    ${(props) =>
         props.variant === "primary-outline" &&
         css`
             background-color: transparent;
             border-color: ${props.theme["PRIMARY_COLOR"]};
         `}
 
-    ${props =>
+    ${(props) =>
         props.variant === "dark-outline" &&
         css`
             background-color: transparent;
@@ -61,7 +75,7 @@ const SButton = styled.Pressable<IButton>`
 const SView = styled.View<IButton>`
     display: flex;
     flex-direction: row;
-    justify-content: ${props => (props.icon ? "space-between" : "center")};
+    justify-content: ${(props) => (props.icon ? "space-between" : "center")};
     align-items: center;
     width: 90%;
     margin: 0 auto;
@@ -71,32 +85,43 @@ const SText = styled.Text<IButton>`
     font-size: 19px;
     font-weight: 500;
     text-align: center;
-    font-family: 'Nunito_700Bold';
+    font-family: "Nunito_700Bold";
 
-    ${props =>
+    ${(props) =>
         props.variant === "primary" &&
         css`
             color: ${props.theme["WHITE"]};
         `}
 
-        ${props =>
-            props.variant === "dark" &&
-            css`
-                color: ${props.theme["WHITE"]};
-            `}
+    ${(props) =>
+        props.variant === "dark" &&
+        css`
+            color: ${props.theme["WHITE"]};
+        `}
 
-        ${props =>
-            props.variant === "primary-outline" &&
-            css`
-                color: ${props.theme["TEXT"]};
-            `}
+    ${(props) =>
+        props.variant === "error" &&
+        css`
+            color: ${props.theme["WHITE"]};
+        `}
 
-        ${props =>
-            props.variant === "dark-outline" &&
-            css`
-                color: ${props.theme["TEXT"]};
-            `}
+        ${(props) =>
+        props.variant === "primary-outline" &&
+        css`
+            color: ${props.theme["TEXT"]};
+        `}
 
+        ${(props) =>
+        props.variant === "dark-outline" &&
+        css`
+            color: ${props.theme["TEXT"]};
+        `}
+
+        ${(props) =>
+        props.variant === "error-outline" &&
+        css`
+            color: ${props.theme["TEXT"]};
+        `}
 `
 
 const SIcon = styled.View``

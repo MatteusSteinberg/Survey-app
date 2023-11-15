@@ -20,7 +20,8 @@ const WelcomeScreen = ({ navigation }: any) => {
                 <SWelcomeSub>Create and share surveys effortlessly!</SWelcomeSub>
             </SInner>
             <SActions>
-                <Button variant="dark" icon={<Octicons name="arrow-right" size={24} color="#fff" />} onPress={() => navigation.navigate("SignupScreen")} full={true} title={"Register"} />
+                <Button variant="error" icon={<Octicons name="hash" size={24} color="#fff" />} onPress={() => navigation.navigate("PinScreen")} full={true} title="Join a survey"></Button>
+                <Button variant="dark" icon={<Octicons name="arrow-right" size={24} color="#fff" />} onPress={() => navigation.navigate("SignupScreen")} full={true} title="Sign up" />
                 <SLogin onPress={() => navigation.navigate("LoginScreen")}>
                     <SLoginText>Already have an account?</SLoginText>
                 </SLogin>
@@ -87,6 +88,7 @@ const SActions = styled(View)`
     flex-direction: column;
     align-items: center;
     margin-bottom: 46px;
+    gap: 8px;
 `
 
 const SLogin = styled(Pressable)`
