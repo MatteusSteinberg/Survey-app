@@ -1,32 +1,114 @@
-import React from "react"
-import { Text, View } from "react-native"
+import { Octicons } from "@expo/vector-icons"
+import React, { useRef, useState } from "react"
+import { Animated, Easing, Modal, PanResponder, Pressable, Text, View } from "react-native"
 import styled from "styled-components/native"
 import Pattern from "../assets/Pattern"
 
 interface ISurveyCard {
     title: string
     replies?: number
+    setScrollEnabled: React.Dispatch<React.SetStateAction<boolean>>
+    isDragging: React.MutableRefObject<boolean>
 }
 
 const SurveyCard = (props: ISurveyCard) => {
+    const slideAnim = useRef(new Animated.Value(0)).current
+    const touchStartX = useRef(0)
+    const [modalVisible, setModalVisible] = useState(false)
+
+    const toggleModal = () => {
+        setModalVisible(!modalVisible)
+    }
+
+    const panResponder = useRef(
+        PanResponder.create({
+            onStartShouldSetPanResponder: () => true,
+            onPanResponderGrant: (_, gesture) => {
+                touchStartX.current = gesture.x0
+            },
+            onPanResponderMove: (_, gesture) => {
+                const dx = gesture.moveX - touchStartX.current
+                if (dx <= 0) {
+                    slideAnim.setValue(dx)
+                    props.setScrollEnabled(false) // Disable vertical scrolling
+                }
+            },
+            onPanResponderRelease: (_, gesture) => {
+                if (gesture.dx < -100) {
+                    Animated.timing(slideAnim, {
+                        toValue: -250,
+                        duration: 500,
+                        easing: Easing.out(Easing.quad),
+                        useNativeDriver: false,
+                    }).start(() => {
+                        props.setScrollEnabled(true) // Enable vertical scrolling after animation
+                    })
+                } else {
+                    Animated.spring(slideAnim, {
+                        toValue: 0,
+                        friction: 5,
+                        useNativeDriver: false,
+                    }).start(() => {
+                        props.setScrollEnabled(true) // Enable vertical scrolling after animation
+                    })
+                }
+            },
+        })
+    ).current
     return (
-        <SSurveyCard>
-            <STitle>{props.title}</STitle>
-            <SReplies>{props.replies} Replies</SReplies>
-            <SPattern color="#274CEE" PatternWidth={240} PatternHeight={290} />
-        </SSurveyCard>
+        <>
+            <SSliderView
+                style={{
+                    transform: [{ translateX: slideAnim }],
+                }}
+                {...panResponder.panHandlers}
+            >
+                <SSurveyCard>
+                    <STitle>{props.title}</STitle>
+                    <SReplies>{props.replies} Replies</SReplies>
+                    <SPattern color="#274CEE" PatternWidth={240} PatternHeight={290} />
+                </SSurveyCard>
+                <SEditOption onPress={toggleModal}>
+                    <Octicons name="pencil" size={28} color="white" />
+                </SEditOption>
+                <STrashOption>
+                    <Octicons name="trash" size={28} color="white" />
+                </STrashOption>
+            </SSliderView>
+            <Modal
+                animationType="slide" // Change animation as per requirement
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                    setModalVisible(false)
+                }}
+            >
+                <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                    <ModalContent>
+                        <Text>Modal Content</Text>
+                    </ModalContent>
+                </View>
+            </Modal>
+        </>
     )
 }
 
 export default SurveyCard
 
+const SSliderView = styled(Animated.View)`
+    width: 100%;
+    position: relative;
+    flex-direction: row;
+`
+
 const SSurveyCard = styled(View)`
-    background-color: ${(props) => props.theme["PRIMARY_COLOR_LIGHT"]};
+    background-color: ${props => props.theme["PRIMARY_COLOR_LIGHT"]};
     width: 100%;
     border-radius: 26px;
     position: relative;
     padding: 30px 20px;
     overflow: hidden;
+    margin-right: 16px;
 `
 
 const STitle = styled(Text)`
@@ -37,7 +119,7 @@ const STitle = styled(Text)`
 const SReplies = styled(Text)`
     font-size: 16px;
     font-family: "Nunito_700Bold";
-    color: ${(props) => props.theme["PRIMARY_COLOR_DARK"]};
+    color: ${props => props.theme["PRIMARY_COLOR_DARK"]};
     opacity: 0.7;
 `
 
@@ -49,4 +131,30 @@ const SPattern = styled(Pattern)`
     z-index: -1;
     transform: scale(1);
     opacity: 0.3;
+`
+
+const SEditOption = styled(Pressable)`
+    background-color: ${props => props.theme["PRIMARY_COLOR"]};
+    height: 115px;
+    width: 115px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 26px;
+    margin-right: 6px;
+`
+
+const STrashOption = styled(Pressable)`
+    background-color: ${props => props.theme["ERROR"]};
+    height: 115px;
+    width: 115px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 26px;
+    margin-right: 16px;
+`
+
+const ModalContent = styled(View)`
+    background-color: white;
+    border-radius: 26px;
+    padding: 20px;
 `

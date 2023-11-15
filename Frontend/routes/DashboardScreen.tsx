@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useRef, useState } from "react"
 import { Keyboard, ScrollView, TouchableWithoutFeedback, View } from "react-native"
 import styled from "styled-components/native"
 import DashboardHeader from "../components/DashboardHeader"
@@ -8,16 +8,26 @@ import SurveyList from "../components/SurveyList"
 interface IDashboard {}
 
 const DashboardScreen = (props: IDashboard) => {
+    const [scrollEnabled, setScrollEnabled] = useState(true)
+    const isDragging = useRef(false)
+    const touchStartTime = useRef(0)
+
+    const handleScroll = (event: any) => {
+        if (scrollEnabled) {
+            setScrollEnabled(true)
+        }
+    }
+
     return (
         <>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <SScroll bounces={false}>
+                <SScroll scrollEnabled={scrollEnabled} onScroll={handleScroll} onMomentumScrollBegin={handleScroll} onMomentumScrollEnd={handleScroll} onStartShouldSetResponder={() => scrollEnabled} bounces={false}>
                     <SHeader>
                         <DashboardHeader />
                     </SHeader>
                     <SContainer>
                         <SContent>
-                            <SurveyList />
+                            <SurveyList isDragging={isDragging} setScrollEnabled={setScrollEnabled} />
                         </SContent>
                     </SContainer>
                 </SScroll>

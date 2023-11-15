@@ -3,7 +3,10 @@ import { Image, Text, View } from "react-native"
 import styled from "styled-components/native"
 import SurveyCard from "./SurveyCard"
 
-interface ISurveyList {}
+interface ISurveyList {
+    setScrollEnabled: React.Dispatch<React.SetStateAction<boolean>>
+    isDragging: React.MutableRefObject<boolean>
+}
 
 const SurveyArr = [
     {
@@ -50,7 +53,7 @@ const SurveyList = (props: ISurveyList) => {
                         <SImageText>No surveys to be found...</SImageText>
                     </SSurveyView>
                 ) : (
-                    SurveyArr.map((survey, index) => <SurveyCard key={index} title={survey.title} replies={survey.replies} />)
+                    SurveyArr.map((survey, index) => <SurveyCard isDragging={props.isDragging} setScrollEnabled={props.setScrollEnabled} key={index} title={survey.title} replies={survey.replies} />)
                 )}
             </SSurveys>
         </SContainer>
@@ -108,7 +111,6 @@ const SImage = styled(Image)`
     max-width: 250px;
     max-height: 250px;
     margin: 0 auto;
-    resize-mode: contain;
 `
 
 const SImageText = styled(Text)`
