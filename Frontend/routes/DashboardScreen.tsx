@@ -38,9 +38,8 @@ const SHeader = styled(View)`
 
 const SContent = styled(View)`
     flex: 1;
-    justify-content: flex-start;
+    justify-content: center;
     margin-top: 32px;
-    align-items: center;
 `
 
 const SScroll = styled(ScrollView)`

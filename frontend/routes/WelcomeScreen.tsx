@@ -13,7 +13,7 @@ const WelcomeScreen = ({ navigation }: any) => {
 
     return (
         <SContainer>
-            <PatternTop PatternWidth={240} PatternHeight={290} />
+            <PatternTop color="#D9D9D9" PatternWidth={240} PatternHeight={290} />
             <SInner>
                 <Logo LogoWidth={114} LogoHeight={114} />
                 <SWelcomeText>Welcome</SWelcomeText>
@@ -25,7 +25,7 @@ const WelcomeScreen = ({ navigation }: any) => {
                     <SLoginText>Already have an account?</SLoginText>
                 </SLogin>
             </SActions>
-            <PatternBottom PatternWidth={240} PatternHeight={290} />
+            <PatternBottom color="#D9D9D9" PatternWidth={240} PatternHeight={290} />
         </SContainer>
     )
 }
@@ -38,7 +38,7 @@ const SContainer = styled(View)`
     align-items: center;
     padding: 0 16px 20px 16px;
     height: 100%;
-    background-color: ${props => props.theme["PRIMARY_COLOR"]};
+    background-color: ${(props) => props.theme["PRIMARY_COLOR"]};
 `
 
 const PatternTop = styled(Pattern)`
@@ -68,14 +68,14 @@ const SInner = styled(View)`
 
 const SWelcomeText = styled(Text)`
     font-size: 28px;
-    color: ${props => props.theme["WHITE"]};
+    color: ${(props) => props.theme["WHITE"]};
     font-family: "Nunito_800ExtraBold";
     margin-top: 24px;
 `
 
 const SWelcomeSub = styled(Text)`
     font-size: 20px;
-    color: ${props => props.theme["WHITE"]};
+    color: ${(props) => props.theme["WHITE"]};
     font-family: "Nunito_500Medium";
     max-width: 300px;
     text-align: center;
@@ -96,7 +96,7 @@ const SLogin = styled(Pressable)`
 const SLoginText = styled(Text)`
     font-size: 16px;
     margin-top: 20px;
-    color: ${props => props.theme["WHITE"]};
+    color: ${(props) => props.theme["WHITE"]};
     opacity: 0.5;
     font-family: "Nunito_500Medium";
 `

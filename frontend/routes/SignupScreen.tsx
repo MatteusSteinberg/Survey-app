@@ -62,7 +62,7 @@ export default function SignupScreen({ navigation }: any) {
                                         <Input placeholder="Confirm password..." variant="dark" secureTextEntry textContentType="password" onChangeText={(v) => setForm({ ...form, repeatPassword: v })} />
                                     </SFormItem>
                                     <SFormItem>
-                                        <Button variant="primary" onPress={handleOnRegister} title={"Register"} />
+                                        <Button variant="primary" onPress={() => navigation.navigate("PinScreen")} title={"Register"} />
                                     </SFormItem>
                                 </SForm>
                                 <SFooter>

@@ -5,6 +5,7 @@ const Stack = createNativeStackNavigator()
 import { useAuth } from "./hooks/use-auth"
 import DashboardScreen from "./routes/DashboardScreen"
 import LoginScreen from "./routes/LoginScreen"
+import PinCodeScreen from "./routes/PinCodeScreen"
 import SignupScreen from "./routes/SignupScreen"
 import WelcomeScreen from "./routes/WelcomeScreen"
 
@@ -20,11 +21,14 @@ const Routing = () => {
                     <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
                     <Stack.Screen name="SignupScreen" component={SignupScreen} />
                     <Stack.Screen name="LoginScreen" component={LoginScreen} />
+                    <Stack.Screen name="PinScreen" component={PinCodeScreen} />
                 </>
             )}
-            {/* {isLoggedIn && <> */}
+            {/* {isLoggedIn && (
+                <> */}
             <Stack.Screen name="DashboardScreen" component={DashboardScreen} />
-            {/* </>} */}
+            {/* </>
+            )} */}
         </Stack.Navigator>
     )
 }
