@@ -8,6 +8,7 @@ interface ISurveyList {
     isDragging: React.MutableRefObject<boolean>
     setModalActive: React.Dispatch<React.SetStateAction<boolean>>
     modalActive: boolean
+    navigation?: any
 }
 
 const SurveyArr = [
@@ -46,7 +47,7 @@ const SurveyList = (props: ISurveyList) => {
         <SContainer>
             <SHeader>
                 <STitle>Your forms</STitle>
-                <SCreate>Create Survey</SCreate>
+                <SCreate onPress={() => props.navigation.navigate("CreateScreen")}>Create Survey</SCreate>
             </SHeader>
             <SSurveys>
                 {SurveyArr.length < 0 ? (

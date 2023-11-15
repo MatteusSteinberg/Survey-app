@@ -22,10 +22,10 @@ const Navigation = (props: INavigation) => {
                     shadowRadius: 5,
                 }}>
                 <SContent>
-                    <SMenuItem active={true}>
+                    <SMenuItem onPress={() => props.navigation.navigate("DashboardScreen")} active={true}>
                         <Octicons name="home" size={24} color="black" />
                     </SMenuItem>
-                    <SMenuItemAdd>
+                    <SMenuItemAdd onPress={() => props.navigation.navigate("CreateScreen")}>
                         <Octicons name="plus" size={24} color="white" />
                     </SMenuItemAdd>
                     <SMenuItem active={false} onPress={() => props.navigation.navigate("ProfileScreen")}>

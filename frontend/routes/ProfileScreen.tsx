@@ -6,11 +6,11 @@ import { Button } from "../components/elements"
 import BackButton from "../components/elements/BackButton"
 import Input from "../components/elements/Input"
 
-interface IDashboard {
+interface IProfileScreen {
     navigation?: any
 }
 
-const ProfileScreen = (props: IDashboard) => {
+const ProfileScreen = (props: IProfileScreen) => {
     return (
         <>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -45,7 +45,7 @@ const ProfileScreen = (props: IDashboard) => {
                     </SContainer>
                 </SScroll>
             </TouchableWithoutFeedback>
-            <Navigation />
+            <Navigation navigation={props.navigation} />
         </>
     )
 }

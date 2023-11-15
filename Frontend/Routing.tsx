@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack"
 const Stack = createNativeStackNavigator()
 
 import { useAuth } from "./hooks/use-auth"
+import CreateSurvey from "./routes/CreateSurvey"
 import DashboardScreen from "./routes/DashboardScreen"
 import LoginScreen from "./routes/LoginScreen"
 import PinCodeScreen from "./routes/PinCodeScreen"
@@ -25,6 +26,7 @@ const Routing = () => {
                     <Stack.Screen name="PinScreen" component={PinCodeScreen} />
                     <Stack.Screen name="DashboardScreen" component={DashboardScreen} />
                     <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
+                    <Stack.Screen name="CreateScreen" component={CreateSurvey} />
                 </>
             )}
             {/* {isLoggedIn && (

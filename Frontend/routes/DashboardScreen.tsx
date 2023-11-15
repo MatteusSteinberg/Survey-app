@@ -31,7 +31,7 @@ const DashboardScreen = (props: IDashboard) => {
                     </SHeader>
                     <SContainer>
                         <SContent>
-                            <SurveyList setModalActive={setModalVisible} modalActive={modalVisible} isDragging={isDragging} setScrollEnabled={setScrollEnabled} />
+                            <SurveyList navigation={props.navigation} setModalActive={setModalVisible} modalActive={modalVisible} isDragging={isDragging} setScrollEnabled={setScrollEnabled} />
                         </SContent>
                     </SContainer>
                 </SScroll>

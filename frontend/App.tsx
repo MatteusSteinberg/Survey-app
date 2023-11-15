@@ -9,27 +9,27 @@ import Routing from "./Routing"
 import { AuthProvider } from "./hooks/use-auth"
 import { theme } from "./utils/Theme"
 
-export default function App() {
-  let [fontsLoaded, fontError] = useFonts({
-    Nunito_300Light,
-    Nunito_400Regular,
-    Nunito_500Medium,
-    Nunito_600SemiBold,
-    Nunito_700Bold,
-    Nunito_800ExtraBold,
-  })
+export default function App({ navigation }: any) {
+    let [fontsLoaded, fontError] = useFonts({
+        Nunito_300Light,
+        Nunito_400Regular,
+        Nunito_500Medium,
+        Nunito_600SemiBold,
+        Nunito_700Bold,
+        Nunito_800ExtraBold,
+    })
 
-  if (!fontsLoaded && !fontError) {
-    return null
-  }
+    if (!fontsLoaded && !fontError) {
+        return null
+    }
 
-  return (
-    <ThemeProvider theme={theme}>
-      <NavigationContainer>
-        <AuthProvider>
-          <Routing />
-        </AuthProvider>
-      </NavigationContainer>
-    </ThemeProvider>
-  )
+    return (
+        <ThemeProvider theme={theme}>
+            <NavigationContainer>
+                <AuthProvider>
+                    <Routing />
+                </AuthProvider>
+            </NavigationContainer>
+        </ThemeProvider>
+    )
 }
