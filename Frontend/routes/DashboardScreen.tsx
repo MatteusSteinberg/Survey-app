@@ -2,24 +2,28 @@ import React from "react"
 import { Keyboard, ScrollView, TouchableWithoutFeedback, View } from "react-native"
 import styled from "styled-components/native"
 import DashboardHeader from "../components/DashboardHeader"
+import Navigation from "../components/Navigation"
 import SurveyList from "../components/SurveyList"
 
 interface IDashboard {}
 
 const DashboardScreen = (props: IDashboard) => {
     return (
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <SScroll bounces={false}>
-                <SHeader>
-                    <DashboardHeader />
-                </SHeader>
-                <SContainer>
-                    <SContent>
-                        <SurveyList />
-                    </SContent>
-                </SContainer>
-            </SScroll>
-        </TouchableWithoutFeedback>
+        <>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <SScroll bounces={false}>
+                    <SHeader>
+                        <DashboardHeader />
+                    </SHeader>
+                    <SContainer>
+                        <SContent>
+                            <SurveyList />
+                        </SContent>
+                    </SContainer>
+                </SScroll>
+            </TouchableWithoutFeedback>
+            <Navigation />
+        </>
     )
 }
 
@@ -28,12 +32,12 @@ export default DashboardScreen
 const SContainer = styled(View)`
     padding: 0 16px 20px 16px;
     height: 100%;
-    background-color: ${(props) => props.theme["WHITE"]};
+    background-color: ${props => props.theme["WHITE"]};
     justify-content: space-between;
 `
 
 const SHeader = styled(View)`
-    background-color: ${(props) => props.theme["WHITE"]};
+    background-color: ${props => props.theme["WHITE"]};
 `
 
 const SContent = styled(View)`

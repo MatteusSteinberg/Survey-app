@@ -44,7 +44,7 @@ const SurveyList = (props: ISurveyList) => {
                 <SCreate>Create Survey</SCreate>
             </SHeader>
             <SSurveys>
-                {SurveyArr.length > 0 ? (
+                {SurveyArr.length < 0 ? (
                     <SSurveyView>
                         <SImage source={require("../assets/noSurveys.jpg")} />
                         <SImageText>No surveys to be found...</SImageText>
@@ -75,13 +75,13 @@ const STitle = styled(Text)`
     font-size: 24px;
     font-weight: 600;
     font-family: "Nunito_700Bold";
-    color: ${(props) => props.theme["TEXT"]};
+    color: ${props => props.theme["TEXT"]};
 `
 
 const SCreate = styled(Text)`
     font-size: 16px;
     font-weight: 600;
-    color: ${(props) => props.theme["PRIMARY_COLOR_DARK"]};
+    color: ${props => props.theme["PRIMARY_COLOR_DARK"]};
     opacity: 0.5;
     font-family: "Nunito_600SemiBold";
 `
@@ -91,6 +91,7 @@ const SSurveys = styled(View)`
     display: flex;
     flex-direction: column;
     gap: 16px;
+    height: 100%;
 `
 
 const SSurveyView = styled(View)`
@@ -113,7 +114,7 @@ const SImage = styled(Image)`
 const SImageText = styled(Text)`
     font-size: 22px;
     font-weight: 600;
-    color: ${(props) => props.theme["TEXT"]};
+    color: ${props => props.theme["TEXT"]};
     font-family: "Nunito_600SemiBold";
     text-align: center;
     justify-content: flex-start;
