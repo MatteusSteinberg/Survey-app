@@ -3,7 +3,7 @@ import React from "react"
 import { Pressable, Text, View } from "react-native"
 import styled from "styled-components/native"
 import BackButton from "./elements/BackButton"
-import FormText from "./fields/FormText" // Import custom TextInputField component
+import { FormImage, FormMultiple, FormText } from "./fields"
 
 interface FormModalProps {
     addFormField: (fieldComponent: React.FC<any>) => void
@@ -27,6 +27,18 @@ const FormModal: React.FC<FormModalProps> = ({ addFormField, closeModal, navigat
                             <Octicons name="typography" size={24} color="black" />
                         </SFieldIcon>
                         <SFieldText>Text Field</SFieldText>
+                    </SField>
+                    <SField onPress={() => handleAddField(FormMultiple)}>
+                        <SFieldIcon>
+                            <Octicons name="inbox" size={24} color="black" />
+                        </SFieldIcon>
+                        <SFieldText>Multiple Choice</SFieldText>
+                    </SField>
+                    <SField onPress={() => handleAddField(FormImage)}>
+                        <SFieldIcon>
+                            <Octicons name="image" size={24} color="black" />
+                        </SFieldIcon>
+                        <SFieldText>Image upload</SFieldText>
                     </SField>
                 </SModalWrapper>
             </SModalContent>
@@ -53,19 +65,20 @@ const SModalContent = styled(View)`
 
 const SModalWrapper = styled(View)`
     margin-top: 36px;
+    gap: 8px;
 `
 
 const SField = styled(Pressable)`
     flex-direction: row;
     align-items: center;
     opacity: 0.4;
-    border: 1px solid ${(props) => props.theme["TEXT"]};
+    border: 1px solid ${props => props.theme["TEXT"]};
     border-radius: 26px;
     padding: 16px;
 `
 
 const SFieldIcon = styled(View)`
-    border: 1px solid ${(props) => props.theme["TEXT"]};
+    border: 1px solid ${props => props.theme["TEXT"]};
     border-radius: 16px;
     height: 50px;
     width: 50px;
@@ -78,5 +91,5 @@ const SFieldText = styled(Text)`
     font-size: 20px;
     margin-left: 8px;
     font-family: "Nunito_500Medium";
-    color: ${(props) => props.theme["TEXT"]};
+    color: ${props => props.theme["TEXT"]};
 `

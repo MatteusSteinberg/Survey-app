@@ -56,7 +56,7 @@ const SurveyList = (props: ISurveyList) => {
                         <SImageText>No surveys to be found...</SImageText>
                     </SSurveyView>
                 ) : (
-                    SurveyArr.map((survey, index) => <SurveyCard modalActive={props.modalActive} setModalActive={props.setModalActive} isDragging={props.isDragging} setScrollEnabled={props.setScrollEnabled} key={index} title={survey.title} replies={survey.replies} />)
+                    SurveyArr.map((survey, index) => <SurveyCard navigation={props.navigation} modalActive={props.modalActive} setModalActive={props.setModalActive} isDragging={props.isDragging} setScrollEnabled={props.setScrollEnabled} key={index} title={survey.title} replies={survey.replies} />)
                 )}
             </SSurveys>
         </SContainer>
@@ -81,13 +81,13 @@ const STitle = styled(Text)`
     font-size: 24px;
     font-weight: 600;
     font-family: "Nunito_700Bold";
-    color: ${(props) => props.theme["TEXT"]};
+    color: ${props => props.theme["TEXT"]};
 `
 
 const SCreate = styled(Text)`
     font-size: 16px;
     font-weight: 600;
-    color: ${(props) => props.theme["PRIMARY_COLOR_DARK"]};
+    color: ${props => props.theme["PRIMARY_COLOR_DARK"]};
     opacity: 0.5;
     font-family: "Nunito_600SemiBold";
 `
@@ -119,7 +119,7 @@ const SImage = styled(Image)`
 const SImageText = styled(Text)`
     font-size: 22px;
     font-weight: 600;
-    color: ${(props) => props.theme["TEXT"]};
+    color: ${props => props.theme["TEXT"]};
     font-family: "Nunito_600SemiBold";
     text-align: center;
     justify-content: flex-start;

@@ -13,6 +13,7 @@ interface ISurveyCard {
     isDragging: React.MutableRefObject<boolean>
     setModalActive: React.Dispatch<React.SetStateAction<boolean>>
     modalActive: boolean
+    navigation?: any
 }
 
 const SurveyCard = (props: ISurveyCard) => {
@@ -39,7 +40,7 @@ const SurveyCard = (props: ISurveyCard) => {
             onPanResponderRelease: (_, gesture) => {
                 if (gesture.dx < -100) {
                     Animated.timing(slideAnim, {
-                        toValue: -250,
+                        toValue: -310,
                         duration: 500,
                         easing: Easing.out(Easing.quad),
                         useNativeDriver: false,
@@ -64,10 +65,14 @@ const SurveyCard = (props: ISurveyCard) => {
                 style={{
                     transform: [{ translateX: slideAnim }],
                 }}
-                {...panResponder.panHandlers}>
+                {...panResponder.panHandlers}
+            >
                 <SSurveyCard>
                     <STitle>{props.title}</STitle>
                     <SReplies>{props.replies} Replies</SReplies>
+                    <Pressable onPress={() => props.navigation.navigate("AnswersScreen")}>
+                        <SSurveyText>See replies</SSurveyText>
+                    </Pressable>
                     <SPattern color="#274CEE" PatternWidth={240} PatternHeight={290} />
                 </SSurveyCard>
                 <SEditOption>
@@ -83,7 +88,8 @@ const SurveyCard = (props: ISurveyCard) => {
                 visible={props.modalActive}
                 onRequestClose={() => {
                     props.setModalActive(false)
-                }}>
+                }}
+            >
                 <SModalInner>
                     <SModalContent>
                         <BackButton color="text" onPress={toggleModal} title="Delete this survey?" icon="x" />
@@ -107,7 +113,7 @@ const SSliderView = styled(Animated.View)`
 `
 
 const SSurveyCard = styled(View)`
-    background-color: ${(props) => props.theme["PRIMARY_COLOR_LIGHT"]};
+    background-color: ${props => props.theme["PRIMARY_COLOR_LIGHT"]};
     width: 100%;
     border-radius: 26px;
     position: relative;
@@ -124,7 +130,7 @@ const STitle = styled(Text)`
 const SReplies = styled(Text)`
     font-size: 16px;
     font-family: "Nunito_700Bold";
-    color: ${(props) => props.theme["PRIMARY_COLOR_DARK"]};
+    color: ${props => props.theme["PRIMARY_COLOR_DARK"]};
     opacity: 0.7;
 `
 
@@ -139,9 +145,9 @@ const SPattern = styled(Pattern)`
 `
 
 const SEditOption = styled(Pressable)`
-    background-color: ${(props) => props.theme["PRIMARY_COLOR"]};
-    height: 115px;
-    width: 115px;
+    background-color: ${props => props.theme["PRIMARY_COLOR"]};
+    height: 145px;
+    width: 145px;
     justify-content: center;
     align-items: center;
     border-radius: 26px;
@@ -149,9 +155,9 @@ const SEditOption = styled(Pressable)`
 `
 
 const STrashOption = styled(Pressable)`
-    background-color: ${(props) => props.theme["ERROR"]};
-    height: 115px;
-    width: 115px;
+    background-color: ${props => props.theme["ERROR"]};
+    height: 145px;
+    width: 145px;
     justify-content: center;
     align-items: center;
     border-radius: 26px;
@@ -179,4 +185,12 @@ const SModalText = styled(Text)`
     font-size: 16px;
     font-family: "Nunito_700Bold";
     margin-bottom: 20px;
+`
+
+const SSurveyText = styled(Text)`
+    font-size: 16px;
+    font-family: "Nunito_700Bold";
+    color: ${props => props.theme["PRIMARY_COLOR_DARK"]};
+    opacity: 0.7;
+    margin-top: 8px;
 `

@@ -50,16 +50,16 @@ export default function SignupScreen({ navigation }: any) {
                                 <SForm>
                                     <SFormText>Fill out the form</SFormText>
                                     <SFormItem>
-                                        <Input placeholder="Username..." variant="dark" textContentType="username" onChangeText={(v) => setForm({ ...form, username: v })} />
+                                        <Input placeholder="Username..." variant="dark" textContentType="username" onChangeText={v => setForm({ ...form, username: v })} />
                                     </SFormItem>
                                     <SFormItem>
-                                        <Input placeholder="E-mail..." variant="dark" textContentType="emailAddress" onChangeText={(v) => setForm({ ...form, email: v })} />
+                                        <Input placeholder="E-mail..." variant="dark" textContentType="emailAddress" onChangeText={v => setForm({ ...form, email: v })} />
                                     </SFormItem>
                                     <SFormItem>
-                                        <Input placeholder="Password..." variant="dark" secureTextEntry textContentType="password" onChangeText={(v) => setForm({ ...form, password: v })} />
+                                        <Input placeholder="Password..." variant="dark" secureTextEntry textContentType="password" onChangeText={v => setForm({ ...form, password: v })} />
                                     </SFormItem>
                                     <SFormItem>
-                                        <Input placeholder="Confirm password..." variant="dark" secureTextEntry textContentType="password" onChangeText={(v) => setForm({ ...form, repeatPassword: v })} />
+                                        <Input placeholder="Confirm password..." variant="dark" secureTextEntry textContentType="password" onChangeText={v => setForm({ ...form, repeatPassword: v })} />
                                     </SFormItem>
                                     <SFormItem>
                                         <Button variant="primary" onPress={() => navigation.navigate("PinScreen")} title={"Register"} />
@@ -67,7 +67,7 @@ export default function SignupScreen({ navigation }: any) {
                                 </SForm>
                                 <SFooter>
                                     <SLogin>
-                                        Already have an account? <SLoginLink onPress={() => navigation.navigate("LoginScreen")}>Sign in</SLoginLink>
+                                        Already have an account? <SLoginLink onPress={handleOnRegister}>Sign in</SLoginLink>
                                     </SLogin>
                                 </SFooter>
                             </SScroll>
@@ -83,11 +83,11 @@ const SContainer = styled(View)`
     position: relative;
     padding: 0 16px 20px 16px;
     height: 100%;
-    background-color: ${(props) => props.theme["WHITE"]};
+    background-color: ${props => props.theme["WHITE"]};
 `
 
 const SHeader = styled(View)`
-    background-color: ${(props) => props.theme["WHITE"]};
+    background-color: ${props => props.theme["WHITE"]};
 `
 
 const SScroll = styled(ScrollView)`
@@ -107,7 +107,7 @@ const STitle = styled.Text`
     text-align: center;
     font-size: 42px;
     margin-bottom: 8px;
-    color: ${(props) => props.theme["TEXT"]};
+    color: ${props => props.theme["TEXT"]};
     font-family: "Nunito_700Bold";
 `
 
@@ -115,7 +115,7 @@ const SText = styled.Text`
     text-align: center;
     font-size: 18px;
     font-weight: 400;
-    color: ${(props) => props.theme["TEXT"]};
+    color: ${props => props.theme["TEXT"]};
     font-family: "Nunito_400Regular";
 `
 
@@ -127,7 +127,7 @@ const SForm = styled.View`
 const SFormText = styled.Text`
     font-size: 18px;
     font-weight: 400;
-    color: ${(props) => props.theme["TEXT"]};
+    color: ${props => props.theme["TEXT"]};
     font-family: "Nunito_600SemiBold";
     margin-bottom: 16px;
 `
@@ -151,14 +151,14 @@ const SFooter = styled.View`
 const SLogin = styled.Text`
     font-size: 18px;
     font-weight: 400;
-    color: ${(props) => props.theme["TEXT"]};
+    color: ${props => props.theme["TEXT"]};
     font-family: "Nunito_400Regular";
 `
 
 const SLoginLink = styled.Text`
     font-size: 18px;
     font-weight: 400;
-    color: ${(props) => props.theme["PRIMARY_COLOR"]};
+    color: ${props => props.theme["PRIMARY_COLOR"]};
     font-family: "Nunito_600SemiBold";
     text-decoration: underline;
 `

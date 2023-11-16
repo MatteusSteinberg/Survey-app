@@ -25,7 +25,10 @@ const BackButton = (props: IBackButton) => {
 
 export default BackButton
 
-const SContainer = styled(View)``
+const SContainer = styled(View)`
+    align-items: flex-start;
+    width: 100%;
+`
 
 const SButton = styled(Pressable)`
     flex-direction: row;
@@ -35,12 +38,12 @@ const SButton = styled(Pressable)`
 const SButtonText = styled(Text)<{ color: string }>`
     font-size: 20px;
     font-weight: 500;
-    color: ${(props) => props.theme["TEXT"]};
+    color: ${props => props.theme["TEXT"]};
     margin-left: 8px;
     font-family: "Nunito_700Bold";
 
-    ${(props) => props.color === "white" && `color: ${props.theme["WHITE"]}`}
-    ${(props) => props.color === "text" && `color: ${props.theme["TEXT"]}`}
+    ${props => props.color === "white" && `color: ${props.theme["WHITE"]}`}
+    ${props => props.color === "text" && `color: ${props.theme["TEXT"]}`}
 `
 
 const SButtonIcon = styled(View)<{ color: string }>`
@@ -52,6 +55,6 @@ const SButtonIcon = styled(View)<{ color: string }>`
     align-items: center;
     justify-content: center;
 
-    ${(props) => props.color === "white" && `border-color: ${props.theme["WHITE"]}`}
-    ${(props) => props.color === "text" && `border-color: ${props.theme["TEXT"]}`}
+    ${props => props.color === "white" && `border-color: ${props.theme["WHITE"]}`}
+    ${props => props.color === "text" && `border-color: ${props.theme["TEXT"]}`}
 `

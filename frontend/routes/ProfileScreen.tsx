@@ -45,7 +45,7 @@ const ProfileScreen = (props: IProfileScreen) => {
                     </SContainer>
                 </SScroll>
             </TouchableWithoutFeedback>
-            <Navigation navigation={props.navigation} />
+            <Navigation navigation={props.navigation} profileActive={true} dashboardActive={false} />
         </>
     )
 }
@@ -55,19 +55,19 @@ export default ProfileScreen
 const SContainer = styled(View)`
     padding: 0 16px 120px 16px;
     height: 100%;
-    background-color: ${(props) => props.theme["WHITE"]};
+    background-color: ${props => props.theme["WHITE"]};
     justify-content: space-between;
 `
 
 const SHeader = styled(View)`
-    background-color: ${(props) => props.theme["WHITE"]};
+    background-color: ${props => props.theme["WHITE"]};
 `
 
 const SProfileHeader = styled(View)`
     position: relative;
     width: 100%;
     height: 160px;
-    background-color: ${(props) => props.theme["PRIMARY_COLOR"]};
+    background-color: ${props => props.theme["PRIMARY_COLOR"]};
     align-items: flex-start;
     justify-content: flex-end;
     border-bottom-left-radius: 65px;
@@ -97,7 +97,7 @@ const SForm = styled.View`
 const SFormItemLabel = styled.Text`
     font-size: 18px;
     font-weight: 400;
-    color: ${(props) => props.theme["TEXT"]};
+    color: ${props => props.theme["TEXT"]};
     font-family: "Nunito_600SemiBold";
     margin-bottom: 16px;
 `

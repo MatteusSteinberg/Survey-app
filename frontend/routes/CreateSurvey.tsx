@@ -89,7 +89,8 @@ const CreateSurvey: React.FC = (props: ICreateSurvey) => {
                                         style={{
                                             transform: [{ translateX: slideAnim }],
                                         }}
-                                        {...panResponder.panHandlers}>
+                                        {...panResponder.panHandlers}
+                                    >
                                         <SField>
                                             <FieldComponentElement />
                                         </SField>
@@ -110,14 +111,15 @@ const CreateSurvey: React.FC = (props: ICreateSurvey) => {
                     </SContainer>
                 </SScroll>
             </TouchableWithoutFeedback>
-            <Navigation navigation={props.navigation} />
+            <Navigation navigation={props.navigation} dashboardActive={false} profileActive={false} />
             <Modal
                 animationType="slide"
                 transparent={true}
                 visible={showModal}
                 onRequestClose={() => {
                     setShowModal(false)
-                }}>
+                }}
+            >
                 <FormModal addFormField={addFormField} closeModal={() => setShowModal(false)} />
             </Modal>
         </>
@@ -132,7 +134,7 @@ const SModalOverlay = styled(View)<{ modalActive: boolean }>`
     left: 0;
     width: 100%;
     height: 100%;
-    ${(props) =>
+    ${props =>
         props.modalActive &&
         `
         background-color: rgba(0,0,0,0.5);
@@ -141,21 +143,21 @@ const SModalOverlay = styled(View)<{ modalActive: boolean }>`
 `
 
 const SContainer = styled(View)`
-    padding: 0 16px 120px 16px;
+    padding: 0 16px 160px 16px;
     height: 100%;
-    background-color: ${(props) => props.theme["WHITE"]};
+    background-color: ${props => props.theme["WHITE"]};
     justify-content: space-between;
 `
 
 const SHeader = styled(View)`
-    background-color: ${(props) => props.theme["WHITE"]};
+    background-color: ${props => props.theme["WHITE"]};
 `
 
 const SCreateHeader = styled(View)`
     position: relative;
     width: 100%;
     height: 244px;
-    background-color: ${(props) => props.theme["PRIMARY_COLOR"]};
+    background-color: ${props => props.theme["PRIMARY_COLOR"]};
     align-items: flex-start;
     justify-content: flex-end;
     border-bottom-left-radius: 65px;
@@ -190,14 +192,14 @@ const SInput = styled(TextInput)`
     width: 100%;
     font-size: 18px;
     font-family: "Nunito_600SemiBold";
-    color: ${(props) => props.theme["WHITE"]};
+    color: ${props => props.theme["WHITE"]};
     border-radius: 24px;
     padding: 12px 18px;
     margin-bottom: 10px;
     &::placeholder {
         font-size: 18px;
         font-family: "Nunito_600SemiBold";
-        color: ${(props) => props.theme["WHITE"]} !important;
+        color: ${props => props.theme["WHITE"]} !important;
     }
 `
 
@@ -215,7 +217,7 @@ const SFieldSlide = styled(Animated.View)`
 `
 
 const SFieldRemove = styled(Pressable)`
-    background-color: ${(props) => props.theme["ERROR"]};
+    background-color: ${props => props.theme["ERROR"]};
     width: 115px;
     height: 115px;
     justify-content: center;
@@ -228,14 +230,14 @@ const SAddField = styled(Pressable)`
     flex-direction: row;
     align-items: center;
     opacity: 0.4;
-    border: 1px dashed ${(props) => props.theme["TEXT"]};
+    border: 1px dashed ${props => props.theme["TEXT"]};
     border-radius: 26px;
     padding: 26px;
     width: 100%;
 `
 
 const SAddFieldIcon = styled(View)`
-    border: 1px solid ${(props) => props.theme["TEXT"]};
+    border: 1px solid ${props => props.theme["TEXT"]};
     border-radius: 16px;
     height: 50px;
     width: 50px;
@@ -248,5 +250,5 @@ const SAddFieldText = styled(Text)`
     font-size: 20px;
     margin-left: 8px;
     font-family: "Nunito_500Medium";
-    color: ${(props) => props.theme["TEXT"]};
+    color: ${props => props.theme["TEXT"]};
 `

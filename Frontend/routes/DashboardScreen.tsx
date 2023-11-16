@@ -36,7 +36,7 @@ const DashboardScreen = (props: IDashboard) => {
                     </SContainer>
                 </SScroll>
             </TouchableWithoutFeedback>
-            <Navigation navigation={props.navigation} />
+            <Navigation navigation={props.navigation} profileActive={false} dashboardActive={true} />
         </>
     )
 }
@@ -46,12 +46,12 @@ export default DashboardScreen
 const SContainer = styled(View)`
     padding: 0 16px 20px 16px;
     height: 100%;
-    background-color: ${(props) => props.theme["WHITE"]};
+    background-color: ${props => props.theme["WHITE"]};
     justify-content: space-between;
 `
 
 const SHeader = styled(View)`
-    background-color: ${(props) => props.theme["WHITE"]};
+    background-color: ${props => props.theme["WHITE"]};
 `
 
 const SContent = styled(View)`
@@ -72,7 +72,7 @@ const SModalOverlay = styled(View)<{ modalActive: boolean }>`
     left: 0;
     width: 100%;
     height: 100%;
-    ${(props) =>
+    ${props =>
         props.modalActive &&
         `
         background-color: rgba(0,0,0,0.5);
