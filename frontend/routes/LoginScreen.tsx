@@ -9,55 +9,54 @@ import Input from "../components/elements/Input"
 import { useAuth } from "../hooks/use-auth"
 
 const LoginScreen = ({ navigation }: any) => {
-    const [form, setForm] = useState<{ password?: string; email?: string }>({})
-    const [success, setSuccess] = useState<boolean | undefined>(undefined)
+  const [form, setForm] = useState<{ password?: string; email?: string }>({})
+  const [success, setSuccess] = useState<boolean | undefined>(undefined)
 
-    const { authenticate } = useAuth()
+  const { authenticate } = useAuth()
 
-    const handleOnLogin = async () => {
-        if (!form?.email || !form?.password) return
-        const result = await authenticate(form?.email, form?.password)
+  const handleOnLogin = async () => {
+    if (!form?.email || !form?.password) return
+    const result = await authenticate(form?.email, form?.password)
 
-        if (!result?.error) {
-            setSuccess(true)
-            navigation.navigate("DashboardScreen")
-        }
+    if (!result?.error) {
+      setSuccess(true)
     }
+  }
 
-    return (
-        <>
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <SScroll>
-                    <SHeader>
-                        <AuthHeader />
-                    </SHeader>
-                    <SContainer>
-                        <SContent>
-                            <STitle>Sign in!</STitle>
-                            <SText>Let’s build some awesome surveys!</SText>
-                            <SForm>
-                                <SFormText>Fill out the form</SFormText>
-                                <SFormItem>
-                                    <Input placeholder="E-mail..." variant="dark" textContentType="emailAddress" onChangeText={(v) => setForm({ ...form, email: v })} />
-                                </SFormItem>
-                                <SFormItem>
-                                    <Input placeholder="Password..." variant="dark" value={form.password} secureTextEntry textContentType="password" onChangeText={(v) => setForm({ ...form, password: v })} />
-                                </SFormItem>
-                                <SFormItem>
-                                    <Button variant="primary" title={"Sign in"} onPress={() => navigation.navigate("DashboardScreen")} />
-                                </SFormItem>
-                            </SForm>
-                            <SFooter>
-                                <SLogin>
-                                    Don't have an account? <SLoginLink onPress={() => navigation.navigate("SignupScreen")}>Sign up</SLoginLink>
-                                </SLogin>
-                            </SFooter>
-                        </SContent>
-                    </SContainer>
-                </SScroll>
-            </TouchableWithoutFeedback>
-        </>
-    )
+  return (
+    <>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <SScroll>
+          <SHeader>
+            <AuthHeader />
+          </SHeader>
+          <SContainer>
+            <SContent>
+              <STitle>Sign in!</STitle>
+              <SText>Let’s build some awesome surveys!</SText>
+              <SForm>
+                <SFormText>Fill out the form</SFormText>
+                <SFormItem>
+                  <Input placeholder="E-mail..." variant="dark" textContentType="emailAddress" onChangeText={(v) => setForm({ ...form, email: v })} />
+                </SFormItem>
+                <SFormItem>
+                  <Input placeholder="Password..." variant="dark" value={form.password} secureTextEntry textContentType="password" onChangeText={(v) => setForm({ ...form, password: v })} />
+                </SFormItem>
+                <SFormItem>
+                  <Button variant="primary" title={"Sign in"} onPress={handleOnLogin} />
+                </SFormItem>
+              </SForm>
+              <SFooter>
+                <SLogin>
+                  Don't have an account? <SLoginLink onPress={() => navigation.navigate("SignupScreen")}>Sign up</SLoginLink>
+                </SLogin>
+              </SFooter>
+            </SContent>
+          </SContainer>
+        </SScroll>
+      </TouchableWithoutFeedback>
+    </>
+  )
 }
 
 export default LoginScreen

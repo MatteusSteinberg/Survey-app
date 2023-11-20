@@ -60,8 +60,6 @@ export const AuthProvider = memo(({ children }: { children: React.ReactNode }) =
 
       setToken(data.token)
 
-      await mutate()
-
       return {}
     } catch (error: any) {
       return { error: error }
