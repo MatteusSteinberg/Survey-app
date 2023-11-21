@@ -7,6 +7,7 @@ import AnswersScreen from "./routes/Answers"
 import CameraScreen from "./routes/Camera"
 import CreateSurvey from "./routes/CreateSurvey"
 import DashboardScreen from "./routes/DashboardScreen"
+import EditSurvey from "./routes/EditSurvey"
 import LoginScreen from "./routes/LoginScreen"
 import PinCodeScreen from "./routes/PinCodeScreen"
 import ProfileScreen from "./routes/ProfileScreen"
@@ -26,6 +27,7 @@ const Routing = () => {
           <Stack.Screen name="DashboardScreen" component={DashboardScreen} />
           <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
           <Stack.Screen name="CreateScreen" component={CreateSurvey} />
+          <Stack.Screen name="EditScreen" component={EditSurvey} />
 
           {/* @ts-expect-error */}
           <Stack.Screen name="AnswersScreen" component={AnswersScreen} />

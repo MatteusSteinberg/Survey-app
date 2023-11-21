@@ -3,10 +3,6 @@ import { IForm, IFormField, IFormFieldOption } from '../interfaces/form.interfac
 import formatDocument from '../lib/plugins/format-document';
 
 const formFieldOptionSchema = new Schema<IFormFieldOption>({
-  isChecked: {
-    type: Boolean,
-    required: false
-  },
   name: {
     type: String,
     required: false
@@ -18,16 +14,6 @@ const formFieldOptionSchema = new Schema<IFormFieldOption>({
 })
 
 const formFieldSchema = new Schema<IFormField>({
-  answer: {
-    text: {
-      type: String,
-      required: false
-    },
-    multiple: {
-      type: String,
-      required: false
-    },
-  },
   fieldTitle: {
     type: String,
     required: false

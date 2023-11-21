@@ -1,4 +1,5 @@
 import { Octicons } from "@expo/vector-icons"
+import { NavigationProp } from "@react-navigation/native"
 import React, { useRef } from "react"
 import { Animated, Easing, Modal, PanResponder, Pressable, Text, View } from "react-native"
 import styled from "styled-components/native"
@@ -12,7 +13,7 @@ interface ISurveyCard {
   isDragging: React.MutableRefObject<boolean>
   setModalActive: React.Dispatch<React.SetStateAction<boolean>>
   modalActive: boolean
-  navigation: any,
+  navigation: NavigationProp<any>,
   form: IForm
 }
 
@@ -70,12 +71,12 @@ const SurveyCard = ({ form, modalActive, setModalActive, setScrollEnabled, navig
         <SSurveyCard>
           <STitle>{form.name}</STitle>
           <SReplies>{0} (NYI) Replies</SReplies>
-          <Pressable onPress={() => navigation.navigate("AnswersScreen")}>
+          <Pressable onPress={() => navigation.navigate("AnswersScreen", { id: form.id })}>
             <SSurveyText>See replies</SSurveyText>
           </Pressable>
           <SPattern color="#274CEE" PatternWidth={240} PatternHeight={290} />
         </SSurveyCard>
-        <SEditOption>
+        <SEditOption onPress={() => navigation.navigate("EditScreen", { id: form.id })}>
           <Octicons name="pencil" size={28} color="white" />
         </SEditOption>
         <STrashOption onPress={toggleModal}>

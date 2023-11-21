@@ -13,19 +13,21 @@ import FormController from "../components/fields/FormController"
 import useAPI from "../hooks/use-api"
 
 interface ICreateSurvey {
-  navigation?: any
+  navigation?: any,
+  form?: IForm
+  id?: string
 }
 
-const CreateSurvey: React.FC = (props: ICreateSurvey) => {
-  const [formFields, setFormFields] = useState<IFormField[]>([])
-  const [surveyName, setSurveyName] = useState<string>()
+const CreateSurvey = ({ form, id, navigation }: ICreateSurvey) => {
+  const [formFields, setFormFields] = useState<IFormField[]>(form?.fields || [])
+  const [surveyName, setSurveyName] = useState<string>(form?.name || '')
   const [showModal, setShowModal] = useState(false)
   const [scrollEnabled, setScrollEnabled] = useState(true)
   const isDragging = useRef(false)
   const slideAnim = useRef(new Animated.Value(0)).current
   const touchStartX = useRef(0)
 
-  const { create } = useAPI<IForm>({ url: '/form' }, { autoGet: false })
+  const { create, update } = useAPI<IForm>({ url: '/form', id }, { autoGet: false })
 
   const panResponder = useRef(
     PanResponder.create({
@@ -92,13 +94,14 @@ const CreateSurvey: React.FC = (props: ICreateSurvey) => {
   }
 
   const handleCreateSurvey = async () => {
-    await create({
+    const apiMethod = id ? update : create
+    await apiMethod({
       body: {
         name: surveyName,
         fields: formFields
       } as IForm
     })
-    props.navigation.navigate("DashboardScreen")
+    navigation.navigate("DashboardScreen")
   }
 
   return (
@@ -108,7 +111,7 @@ const CreateSurvey: React.FC = (props: ICreateSurvey) => {
         <SScroll bounces={false}>
           <SHeader>
             <SCreateHeader>
-              <BackButton color="white" title="Create new survey" icon="chevron-left" onPress={() => props.navigation.navigate("DashboardScreen")} />
+              <BackButton color="white" title="Create new survey" icon="chevron-left" onPress={() => navigation.navigate("DashboardScreen")} />
               <SCreateHeaderSearch>
                 <SInput placeholderTextColor="#ffffff40" onChangeText={t => setSurveyName(t)} value={surveyName} placeholder="Name your survey..." />
               </SCreateHeaderSearch>
@@ -151,7 +154,7 @@ const CreateSurvey: React.FC = (props: ICreateSurvey) => {
           </SContainer>
         </SScroll>
       </TouchableWithoutFeedback>
-      <Navigation navigation={props.navigation} dashboardActive={false} profileActive={false} />
+      <Navigation navigation={navigation} dashboardActive={false} profileActive={false} />
       <Modal
         animationType="slide"
         transparent={true}

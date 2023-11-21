@@ -6,14 +6,21 @@ import Form from "../utils/form.utils"
 export const create = baseHandler(async ({ body, user }) => {
   const form = body as IForm
 
-  console.log("form", form)
-
   const result = await Form.create(form, user!!)
 
   return { data: result, status: 201 }
 }, true)
 
-export const mine = baseHandler(async ({ body, user }) => {
+export const update = baseHandler(async ({ params, body, user }) => {
+  const form = body as IForm
+  const { id } = params as { id: string }
+
+  const result = await Form.update(id, form, user)
+
+  return { data: result, status: 201 }
+})
+
+export const mine = baseHandler(async ({ user }) => {
 
   const forms = await Form.index(user!!)
 

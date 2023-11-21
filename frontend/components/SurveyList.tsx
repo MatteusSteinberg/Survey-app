@@ -1,3 +1,4 @@
+import { NavigationProp } from "@react-navigation/native"
 import React from "react"
 import { Image, Text, View } from "react-native"
 import styled from "styled-components/native"
@@ -9,16 +10,17 @@ interface ISurveyList {
   isDragging: React.MutableRefObject<boolean>
   setModalActive: React.Dispatch<React.SetStateAction<boolean>>
   modalActive: boolean
-  navigation?: any,
+  navigation: NavigationProp<any>,
   forms?: IForm[]
 }
 
 const SurveyList = ({ isDragging, modalActive, setModalActive, setScrollEnabled, forms, navigation }: ISurveyList) => {
+
   return (
     <SContainer>
       <SHeader>
         <STitle>Your forms</STitle>
-        <SCreate onPress={() => navigation.navigate("CreateScreen")}>Create Survey</SCreate>
+        <SCreate onPress={() => navigation?.navigate("CreateScreen")}>Create Survey</SCreate>
       </SHeader>
       <SSurveys>
         {forms?.length === 0 && <>

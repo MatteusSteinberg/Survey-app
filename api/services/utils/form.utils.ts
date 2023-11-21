@@ -13,6 +13,10 @@ namespace Form {
     return result
   }
 
+  export const update = async (id: string, form: IForm, user: IUser) => {
+
+  }
+
   export const index = async (user: IUser) => {
     const forms = await formModel.
       find({ createdBy: user.id })
