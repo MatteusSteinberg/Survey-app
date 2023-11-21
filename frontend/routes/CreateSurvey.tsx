@@ -1,142 +1,174 @@
 import { Octicons } from "@expo/vector-icons"
+import { produce } from "immer"
+import _set from "lodash/set"
 import React, { useRef, useState } from "react"
 import { Animated, Easing, Keyboard, Modal, PanResponder, Pressable, ScrollView, Text, TextInput, TouchableWithoutFeedback, View } from "react-native"
 import styled from "styled-components/native"
+import { FormFieldType, IFormField } from "../../api/interfaces/form.interfaces"
 import FormModal from "../components/FormModal"
 import Navigation from "../components/Navigation"
 import { Button } from "../components/elements"
 import BackButton from "../components/elements/BackButton"
+import FormController from "../components/fields/FormController"
 
 interface ICreateSurvey {
-    navigation?: any
+  navigation?: any
 }
 
-type FormField = React.FC<ICreateSurvey> // Define a type for form field components
-
 const CreateSurvey: React.FC = (props: ICreateSurvey) => {
-    const [formFields, setFormFields] = useState<FormField[]>([])
-    const [showModal, setShowModal] = useState(false)
-    const [scrollEnabled, setScrollEnabled] = useState(true)
-    const isDragging = useRef(false)
-    const slideAnim = useRef(new Animated.Value(0)).current
-    const touchStartX = useRef(0)
+  const [formFields, setFormFields] = useState<IFormField[]>([])
+  const [surveyName, setSurveyName] = useState<string>()
+  const [showModal, setShowModal] = useState(false)
+  const [scrollEnabled, setScrollEnabled] = useState(true)
+  const isDragging = useRef(false)
+  const slideAnim = useRef(new Animated.Value(0)).current
+  const touchStartX = useRef(0)
 
-    const panResponder = useRef(
-        PanResponder.create({
-            onStartShouldSetPanResponder: () => true,
-            onPanResponderGrant: (_, gesture) => {
-                touchStartX.current = gesture.x0
-            },
-            onPanResponderMove: (_, gesture) => {
-                const dx = gesture.moveX - touchStartX.current
-                if (dx <= 0) {
-                    slideAnim.setValue(dx)
-                    setScrollEnabled(false) // Disable vertical scrolling
-                }
-            },
-            onPanResponderRelease: (_, gesture) => {
-                if (gesture.dx < -100) {
-                    Animated.timing(slideAnim, {
-                        toValue: -125,
-                        duration: 500,
-                        easing: Easing.out(Easing.quad),
-                        useNativeDriver: false,
-                    }).start(() => {
-                        setScrollEnabled(true) // Enable vertical scrolling after animation
-                    })
-                } else {
-                    Animated.spring(slideAnim, {
-                        toValue: 0,
-                        friction: 5,
-                        useNativeDriver: false,
-                    }).start(() => {
-                        setScrollEnabled(true) // Enable vertical scrolling after animation
-                    })
-                }
-            },
-        })
-    ).current
+  const panResponder = useRef(
+    PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
+      onPanResponderGrant: (_, gesture) => {
+        touchStartX.current = gesture.x0
+      },
+      onPanResponderMove: (_, gesture) => {
+        const dx = gesture.moveX - touchStartX.current
+        if (dx <= 0) {
+          slideAnim.setValue(dx)
+          setScrollEnabled(false) // Disable vertical scrolling
+        }
+      },
+      onPanResponderRelease: (_, gesture) => {
+        if (gesture.dx < -100) {
+          Animated.timing(slideAnim, {
+            toValue: -125,
+            duration: 500,
+            easing: Easing.out(Easing.quad),
+            useNativeDriver: false,
+          }).start(() => {
+            setScrollEnabled(true) // Enable vertical scrolling after animation
+          })
+        } else {
+          Animated.spring(slideAnim, {
+            toValue: 0,
+            friction: 5,
+            useNativeDriver: false,
+          }).start(() => {
+            setScrollEnabled(true) // Enable vertical scrolling after animation
+          })
+        }
+      },
+    })
+  ).current
 
-    const addFormField = (fieldComponent: FormField) => {
-        setFormFields([...formFields, fieldComponent])
-    }
+  const addFormField = (fieldType: FormFieldType) => {
+    setFormFields([...formFields, { type: fieldType, order: formFields.length + 1 }])
+  }
 
-    const removeFormField = (index: number) => {
-        const updatedFields = formFields.filter((_, i) => i !== index)
-        setFormFields(updatedFields)
-    }
+  const handleUpdateFormField = (path: string, value: any, order: number) => {
+    setFormFields(produce(formFieldDraft => {
+      const index = formFieldDraft.findIndex(x => x.order === order)
+      formFieldDraft[index]['answer']
 
-    return (
-        <>
-            <SModalOverlay modalActive={showModal} />
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <SScroll bounces={false}>
-                    <SHeader>
-                        <SCreateHeader>
-                            <BackButton color="white" title="Create new survey" icon="chevron-left" onPress={() => props.navigation.navigate("DashboardScreen")} />
-                            <SCreateHeaderSearch>
-                                <SInput placeholderTextColor="#ffffff40" placeholder="Name your survey..." />
-                            </SCreateHeaderSearch>
-                        </SCreateHeader>
-                    </SHeader>
-                    <SContainer>
-                        <SContent>
-                            {formFields.map((FieldComponent, index) => {
-                                const FieldComponentElement = FieldComponent as React.ElementType
-                                return (
-                                    <SFieldSlide
-                                        key={index}
-                                        style={{
-                                            transform: [{ translateX: slideAnim }],
-                                        }}
-                                        {...panResponder.panHandlers}
-                                    >
-                                        <SField>
-                                            <FieldComponentElement />
-                                        </SField>
-                                        <SFieldRemove onPress={() => removeFormField(index)}>
-                                            <Octicons name="trash" size={28} color="white" />
-                                        </SFieldRemove>
-                                    </SFieldSlide>
-                                )
-                            })}
-                            <SAddField onPress={() => setShowModal(true)}>
-                                <SAddFieldIcon>
-                                    <Octicons name="plus" size={24} color="black" />
-                                </SAddFieldIcon>
-                                <SAddFieldText>Add new field</SAddFieldText>
-                            </SAddField>
-                            <Button variant="primary" title="Create survey" onPress={() => props.navigation.navigate("DashboardScreen")} />
-                        </SContent>
-                    </SContainer>
-                </SScroll>
-            </TouchableWithoutFeedback>
-            <Navigation navigation={props.navigation} dashboardActive={false} profileActive={false} />
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={showModal}
-                onRequestClose={() => {
-                    setShowModal(false)
-                }}
-            >
-                <FormModal addFormField={addFormField} closeModal={() => setShowModal(false)} />
-            </Modal>
-        </>
-    )
+      formFieldDraft[index] = _set(formFieldDraft[index], path, value)
+    }))
+  }
+
+  const handleUpdateFormOptionField = (path: string, value: any, order: number, optionOrder: number) => {
+    setFormFields(produce(formFieldDraft => {
+      const index = formFieldDraft.findIndex(x => x.order === order)
+      formFieldDraft[index]
+      const optionIndex = formFieldDraft[index].options?.findIndex(x => x.order === optionOrder) || 0
+      if (!formFieldDraft[index].options?.[optionIndex]) return
+
+      formFieldDraft[index].options!![optionIndex] = _set(formFieldDraft[index].options!![optionIndex], path, value)
+    }))
+  }
+
+  const removeFormField = (index: number) => {
+    const updatedFields = formFields.filter((_, i) => i !== index)
+    setFormFields(updatedFields)
+  }
+
+  const handleCreateSurvey = async () => {
+    props.navigation.navigate("DashboardScreen")
+  }
+
+  return (
+    <>
+      <SModalOverlay modalActive={showModal} />
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <SScroll bounces={false}>
+          <SHeader>
+            <SCreateHeader>
+              <BackButton color="white" title="Create new survey" icon="chevron-left" onPress={() => props.navigation.navigate("DashboardScreen")} />
+              <SCreateHeaderSearch>
+                <SInput placeholderTextColor="#ffffff40" placeholder="Name your survey..." />
+              </SCreateHeaderSearch>
+            </SCreateHeader>
+          </SHeader>
+          <SContainer>
+            <SContent>
+              {formFields.map((formField, index) => {
+
+                return (
+                  <SFieldSlide
+                    key={index}
+                    style={{
+                      transform: [{ translateX: slideAnim }],
+                    }}
+                    {...panResponder.panHandlers}
+                  >
+                    <SField>
+                      <FormController
+                        isEditing={true}
+                        onOptionChange={(path, v, optionOrder) => handleUpdateFormOptionField(path, v, formField.order || 0, optionOrder)}
+                        formField={formField}
+                        onChange={(path, v) => handleUpdateFormField(path, v, formField.order || 0)}
+                      />
+                    </SField>
+                    <SFieldRemove onPress={() => removeFormField(index)}>
+                      <Octicons name="trash" size={28} color="white" />
+                    </SFieldRemove>
+                  </SFieldSlide>
+                )
+              })}
+              <SAddField onPress={() => setShowModal(true)}>
+                <SAddFieldIcon>
+                  <Octicons name="plus" size={24} color="black" />
+                </SAddFieldIcon>
+                <SAddFieldText>Add new field</SAddFieldText>
+              </SAddField>
+              <Button variant="primary" title="Create survey" onPress={handleCreateSurvey} />
+            </SContent>
+          </SContainer>
+        </SScroll>
+      </TouchableWithoutFeedback>
+      <Navigation navigation={props.navigation} dashboardActive={false} profileActive={false} />
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={showModal}
+        onRequestClose={() => {
+          setShowModal(false)
+        }}
+      >
+        <FormModal addFormField={addFormField} closeModal={() => setShowModal(false)} />
+      </Modal>
+    </>
+  )
 }
 
 export default CreateSurvey
 
-const SModalOverlay = styled(View)<{ modalActive: boolean }>`
+const SModalOverlay = styled(View) <{ modalActive: boolean }>`
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     ${props =>
-        props.modalActive &&
-        `
+    props.modalActive &&
+    `
         background-color: rgba(0,0,0,0.5);
         z-index: 999;
     `}

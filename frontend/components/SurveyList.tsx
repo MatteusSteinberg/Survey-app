@@ -1,66 +1,31 @@
 import React from "react"
 import { Image, Text, View } from "react-native"
 import styled from "styled-components/native"
-import SurveyCard from "./SurveyCard"
+// import SurveyCard from "./SurveyCard"
 
 interface ISurveyList {
-    setScrollEnabled: React.Dispatch<React.SetStateAction<boolean>>
-    isDragging: React.MutableRefObject<boolean>
-    setModalActive: React.Dispatch<React.SetStateAction<boolean>>
-    modalActive: boolean
-    navigation?: any
+  setScrollEnabled: React.Dispatch<React.SetStateAction<boolean>>
+  isDragging: React.MutableRefObject<boolean>
+  setModalActive: React.Dispatch<React.SetStateAction<boolean>>
+  modalActive: boolean
+  navigation?: any
 }
 
-const SurveyArr = [
-    {
-        title: "What OS do you pefer?",
-        replies: 47,
-    },
-    {
-        title: "What animal do you prefer?",
-        replies: 47,
-    },
-    {
-        title: "Favorite Language?",
-        replies: 47,
-    },
-    {
-        title: "Are you an idiot?",
-        replies: 47,
-    },
-    {
-        title: "Your spirit animal?",
-        replies: 47,
-    },
-    {
-        title: "What starsign are you?",
-        replies: 47,
-    },
-    {
-        title: "What OS do you pefer?",
-        replies: 47,
-    },
-]
-
 const SurveyList = (props: ISurveyList) => {
-    return (
-        <SContainer>
-            <SHeader>
-                <STitle>Your forms</STitle>
-                <SCreate onPress={() => props.navigation.navigate("CreateScreen")}>Create Survey</SCreate>
-            </SHeader>
-            <SSurveys>
-                {SurveyArr.length < 0 ? (
-                    <SSurveyView>
-                        <SImage source={require("../assets/noSurveys.jpg")} />
-                        <SImageText>No surveys to be found...</SImageText>
-                    </SSurveyView>
-                ) : (
-                    SurveyArr.map((survey, index) => <SurveyCard navigation={props.navigation} modalActive={props.modalActive} setModalActive={props.setModalActive} isDragging={props.isDragging} setScrollEnabled={props.setScrollEnabled} key={index} title={survey.title} replies={survey.replies} />)
-                )}
-            </SSurveys>
-        </SContainer>
-    )
+  return (
+    <SContainer>
+      <SHeader>
+        <STitle>Your forms</STitle>
+        <SCreate onPress={() => props.navigation.navigate("CreateScreen")}>Create Survey</SCreate>
+      </SHeader>
+      <SSurveys>
+        <SSurveyView>
+          <SImage source={require("../assets/noSurveys.jpg")} />
+          <SImageText>No surveys to be found...</SImageText>
+        </SSurveyView>
+      </SSurveys>
+    </SContainer>
+  )
 }
 
 export default SurveyList

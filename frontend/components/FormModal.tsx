@@ -2,48 +2,48 @@ import { Octicons } from "@expo/vector-icons"
 import React from "react"
 import { Pressable, Text, View } from "react-native"
 import styled from "styled-components/native"
+import { FormFieldType } from "../../api/interfaces/form.interfaces"
 import BackButton from "./elements/BackButton"
-import { FormImage, FormMultiple, FormText } from "./fields"
 
 interface FormModalProps {
-    addFormField: (fieldComponent: React.FC<any>) => void
-    closeModal: () => void
-    navigation?: any
+  addFormField: (fieldType: FormFieldType) => void
+  closeModal: () => void
+  navigation?: any
 }
 
-const FormModal: React.FC<FormModalProps> = ({ addFormField, closeModal, navigation }) => {
-    const handleAddField = (FieldComponent: React.FC<any>) => {
-        addFormField(FieldComponent)
-        closeModal()
-    }
+const FormModal = ({ addFormField, closeModal, navigation }: FormModalProps) => {
+  const handleAddField = (fieldType: FormFieldType) => {
+    addFormField(fieldType)
+    closeModal()
+  }
 
-    return (
-        <SModalInner>
-            <SModalContent>
-                <BackButton color="text" onPress={() => closeModal()} title="Add new field?" icon="x" />
-                <SModalWrapper>
-                    <SField onPress={() => handleAddField(FormText)}>
-                        <SFieldIcon>
-                            <Octicons name="typography" size={24} color="black" />
-                        </SFieldIcon>
-                        <SFieldText>Text Field</SFieldText>
-                    </SField>
-                    <SField onPress={() => handleAddField(FormMultiple)}>
-                        <SFieldIcon>
-                            <Octicons name="inbox" size={24} color="black" />
-                        </SFieldIcon>
-                        <SFieldText>Multiple Choice</SFieldText>
-                    </SField>
-                    <SField onPress={() => handleAddField(FormImage)}>
-                        <SFieldIcon>
-                            <Octicons name="image" size={24} color="black" />
-                        </SFieldIcon>
-                        <SFieldText>Image upload</SFieldText>
-                    </SField>
-                </SModalWrapper>
-            </SModalContent>
-        </SModalInner>
-    )
+  return (
+    <SModalInner>
+      <SModalContent>
+        <BackButton color="text" onPress={() => closeModal()} title="Add new field?" icon="x" />
+        <SModalWrapper>
+          <SField onPress={() => handleAddField("text")}>
+            <SFieldIcon>
+              <Octicons name="typography" size={24} color="black" />
+            </SFieldIcon>
+            <SFieldText>Text Field</SFieldText>
+          </SField>
+          <SField onPress={() => handleAddField("multiple")}>
+            <SFieldIcon>
+              <Octicons name="inbox" size={24} color="black" />
+            </SFieldIcon>
+            <SFieldText>Multiple Choice</SFieldText>
+          </SField>
+          <SField onPress={() => handleAddField("image")}>
+            <SFieldIcon>
+              <Octicons name="image" size={24} color="black" />
+            </SFieldIcon>
+            <SFieldText>Image upload</SFieldText>
+          </SField>
+        </SModalWrapper>
+      </SModalContent>
+    </SModalInner>
+  )
 }
 
 export default FormModal

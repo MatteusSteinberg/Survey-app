@@ -5,31 +5,31 @@ import { Text, TextInput, View } from "react-native"
 import styled from "styled-components/native"
 import { useAuth } from "../hooks/use-auth"
 
-interface IDashboardHeader {}
+interface IDashboardHeader { }
 
 const DashboardHeader = (props: IDashboardHeader) => {
-    const { user } = useAuth()
+  const { user } = useAuth()
 
-    const date = new Date()
-    const formattedDate = format(date, "EEE, dd MMM yyyy")
+  const date = new Date()
+  const formattedDate = format(date, "EEE, dd MMM yyyy")
 
-    return (
-        <SHeader>
-            <SHeaderInner>
-                <SHeaderDate>
-                    <SHeaderDateIcon size={24} name="calendar" color="#ffffff70" />
-                    <SHeaderDateText>{formattedDate.toUpperCase()}</SHeaderDateText>
-                </SHeaderDate>
-                <SHeaderMessage>
-                    <SheaderMessageWelcome style={{ color: "#ffffff" }}>Welcome back</SheaderMessageWelcome>
-                    <SheaderMessageUser>{user?.username || "Username"} 👋</SheaderMessageUser>
-                </SHeaderMessage>
-                <SHeaderSearch>
-                    <SInput placeholderTextColor="#ffffff40" placeholder="Search for a survey..." />
-                </SHeaderSearch>
-            </SHeaderInner>
-        </SHeader>
-    )
+  return (
+    <SHeader>
+      <SHeaderInner>
+        <SHeaderDate>
+          <SHeaderDateIcon size={24} name="calendar" color="#ffffff70" />
+          <SHeaderDateText>{formattedDate.toUpperCase()}</SHeaderDateText>
+        </SHeaderDate>
+        <SHeaderMessage>
+          <SheaderMessageWelcome style={{ color: "#ffffff" }}>Welcome back</SheaderMessageWelcome>
+          <SheaderMessageUser>{user?.username || "Username"} 👋</SheaderMessageUser>
+        </SHeaderMessage>
+        <SHeaderSearch>
+          <SInput placeholderTextColor="#ffffff40" placeholder="Search for a survey..." />
+        </SHeaderSearch>
+      </SHeaderInner>
+    </SHeader>
+  )
 }
 
 export default DashboardHeader
@@ -66,7 +66,7 @@ const SHeaderDateIcon = styled(Octicons)`
     padding-bottom: 4px;
 `
 const SHeaderDateText = styled(Text)`
-    font-size: 16px;
+    font-size: 12px;
     font-weight: 500;
     font-family: "Nunito_700Bold";
     color: ${(props) => props.theme["WHITE"]};
@@ -79,13 +79,13 @@ const SHeaderMessage = styled(View)`
     z-index: 10;
 `
 const SheaderMessageWelcome = styled(Text)`
-    font-size: 20px;
+    font-size: 18px;
     opacity: 0.5;
     font-family: "Nunito_600SemiBold";
     color: ${(props) => props.theme["WHITE"]};
 `
 const SheaderMessageUser = styled(Text)`
-    font-size: 44px;
+    font-size: 36px;
     font-family: "Nunito_700Bold";
     color: ${(props) => props.theme["WHITE"]};
 `

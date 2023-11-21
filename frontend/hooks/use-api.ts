@@ -51,7 +51,6 @@ const useAPI = <T>({ url, params, id }: { url: string; params?: any; id?: string
     try {
       const defaultUrl = url + queryString
 
-      console.log(defaultUrl)
       const { data, status } = await axios.get(defaultUrl, opts.config)
 
       const requestData: IRequestData<T> = { data, statusCode: status, loading: false, error: undefined }

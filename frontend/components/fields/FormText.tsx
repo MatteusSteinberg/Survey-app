@@ -1,26 +1,22 @@
 import React from "react"
 import { Text, TextInput, View } from "react-native"
 import styled from "styled-components/native"
+import { IFormFieldComponent } from "../../../api/interfaces/form.interfaces"
 
-interface IFormText {
-    readonly: boolean
-    fieldTitle?: string
-}
-
-const FormText = (props: IFormText) => {
-    return props.readonly ? (
-        <SField>
-            <SInput editable={false} placeholderTextColor="#232323" placeholder={props.fieldTitle || "Field name"} />
-            <SInputHelp>Write your answer in the field below</SInputHelp>
-            <SAnswerField placeholder="Answer here..." placeholderTextColor="#232323" />
-        </SField>
-    ) : (
-        <SField>
-            <SInput placeholderTextColor="#232323" placeholder="New field..." />
-            <SInputHelp>Write your answer in the field below</SInputHelp>
-            <SAnswerField aria-disabled placeholder="Answer here..." placeholderTextColor="#232323" />
-        </SField>
-    )
+const FormText = ({ isAnswering, fieldTitle, answer, onTitleChange, onTextAnswerChange }: IFormFieldComponent) => {
+  return isAnswering ? (
+    <SField>
+      <SInput editable={false} placeholderTextColor="#232323" placeholder={fieldTitle || "Field name"} />
+      <SInputHelp>Write your answer in the field below</SInputHelp>
+      <SAnswerField placeholder="Answer here..." value={answer?.text} onChangeText={(text) => onTextAnswerChange?.(text)} placeholderTextColor="#232323" />
+    </SField>
+  ) : (
+    <SField>
+      <SInput placeholderTextColor="#232323" placeholder="New field..." value={fieldTitle} onChangeText={(text) => onTitleChange?.(text)} />
+      <SInputHelp>Write your answer in the field below</SInputHelp>
+      <SAnswerField editable={false} value={answer?.text} aria-disabled placeholder="Answer here..." placeholderTextColor="#232323" />
+    </SField>
+  )
 }
 
 export default FormText

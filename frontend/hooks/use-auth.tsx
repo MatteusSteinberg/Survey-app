@@ -60,6 +60,10 @@ export const AuthProvider = memo(({ children }: { children: React.ReactNode }) =
 
       setToken(data.token)
 
+      axios.defaults.headers.common.Authorization = `Bearer ${token}`
+
+      await mutate()
+
       return {}
     } catch (error: any) {
       return { error: error }
