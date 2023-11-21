@@ -3,37 +3,33 @@ import React from "react"
 import { Pressable, Text, TextInput, View } from "react-native"
 import { launchImageLibrary } from "react-native-image-picker"
 import styled from "styled-components/native"
+import { IFormFieldComponent } from "../../../api/interfaces/form.interfaces"
 
-interface IFormImage {
-    readonly: boolean
-    fieldTitle?: string
-}
+const FormImage = ({ isAnswering, fieldTitle }: IFormFieldComponent) => {
+  const handlePicker = async () => {
+    const result = await launchImageLibrary({ mediaType: "photo" })
+    return result
+  }
 
-const FormImage = (props: IFormImage) => {
-    const handlePicker = async () => {
-        const result = await launchImageLibrary({ mediaType: "photo" })
-        return result
-    }
-
-    return props.readonly ? (
-        <SField>
-            <SInput editable={false} placeholderTextColor="#232323" placeholder={props.fieldTitle || "Field name"} />
-            <SInputHelp>Upload a image from your device</SInputHelp>
-            <SUploadField onPress={handlePicker}>
-                <Octicons name="upload" size={24} color="#23232320" />
-                <SUploadText>Upload</SUploadText>
-            </SUploadField>
-        </SField>
-    ) : (
-        <SField>
-            <SInput placeholderTextColor="#232323" placeholder="New field..." />
-            <SInputHelp>Upload a image from your device</SInputHelp>
-            <SUploadField onPress={handlePicker}>
-                <Octicons name="upload" size={24} color="#23232320" />
-                <SUploadText>Upload</SUploadText>
-            </SUploadField>
-        </SField>
-    )
+  return isAnswering ? (
+    <SField>
+      <SInput editable={false} placeholderTextColor="#232323" placeholder={fieldTitle || "Field name"} />
+      <SInputHelp>Upload a image from your device</SInputHelp>
+      <SUploadField onPress={handlePicker}>
+        <Octicons name="upload" size={24} color="#23232320" />
+        <SUploadText>Upload</SUploadText>
+      </SUploadField>
+    </SField>
+  ) : (
+    <SField>
+      <SInput placeholderTextColor="#232323" placeholder="New field..." />
+      <SInputHelp>Upload a image from your device</SInputHelp>
+      <SUploadField onPress={handlePicker}>
+        <Octicons name="upload" size={24} color="#23232320" />
+        <SUploadText>Upload</SUploadText>
+      </SUploadField>
+    </SField>
+  )
 }
 
 export default FormImage

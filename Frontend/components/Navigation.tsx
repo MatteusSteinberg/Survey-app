@@ -1,97 +1,84 @@
 import { Octicons } from "@expo/vector-icons"
 import React, { useState } from "react"
 import { Modal, Pressable, Text, View } from "react-native"
-import DropShadow from "react-native-drop-shadow"
 import QRCode from "react-native-qrcode-svg"
 import styled from "styled-components/native"
 import BackButton from "./elements/BackButton"
 
 interface INavigation {
-    navigation?: any
-    dashboardActive: boolean
-    profileActive: boolean
-    share?: boolean
+  navigation?: any
+  dashboardActive: boolean
+  profileActive: boolean
+  share?: boolean
 }
 
 const Navigation = (props: INavigation) => {
-    const [isModalActive, setIsModalActive] = useState(false)
-    const [pinCode, setPincode] = useState("")
+  const [isModalActive, setIsModalActive] = useState(false)
+  const [pinCode, setPincode] = useState("")
 
-    const generateRandomCode = () => {
-        let code = ""
-        for (let i = 0; i < 6; i++) {
-            const digit = Math.floor(Math.random() * 10)
-            code += digit.toString()
-        }
-        setPincode(code)
+  const generateRandomCode = () => {
+    let code = ""
+    for (let i = 0; i < 6; i++) {
+      const digit = Math.floor(Math.random() * 10)
+      code += digit.toString()
     }
+    setPincode(code)
+  }
 
-    const handleShare = () => {
-        setIsModalActive(true)
-        generateRandomCode()
-    }
+  const handleShare = () => {
+    setIsModalActive(true)
+    generateRandomCode()
+  }
 
-    return (
-        <>
-            <SModalOverlay modalActive={isModalActive} />
-            <SContainer>
-                <DropShadow
-                    style={{
-                        shadowColor: "#000",
-                        shadowOffset: {
-                            width: 0,
-                            height: 0,
-                        },
-                        shadowOpacity: 0.08,
-                        shadowRadius: 5,
-                    }}
-                >
-                    <SContent>
-                        <SMenuItem onPress={() => props.navigation.navigate("DashboardScreen")} active={props.dashboardActive}>
-                            <Octicons name="home" size={24} color="black" />
-                        </SMenuItem>
-                        {props.share ? (
-                            <SMenuItemAdd onPress={handleShare}>
-                                <Octicons name="paper-airplane" size={24} color="white" />
-                            </SMenuItemAdd>
-                        ) : (
-                            <SMenuItemAdd onPress={() => props.navigation.navigate("CreateScreen")}>
-                                <Octicons name="plus" size={24} color="white" />
-                            </SMenuItemAdd>
-                        )}
-                        <SMenuItem onPress={() => props.navigation.navigate("ProfileScreen")} active={props.profileActive}>
-                            <Octicons name="person" size={24} color="black" />
-                        </SMenuItem>
-                    </SContent>
-                </DropShadow>
-            </SContainer>
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={isModalActive}
-                onRequestClose={() => {
-                    setIsModalActive(false)
-                }}
-            >
-                <SModalInner>
-                    <SModalContent>
-                        <BackButton color="text" onPress={() => setIsModalActive(false)} title="Share survey" icon="x" />
-                        <SModalWrapper>
-                            {pinCode !== "" && (
-                                <SModalQR>
-                                    <SQRCode value={pinCode} size={320} />
-                                </SModalQR>
-                            )}
-                            <SModalDivider />
-                            <SModalPinCodeWrapper>
-                                <SModalPincode>{pinCode}</SModalPincode>
-                            </SModalPinCodeWrapper>
-                        </SModalWrapper>
-                    </SModalContent>
-                </SModalInner>
-            </Modal>
-        </>
-    )
+  return (
+    <>
+      <SModalOverlay modalActive={isModalActive} />
+      <SContainer>
+        <SContent>
+          <SMenuItem onPress={() => props.navigation.navigate("DashboardScreen")} active={props.dashboardActive}>
+            <Octicons name="home" size={24} color="black" />
+          </SMenuItem>
+          {props.share ? (
+            <SMenuItemAdd onPress={handleShare}>
+              <Octicons name="paper-airplane" size={24} color="white" />
+            </SMenuItemAdd>
+          ) : (
+            <SMenuItemAdd onPress={() => props.navigation.navigate("CreateScreen")}>
+              <Octicons name="plus" size={24} color="white" />
+            </SMenuItemAdd>
+          )}
+          <SMenuItem onPress={() => props.navigation.navigate("ProfileScreen")} active={props.profileActive}>
+            <Octicons name="person" size={24} color="black" />
+          </SMenuItem>
+        </SContent>
+      </SContainer>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={isModalActive}
+        onRequestClose={() => {
+          setIsModalActive(false)
+        }}
+      >
+        <SModalInner>
+          <SModalContent>
+            <BackButton color="text" onPress={() => setIsModalActive(false)} title="Share survey" icon="x" />
+            <SModalWrapper>
+              {pinCode !== "" && (
+                <SModalQR>
+                  <SQRCode value={pinCode} size={320} />
+                </SModalQR>
+              )}
+              <SModalDivider />
+              <SModalPinCodeWrapper>
+                <SModalPincode>{pinCode}</SModalPincode>
+              </SModalPinCodeWrapper>
+            </SModalWrapper>
+          </SModalContent>
+        </SModalInner>
+      </Modal>
+    </>
+  )
 }
 
 export default Navigation
@@ -117,7 +104,7 @@ const SContent = styled(View)`
     gap: 8px;
 `
 
-const SMenuItem = styled(Pressable)<{ active: boolean }>`
+const SMenuItem = styled(Pressable) <{ active: boolean }>`
     justify-content: center;
     align-items: center;
     height: 100%;
@@ -127,8 +114,8 @@ const SMenuItem = styled(Pressable)<{ active: boolean }>`
     border-radius: 21px;
 
     ${props =>
-        props.active &&
-        `
+    props.active &&
+    `
         background-color: ${props.theme["PRIMARY_COLOR_LIGHT"]};
     `}
 `
@@ -157,7 +144,7 @@ const SModalContent = styled(View)`
     width: 92%;
 `
 
-const SModalOverlay = styled(View)<{ modalActive: boolean }>`
+const SModalOverlay = styled(View) <{ modalActive: boolean }>`
     position: absolute;
     top: 0;
     left: 0;
@@ -165,8 +152,8 @@ const SModalOverlay = styled(View)<{ modalActive: boolean }>`
     height: 100%;
     z-index: -1;
     ${props =>
-        props.modalActive &&
-        `
+    props.modalActive &&
+    `
         background-color: rgba(0,0,0,0.5);
         z-index: 999;
     `}

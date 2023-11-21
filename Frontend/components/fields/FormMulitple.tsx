@@ -1,57 +1,53 @@
 import Checkbox from "expo-checkbox"
-import React, { useState } from "react"
+import React from "react"
 import { Pressable, Text, TextInput, View } from "react-native"
 import styled from "styled-components/native"
+import { IFormFieldComponent } from "../../../api/interfaces/form.interfaces"
 
-interface IFormFields {}
+const FormMulitple = ({ isAnswering, fieldTitle, onAddOption, onTitleChange, options, onOptionChange }: IFormFieldComponent) => {
 
-interface IFormMulitple {
-    readonly: boolean
-    fieldTitle?: string
-}
+  const handleCheck = (v: boolean, order: number) => {
+    onOptionChange?.('isChecked', v, order)
+  }
 
-const FormMulitple = (props: IFormMulitple) => {
-    const [formFields, setFormFields] = useState<IFormFields[]>([])
-    const [isChecked, setChecked] = useState(false)
+  const handleNameChange = (name: string, order: number) => {
+    onOptionChange?.('name', name, order)
+  }
 
-    const addFormField = (fieldComponent: IFormFields) => {
-        setFormFields([...formFields, fieldComponent])
-    }
-
-    return props.readonly ? (
-        <SField>
-            <SInput editable={false} placeholderTextColor="#232323" placeholder={props.fieldTitle || "Field name"} />
-            <SInputHelp>Select 1 or more choices below</SInputHelp>
-            <SChoices>
-                <SChoice>
-                    <Checkbox value={isChecked} onValueChange={setChecked} />
-                    <SInputChoice placeholder="Name your choice..." placeholderTextColor="#232323" />
-                </SChoice>
-            </SChoices>
-        </SField>
-    ) : (
-        <SField>
-            <SInput placeholderTextColor="#232323" placeholder="New field..." />
-            <SInputHelp>Select 1 or more choices below</SInputHelp>
-            <SChoices>
-                <SChoice>
-                    <Checkbox value={isChecked} onValueChange={setChecked} />
-                    <SInputChoice placeholder="Name your choice..." placeholderTextColor="#232323" />
-                </SChoice>
-                {formFields.map((item, index) => {
-                    return (
-                        <SChoice>
-                            <Checkbox value={isChecked} onValueChange={setChecked} />
-                            <SInputChoice placeholder="Name your choice..." placeholderTextColor="#232323" />
-                        </SChoice>
-                    )
-                })}
-                <Pressable onPress={() => addFormField(+1)}>
-                    <SChoiceAdd>Add new choice</SChoiceAdd>
-                </Pressable>
-            </SChoices>
-        </SField>
-    )
+  return isAnswering ? (
+    <SField>
+      <SInput editable={false} placeholderTextColor="#232323" placeholder={fieldTitle || "Field name"} />
+      <SInputHelp>Select 1 or more choices below</SInputHelp>
+      <SChoices>
+        {options?.map((item, index) => {
+          return (
+            <SChoice>
+              <Checkbox value={item.isChecked} onValueChange={(v) => handleCheck(v, item.order || 0)} />
+              <SInputChoice editable={false} value={item.name} placeholder="Name your choice..." placeholderTextColor="#232323" />
+            </SChoice>
+          )
+        })}
+      </SChoices>
+    </SField>
+  ) : (
+    <SField>
+      <SInput onChangeText={onTitleChange} value={fieldTitle} placeholderTextColor="#232323" placeholder="New field..." />
+      <SInputHelp>Select 1 or more choices below</SInputHelp>
+      <SChoices>
+        {options?.map((item, index) => {
+          return (
+            <SChoice>
+              <Checkbox value={item.isChecked} onValueChange={(v) => handleCheck(v, item.order || 0)} />
+              <SInputChoice onChangeText={(t) => handleNameChange(t, item.order || 0)} value={item.name} placeholder="Name your choice..." placeholderTextColor="#232323" />
+            </SChoice>
+          )
+        })}
+        <Pressable onPress={() => onAddOption?.()}>
+          <SChoiceAdd>Add new choice</SChoiceAdd>
+        </Pressable>
+      </SChoices>
+    </SField>
+  )
 }
 
 export default FormMulitple
