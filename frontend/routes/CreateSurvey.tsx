@@ -4,12 +4,13 @@ import _set from "lodash/set"
 import React, { useRef, useState } from "react"
 import { Animated, Easing, Keyboard, Modal, PanResponder, Pressable, ScrollView, Text, TextInput, TouchableWithoutFeedback, View } from "react-native"
 import styled from "styled-components/native"
-import { FormFieldType, IFormField } from "../../api/interfaces/form.interfaces"
+import { FormFieldType, IForm, IFormField } from "../../api/interfaces/form.interfaces"
 import FormModal from "../components/FormModal"
 import Navigation from "../components/Navigation"
 import { Button } from "../components/elements"
 import BackButton from "../components/elements/BackButton"
 import FormController from "../components/fields/FormController"
+import useAPI from "../hooks/use-api"
 
 interface ICreateSurvey {
   navigation?: any
@@ -23,6 +24,8 @@ const CreateSurvey: React.FC = (props: ICreateSurvey) => {
   const isDragging = useRef(false)
   const slideAnim = useRef(new Animated.Value(0)).current
   const touchStartX = useRef(0)
+
+  const { create } = useAPI<IForm>({ url: '/form' }, { autoGet: false })
 
   const panResponder = useRef(
     PanResponder.create({
@@ -67,7 +70,6 @@ const CreateSurvey: React.FC = (props: ICreateSurvey) => {
   const handleUpdateFormField = (path: string, value: any, order: number) => {
     setFormFields(produce(formFieldDraft => {
       const index = formFieldDraft.findIndex(x => x.order === order)
-      formFieldDraft[index]['answer']
 
       formFieldDraft[index] = _set(formFieldDraft[index], path, value)
     }))
@@ -90,6 +92,12 @@ const CreateSurvey: React.FC = (props: ICreateSurvey) => {
   }
 
   const handleCreateSurvey = async () => {
+    await create({
+      body: {
+        name: surveyName,
+        fields: formFields
+      } as IForm
+    })
     props.navigation.navigate("DashboardScreen")
   }
 
@@ -102,7 +110,7 @@ const CreateSurvey: React.FC = (props: ICreateSurvey) => {
             <SCreateHeader>
               <BackButton color="white" title="Create new survey" icon="chevron-left" onPress={() => props.navigation.navigate("DashboardScreen")} />
               <SCreateHeaderSearch>
-                <SInput placeholderTextColor="#ffffff40" placeholder="Name your survey..." />
+                <SInput placeholderTextColor="#ffffff40" onChangeText={t => setSurveyName(t)} value={surveyName} placeholder="Name your survey..." />
               </SCreateHeaderSearch>
             </SCreateHeader>
           </SHeader>

@@ -1,10 +1,11 @@
 import express from "express";
-import { create, mine, submissions } from "../services/api/form.services";
+import { create, get, mine } from "../services/api/form.services";
 
 const formRouter = express.Router()
 
 formRouter.get('/', mine)
-formRouter.get('/submissions', submissions)
+
+formRouter.get('/:id', get)
 
 formRouter.post('/', create)
 

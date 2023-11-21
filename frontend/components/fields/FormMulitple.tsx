@@ -19,9 +19,9 @@ const FormMulitple = ({ isAnswering, fieldTitle, onAddOption, onTitleChange, opt
       <SInput editable={false} placeholderTextColor="#232323" placeholder={fieldTitle || "Field name"} />
       <SInputHelp>Select 1 or more choices below</SInputHelp>
       <SChoices>
-        {options?.map((item, index) => {
+        {options?.map((item) => {
           return (
-            <SChoice>
+            <SChoice key={item.order}>
               <Checkbox value={item.isChecked} onValueChange={(v) => handleCheck(v, item.order || 0)} />
               <SInputChoice editable={false} value={item.name} placeholder="Name your choice..." placeholderTextColor="#232323" />
             </SChoice>
@@ -34,15 +34,15 @@ const FormMulitple = ({ isAnswering, fieldTitle, onAddOption, onTitleChange, opt
       <SInput onChangeText={onTitleChange} value={fieldTitle} placeholderTextColor="#232323" placeholder="New field..." />
       <SInputHelp>Select 1 or more choices below</SInputHelp>
       <SChoices>
-        {options?.map((item, index) => {
+        {options?.map((item) => {
           return (
-            <SChoice>
-              <Checkbox value={item.isChecked} onValueChange={(v) => handleCheck(v, item.order || 0)} />
+            <SChoice key={item.order}>
+              <Checkbox disabled value={item.isChecked} onValueChange={(v) => handleCheck(v, item.order || 0)} />
               <SInputChoice onChangeText={(t) => handleNameChange(t, item.order || 0)} value={item.name} placeholder="Name your choice..." placeholderTextColor="#232323" />
             </SChoice>
           )
         })}
-        <Pressable onPress={() => onAddOption?.()}>
+        <Pressable onPress={onAddOption}>
           <SChoiceAdd>Add new choice</SChoiceAdd>
         </Pressable>
       </SChoices>

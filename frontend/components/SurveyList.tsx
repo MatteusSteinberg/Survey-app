@@ -1,28 +1,42 @@
 import React from "react"
 import { Image, Text, View } from "react-native"
 import styled from "styled-components/native"
-// import SurveyCard from "./SurveyCard"
+import { IForm } from "../../api/interfaces/form.interfaces"
+import SurveyCard from "./SurveyCard"
 
 interface ISurveyList {
   setScrollEnabled: React.Dispatch<React.SetStateAction<boolean>>
   isDragging: React.MutableRefObject<boolean>
   setModalActive: React.Dispatch<React.SetStateAction<boolean>>
   modalActive: boolean
-  navigation?: any
+  navigation?: any,
+  forms?: IForm[]
 }
 
-const SurveyList = (props: ISurveyList) => {
+const SurveyList = ({ isDragging, modalActive, setModalActive, setScrollEnabled, forms, navigation }: ISurveyList) => {
   return (
     <SContainer>
       <SHeader>
         <STitle>Your forms</STitle>
-        <SCreate onPress={() => props.navigation.navigate("CreateScreen")}>Create Survey</SCreate>
+        <SCreate onPress={() => navigation.navigate("CreateScreen")}>Create Survey</SCreate>
       </SHeader>
       <SSurveys>
-        <SSurveyView>
-          <SImage source={require("../assets/noSurveys.jpg")} />
-          <SImageText>No surveys to be found...</SImageText>
-        </SSurveyView>
+        {forms?.length === 0 && <>
+          <SSurveyView>
+            <SImage source={require("../assets/noSurveys.jpg")} />
+            <SImageText>No surveys to be found...</SImageText>
+          </SSurveyView>
+        </>}
+
+        {forms?.map((form, index) => <SurveyCard
+          modalActive={modalActive}
+          setModalActive={setModalActive}
+          isDragging={isDragging}
+          navigation={navigation}
+          setScrollEnabled={setScrollEnabled}
+          key={index}
+          form={form}
+        />)}
       </SSurveys>
     </SContainer>
   )

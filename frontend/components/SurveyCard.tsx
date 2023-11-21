@@ -2,106 +2,106 @@ import { Octicons } from "@expo/vector-icons"
 import React, { useRef } from "react"
 import { Animated, Easing, Modal, PanResponder, Pressable, Text, View } from "react-native"
 import styled from "styled-components/native"
+import { IForm } from "../../api/interfaces/form.interfaces"
 import Pattern from "../assets/Pattern"
 import { Button } from "./elements"
 import BackButton from "./elements/BackButton"
 
 interface ISurveyCard {
-    title: string
-    replies?: number
-    setScrollEnabled: React.Dispatch<React.SetStateAction<boolean>>
-    isDragging: React.MutableRefObject<boolean>
-    setModalActive: React.Dispatch<React.SetStateAction<boolean>>
-    modalActive: boolean
-    navigation?: any
+  setScrollEnabled: React.Dispatch<React.SetStateAction<boolean>>
+  isDragging: React.MutableRefObject<boolean>
+  setModalActive: React.Dispatch<React.SetStateAction<boolean>>
+  modalActive: boolean
+  navigation: any,
+  form: IForm
 }
 
-const SurveyCard = (props: ISurveyCard) => {
-    const slideAnim = useRef(new Animated.Value(0)).current
-    const touchStartX = useRef(0)
+const SurveyCard = ({ form, modalActive, setModalActive, setScrollEnabled, navigation }: ISurveyCard) => {
+  const slideAnim = useRef(new Animated.Value(0)).current
+  const touchStartX = useRef(0)
 
-    const toggleModal = () => {
-        props.setModalActive(!props.modalActive)
-    }
+  const toggleModal = () => {
+    setModalActive(!modalActive)
+  }
 
-    const panResponder = useRef(
-        PanResponder.create({
-            onStartShouldSetPanResponder: () => true,
-            onPanResponderGrant: (_, gesture) => {
-                touchStartX.current = gesture.x0
-            },
-            onPanResponderMove: (_, gesture) => {
-                const dx = gesture.moveX - touchStartX.current
-                if (dx <= 0) {
-                    slideAnim.setValue(dx)
-                    props.setScrollEnabled(false) // Disable vertical scrolling
-                }
-            },
-            onPanResponderRelease: (_, gesture) => {
-                if (gesture.dx < -100) {
-                    Animated.timing(slideAnim, {
-                        toValue: -310,
-                        duration: 500,
-                        easing: Easing.out(Easing.quad),
-                        useNativeDriver: false,
-                    }).start(() => {
-                        props.setScrollEnabled(true) // Enable vertical scrolling after animation
-                    })
-                } else {
-                    Animated.spring(slideAnim, {
-                        toValue: 0,
-                        friction: 5,
-                        useNativeDriver: false,
-                    }).start(() => {
-                        props.setScrollEnabled(true) // Enable vertical scrolling after animation
-                    })
-                }
-            },
-        })
-    ).current
-    return (
-        <>
-            <SSliderView
-                style={{
-                    transform: [{ translateX: slideAnim }],
-                }}
-                {...panResponder.panHandlers}
-            >
-                <SSurveyCard>
-                    <STitle>{props.title}</STitle>
-                    <SReplies>{props.replies} Replies</SReplies>
-                    <Pressable onPress={() => props.navigation.navigate("AnswersScreen")}>
-                        <SSurveyText>See replies</SSurveyText>
-                    </Pressable>
-                    <SPattern color="#274CEE" PatternWidth={240} PatternHeight={290} />
-                </SSurveyCard>
-                <SEditOption>
-                    <Octicons name="pencil" size={28} color="white" />
-                </SEditOption>
-                <STrashOption onPress={toggleModal}>
-                    <Octicons name="trash" size={28} color="white" />
-                </STrashOption>
-            </SSliderView>
-            <Modal
-                animationType="slide" // Change animation as per requirement
-                transparent={true}
-                visible={props.modalActive}
-                onRequestClose={() => {
-                    props.setModalActive(false)
-                }}
-            >
-                <SModalInner>
-                    <SModalContent>
-                        <BackButton color="text" onPress={toggleModal} title="Delete this survey?" icon="x" />
-                        <SModalWrapper>
-                            <SModalText>Are you sure you want to proceed? This action is not reversible.</SModalText>
-                            <Button title="Delete this survey" variant="error" onPress={() => {}} />
-                        </SModalWrapper>
-                    </SModalContent>
-                </SModalInner>
-            </Modal>
-        </>
-    )
+  const panResponder = useRef(
+    PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
+      onPanResponderGrant: (_, gesture) => {
+        touchStartX.current = gesture.x0
+      },
+      onPanResponderMove: (_, gesture) => {
+        const dx = gesture.moveX - touchStartX.current
+        if (dx <= 0) {
+          slideAnim.setValue(dx)
+          setScrollEnabled(false) // Disable vertical scrolling
+        }
+      },
+      onPanResponderRelease: (_, gesture) => {
+        if (gesture.dx < -100) {
+          Animated.timing(slideAnim, {
+            toValue: -310,
+            duration: 500,
+            easing: Easing.out(Easing.quad),
+            useNativeDriver: false,
+          }).start(() => {
+            setScrollEnabled(true) // Enable vertical scrolling after animation
+          })
+        } else {
+          Animated.spring(slideAnim, {
+            toValue: 0,
+            friction: 5,
+            useNativeDriver: false,
+          }).start(() => {
+            setScrollEnabled(true) // Enable vertical scrolling after animation
+          })
+        }
+      },
+    })
+  ).current
+  return (
+    <>
+      <SSliderView
+        style={{
+          transform: [{ translateX: slideAnim }],
+        }}
+        {...panResponder.panHandlers}
+      >
+        <SSurveyCard>
+          <STitle>{form.name}</STitle>
+          <SReplies>{0} (NYI) Replies</SReplies>
+          <Pressable onPress={() => navigation.navigate("AnswersScreen")}>
+            <SSurveyText>See replies</SSurveyText>
+          </Pressable>
+          <SPattern color="#274CEE" PatternWidth={240} PatternHeight={290} />
+        </SSurveyCard>
+        <SEditOption>
+          <Octicons name="pencil" size={28} color="white" />
+        </SEditOption>
+        <STrashOption onPress={toggleModal}>
+          <Octicons name="trash" size={28} color="white" />
+        </STrashOption>
+      </SSliderView>
+      <Modal
+        animationType="slide" // Change animation as per requirement
+        transparent={true}
+        visible={modalActive}
+        onRequestClose={() => {
+          setModalActive(false)
+        }}
+      >
+        <SModalInner>
+          <SModalContent>
+            <BackButton color="text" onPress={toggleModal} title="Delete this survey?" icon="x" />
+            <SModalWrapper>
+              <SModalText>Are you sure you want to proceed? This action is not reversible.</SModalText>
+              <Button title="Delete this survey" variant="error" onPress={() => { }} />
+            </SModalWrapper>
+          </SModalContent>
+        </SModalInner>
+      </Modal>
+    </>
+  )
 }
 
 export default SurveyCard

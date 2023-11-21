@@ -3,6 +3,7 @@ import React, { useState } from "react"
 import { Modal, Pressable, Text, View } from "react-native"
 import QRCode from "react-native-qrcode-svg"
 import styled from "styled-components/native"
+import useKeyboardVisible from "../hooks/use-keyboard-visible"
 import BackButton from "./elements/BackButton"
 
 interface INavigation {
@@ -14,6 +15,7 @@ interface INavigation {
 
 const Navigation = (props: INavigation) => {
   const [isModalActive, setIsModalActive] = useState(false)
+  const { isKeyboardVisible } = useKeyboardVisible()
   const [pinCode, setPincode] = useState("")
 
   const generateRandomCode = () => {
@@ -28,6 +30,10 @@ const Navigation = (props: INavigation) => {
   const handleShare = () => {
     setIsModalActive(true)
     generateRandomCode()
+  }
+
+  if (isKeyboardVisible) {
+    return <></>
   }
 
   return (

@@ -1,11 +1,12 @@
 import { IForm } from "../../interfaces/form.interfaces"
-import { ISubmissionFilter } from "../../interfaces/submission.interfaces"
+import formModel from "../../models/form.model"
 import baseHandler from "../helpers/base-handler"
 import Form from "../utils/form.utils"
-import Submission from "../utils/submission.utils"
 
 export const create = baseHandler(async ({ body, user }) => {
   const form = body as IForm
+
+  console.log("form", form)
 
   const result = await Form.create(form, user!!)
 
@@ -19,10 +20,10 @@ export const mine = baseHandler(async ({ body, user }) => {
   return { data: forms, status: 200 }
 }, true)
 
-export const submissions = baseHandler(async ({ user, query }) => {
-  const { form } = query as ISubmissionFilter
+export const get = baseHandler(async ({ params }) => {
+  const { id } = params
 
-  const result = await Submission.index({ form, formCreatedBy: user._id })
+  const form = await formModel.findById(id)
 
-  return { data: [], status: 200 }
-}, true)
+  return { data: form, status: 200 }
+})

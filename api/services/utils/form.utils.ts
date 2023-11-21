@@ -5,7 +5,12 @@ import formModel from "../../models/form.model"
 
 namespace Form {
   export const create = async (form: IForm, user: IUser) => {
+    const result = await formModel.create({
+      ...form,
+      createdBy: user
+    })
 
+    return result
   }
 
   export const index = async (user: IUser) => {

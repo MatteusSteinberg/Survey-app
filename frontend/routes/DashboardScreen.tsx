@@ -1,44 +1,48 @@
 import React, { useRef, useState } from "react"
 import { Keyboard, ScrollView, TouchableWithoutFeedback, View } from "react-native"
 import styled from "styled-components/native"
+import { IForm } from "../../api/interfaces/form.interfaces"
 import DashboardHeader from "../components/DashboardHeader"
 import Navigation from "../components/Navigation"
 import SurveyList from "../components/SurveyList"
+import useAPI from "../hooks/use-api"
 
 interface IDashboard {
-    navigation?: any
+  navigation?: any
 }
 
 const DashboardScreen = (props: IDashboard) => {
-    const [scrollEnabled, setScrollEnabled] = useState(true)
-    const isDragging = useRef(false)
-    const touchStartTime = useRef(0)
-    const [modalVisible, setModalVisible] = useState(false)
+  const [scrollEnabled, setScrollEnabled] = useState(true)
+  const isDragging = useRef(false)
 
-    const handleScroll = (event: any) => {
-        if (scrollEnabled) {
-            setScrollEnabled(true)
-        }
+  const [modalVisible, setModalVisible] = useState(false)
+
+  const { data } = useAPI<IForm[]>({ url: '/form' }, { array: true })
+
+  const handleScroll = (event: any) => {
+    if (scrollEnabled) {
+      setScrollEnabled(true)
     }
+  }
 
-    return (
-        <>
-            <SModalOverlay modalActive={modalVisible} />
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <SScroll scrollEnabled={scrollEnabled} onScroll={handleScroll} onMomentumScrollBegin={handleScroll} onMomentumScrollEnd={handleScroll} onStartShouldSetResponder={() => scrollEnabled} bounces={false}>
-                    <SHeader>
-                        <DashboardHeader />
-                    </SHeader>
-                    <SContainer>
-                        <SContent>
-                            <SurveyList navigation={props.navigation} setModalActive={setModalVisible} modalActive={modalVisible} isDragging={isDragging} setScrollEnabled={setScrollEnabled} />
-                        </SContent>
-                    </SContainer>
-                </SScroll>
-            </TouchableWithoutFeedback>
-            <Navigation navigation={props.navigation} profileActive={false} dashboardActive={true} />
-        </>
-    )
+  return (
+    <>
+      <SModalOverlay modalActive={modalVisible} />
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <SScroll scrollEnabled={scrollEnabled} onScroll={handleScroll} onMomentumScrollBegin={handleScroll} onMomentumScrollEnd={handleScroll} onStartShouldSetResponder={() => scrollEnabled} bounces={false}>
+          <SHeader>
+            <DashboardHeader />
+          </SHeader>
+          <SContainer>
+            <SContent>
+              <SurveyList forms={data} navigation={props.navigation} setModalActive={setModalVisible} modalActive={modalVisible} isDragging={isDragging} setScrollEnabled={setScrollEnabled} />
+            </SContent>
+          </SContainer>
+        </SScroll>
+      </TouchableWithoutFeedback>
+      <Navigation navigation={props.navigation} profileActive={false} dashboardActive={true} />
+    </>
+  )
 }
 
 export default DashboardScreen
@@ -66,15 +70,15 @@ const SScroll = styled(ScrollView)`
     height: 100%;
 `
 
-const SModalOverlay = styled(View)<{ modalActive: boolean }>`
+const SModalOverlay = styled(View) <{ modalActive: boolean }>`
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     ${props =>
-        props.modalActive &&
-        `
+    props.modalActive &&
+    `
         background-color: rgba(0,0,0,0.5);
         z-index: 999;
     `}

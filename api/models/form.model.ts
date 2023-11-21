@@ -1,6 +1,50 @@
 import { Schema, model } from 'mongoose';
-import { IForm } from '../interfaces/form.interfaces';
+import { IForm, IFormField, IFormFieldOption } from '../interfaces/form.interfaces';
 import formatDocument from '../lib/plugins/format-document';
+
+const formFieldOptionSchema = new Schema<IFormFieldOption>({
+  isChecked: {
+    type: Boolean,
+    required: false
+  },
+  name: {
+    type: String,
+    required: false
+  },
+  order: {
+    type: Number,
+    required: false
+  }
+})
+
+const formFieldSchema = new Schema<IFormField>({
+  answer: {
+    text: {
+      type: String,
+      required: false
+    },
+    multiple: {
+      type: String,
+      required: false
+    },
+  },
+  fieldTitle: {
+    type: String,
+    required: false
+  },
+  options: {
+    type: [formFieldOptionSchema],
+    required: false
+  },
+  order: {
+    type: Number,
+    required: false
+  },
+  type: {
+    type: String,
+    required: false
+  }
+})
 
 const formSchema = new Schema<IForm>({
   createdBy: {
@@ -10,6 +54,14 @@ const formSchema = new Schema<IForm>({
   },
   pin: {
     type: Number,
+    required: false
+  },
+  name: {
+    type: String,
+    required: false
+  },
+  fields: {
+    type: [formFieldSchema],
     required: false
   }
 }, {
