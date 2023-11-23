@@ -7,37 +7,37 @@ import styled from "styled-components/native"
 import { useAuth } from "../hooks/use-auth"
 
 interface IDashboardHeader {
-  onSearchChange: (s: string) => void
+    onSearchChange: (s: string) => void
 }
 
 const DashboardHeader = ({ onSearchChange }: IDashboardHeader) => {
-  const { user, unauthenticate } = useAuth()
+    const { user, unauthenticate } = useAuth()
 
-  const date = new Date()
-  const formattedDate = format(date, "EEE, dd MMM yyyy")
+    const date = new Date()
+    const formattedDate = format(date, "EEE, dd MMM yyyy")
 
-  const handleInput = _.debounce((text: string) => {
-    onSearchChange(text)
-  }, 300)
+    const handleInput = _.debounce((text: string) => {
+        onSearchChange(text)
+    }, 300)
 
-  return (
-    <SHeader>
-      <SHeaderInner>
-        <SHeaderDate>
-          <SHeaderDateIcon size={24} name="calendar" color="#ffffff70" />
-          <SHeaderDateText>{formattedDate.toUpperCase()}</SHeaderDateText>
-          <SHeaderDateLogout onPress={unauthenticate}>Log out</SHeaderDateLogout>
-        </SHeaderDate>
-        <SHeaderMessage>
-          <SheaderMessageWelcome style={{ color: "#ffffff" }}>Welcome back</SheaderMessageWelcome>
-          <SheaderMessageUser>{user?.username || "Username"} 👋</SheaderMessageUser>
-        </SHeaderMessage>
-        <SHeaderSearch>
-          <SInput placeholderTextColor="#ffffff40" onChangeText={handleInput} placeholder="Search for a survey..." />
-        </SHeaderSearch>
-      </SHeaderInner>
-    </SHeader>
-  )
+    return (
+        <SHeader>
+            <SHeaderInner>
+                <SHeaderDate>
+                    <SHeaderDateIcon size={24} name="calendar" color="#ffffff70" />
+                    <SHeaderDateText>{formattedDate.toUpperCase()}</SHeaderDateText>
+                    <SHeaderDateLogout onPress={unauthenticate}>Log out</SHeaderDateLogout>
+                </SHeaderDate>
+                <SHeaderMessage>
+                    <SheaderMessageWelcome style={{ color: "#ffffff" }}>Welcome back</SheaderMessageWelcome>
+                    <SheaderMessageUser>{user?.username || "Username"} 👋</SheaderMessageUser>
+                </SHeaderMessage>
+                <SHeaderSearch>
+                    <SInput placeholderTextColor="#ffffff40" onChangeText={handleInput} placeholder="Search for a survey..." />
+                </SHeaderSearch>
+            </SHeaderInner>
+        </SHeader>
+    )
 }
 
 export default DashboardHeader
@@ -83,11 +83,13 @@ const SHeaderDateText = styled(Text)`
 `
 
 const SHeaderDateLogout = styled(Text)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: ${(props) => props.theme["WHITE"]};
-  margin-left: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: ${(props) => props.theme["WHITE"]};
+    margin-left: auto;
+    font-size: 16px;
+    font-family: "Nunito_700Bold";
 `
 
 const SHeaderMessage = styled(View)`

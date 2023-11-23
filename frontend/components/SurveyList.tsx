@@ -1,47 +1,45 @@
 import { NavigationProp } from "@react-navigation/native"
 import React from "react"
-import { Image, Text, View } from "react-native"
+import { Animated, Image, Text, View } from "react-native"
 import styled from "styled-components/native"
 import { IForm } from "../../api/interfaces/form.interfaces"
 import SurveyCard from "./SurveyCard"
 
 interface ISurveyList {
-  setScrollEnabled: React.Dispatch<React.SetStateAction<boolean>>
-  isDragging: React.MutableRefObject<boolean>
-  setModalActive: React.Dispatch<React.SetStateAction<boolean>>
-  modalActive: boolean
-  navigation: NavigationProp<any>,
-  forms?: IForm[]
+    setScrollEnabled: React.Dispatch<React.SetStateAction<boolean>>
+    isDragging: React.MutableRefObject<boolean>
+    setModalActive: React.Dispatch<React.SetStateAction<boolean>>
+    modalActive: boolean
+    navigation: NavigationProp<any>
+    forms?: IForm[]
+    cardPressed: React.MutableRefObject<boolean>
+    slideAnim: Animated.Value
 }
 
-const SurveyList = ({ isDragging, modalActive, setModalActive, setScrollEnabled, forms, navigation }: ISurveyList) => {
+const SurveyList = ({ isDragging, modalActive, setModalActive, setScrollEnabled, forms, navigation, cardPressed, slideAnim }: ISurveyList) => {
+    return (
+        <SContainer>
+            <SHeader>
+                <STitle>Your forms</STitle>
+                <SCreate onPress={() => navigation?.navigate("CreateScreen")}>Create Survey</SCreate>
+            </SHeader>
+            <SHeaderTip>Hold the field to delete/edit it</SHeaderTip>
+            <SSurveys>
+                {forms?.length === 0 && (
+                    <>
+                        <SSurveyView>
+                            <SImage source={require("../assets/noSurveys.jpg")} />
+                            <SImageText>No surveys to be found...</SImageText>
+                        </SSurveyView>
+                    </>
+                )}
 
-  return (
-    <SContainer>
-      <SHeader>
-        <STitle>Your forms</STitle>
-        <SCreate onPress={() => navigation?.navigate("CreateScreen")}>Create Survey</SCreate>
-      </SHeader>
-      <SSurveys>
-        {forms?.length === 0 && <>
-          <SSurveyView>
-            <SImage source={require("../assets/noSurveys.jpg")} />
-            <SImageText>No surveys to be found...</SImageText>
-          </SSurveyView>
-        </>}
-
-        {forms?.map((form, index) => <SurveyCard
-          modalActive={modalActive}
-          setModalActive={setModalActive}
-          isDragging={isDragging}
-          navigation={navigation}
-          setScrollEnabled={setScrollEnabled}
-          key={index}
-          form={form}
-        />)}
-      </SSurveys>
-    </SContainer>
-  )
+                {forms?.map((form, index) => (
+                    <SurveyCard slideAnim={slideAnim} cardPressed={cardPressed} modalActive={modalActive} setModalActive={setModalActive} isDragging={isDragging} navigation={navigation} setScrollEnabled={setScrollEnabled} key={index} form={form} />
+                ))}
+            </SSurveys>
+        </SContainer>
+    )
 }
 
 export default SurveyList
@@ -62,15 +60,23 @@ const STitle = styled(Text)`
     font-size: 24px;
     font-weight: 600;
     font-family: "Nunito_700Bold";
-    color: ${props => props.theme["TEXT"]};
+    color: ${(props) => props.theme["TEXT"]};
 `
 
 const SCreate = styled(Text)`
     font-size: 16px;
     font-weight: 600;
-    color: ${props => props.theme["PRIMARY_COLOR_DARK"]};
+    color: ${(props) => props.theme["PRIMARY_COLOR_DARK"]};
     opacity: 0.5;
     font-family: "Nunito_600SemiBold";
+`
+
+const SHeaderTip = styled(Text)`
+    font-size: 16px;
+    font-family: "Nunito_500Medium";
+    color: ${(props) => props.theme["TEXT"]};
+    opacity: 0.5;
+    margin-bottom: 12px;
 `
 
 const SSurveys = styled(View)`
@@ -100,7 +106,7 @@ const SImage = styled(Image)`
 const SImageText = styled(Text)`
     font-size: 22px;
     font-weight: 600;
-    color: ${props => props.theme["TEXT"]};
+    color: ${(props) => props.theme["TEXT"]};
     font-family: "Nunito_600SemiBold";
     text-align: center;
     justify-content: flex-start;
