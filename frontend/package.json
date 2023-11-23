@@ -23,7 +23,6 @@
     "expo-barcode-scanner": "~12.5.3",
     "expo-camera": "~13.4.4",
     "expo-checkbox": "~2.4.0",
-    "expo-cli": "^6.3.10",
     "expo-secure-store": "^12.5.0",
     "expo-status-bar": "~1.6.0",
     "immer": "^10.0.3",

@@ -7,7 +7,7 @@ import useAPI, { IRequestData } from "./use-api"
 import * as SecureStore from 'expo-secure-store'
 
 // @ts-expect-error
-import { API_URL } from '@env'
+import { EXPO_PUBLIC_API_URL } from '@env'
 
 interface IAuth {
   authenticate: (email: string, password: string) => Promise<{ error?: any }>
@@ -36,7 +36,7 @@ export const useAuth = () => {
   return useContext<IAuth>(AuthContext)
 }
 
-const api = (API_URL || '') + "/api"
+const api = (EXPO_PUBLIC_API_URL || '') + "/api"
 
 export const AuthProvider = memo(({ children }: { children: React.ReactNode }) => {
   const [token, setToken] = useState<string | undefined>(undefined)

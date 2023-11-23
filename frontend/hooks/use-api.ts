@@ -3,7 +3,7 @@ import _ from "lodash"
 import { useCallback, useEffect, useMemo, useState } from "react"
 
 // @ts-expect-error
-import { API_URL } from "@env"
+import { EXPO_PUBLIC_API_URL } from "@env"
 
 export interface useAPIOptions {
   /** Will retrieve GET method data - default: true */
@@ -38,7 +38,7 @@ export interface IRequestData<T = any> {
 const useAPI = <T>({ url, params, id }: { url: string; params?: any; id?: string }, opts: useAPIOptions = defaultOptions) => {
   opts = { ...defaultOptions, ...opts }
 
-  url = `${API_URL || ""}/api${url}` + (id ? `/${id}` : "")
+  url = `${EXPO_PUBLIC_API_URL || ""}/api${url}` + (id ? `/${id}` : "")
 
   const queryString = useMemo(() => {
     const qStr = new URLSearchParams(params || {}).toString().trim()
