@@ -2,7 +2,6 @@ import { ParamListBase, RouteProp } from "@react-navigation/native"
 import { produce } from "immer"
 import React, { useState } from "react"
 import { Keyboard, ScrollView, Text, TouchableWithoutFeedback, View } from "react-native"
-import { getUniqueId } from "react-native-device-info"
 import styled from "styled-components/native"
 import { IForm } from "../../api/interfaces/form.interfaces"
 import { ISubmission } from "../../api/interfaces/submission.interfaces"
@@ -38,7 +37,6 @@ const SurveyScreen = ({ navigation, route }: IProfileScreen) => {
     const userSubmission = {
       ...submission,
       form: data?.id,
-      deviceId: await getUniqueId(),
     } as ISubmission
 
     const result = await create({ body: userSubmission })
