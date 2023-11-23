@@ -3,11 +3,6 @@ import { ISubmission } from '../interfaces/submission.interfaces';
 import formatDocument from '../lib/plugins/format-document';
 
 const submissionSchema = new Schema<ISubmission>({
-  submittedBy: {
-    type: Schema.Types.ObjectId,
-    required: false,
-    ref: 'User'
-  },
   form: {
     type: Schema.Types.ObjectId,
     required: true,
@@ -16,6 +11,10 @@ const submissionSchema = new Schema<ISubmission>({
   deviceId: {
     type: String,
     required: true
+  },
+  answers: {
+    type: Map,
+    of: Schema.Types.Mixed
   }
 }, {
   timestamps: true,

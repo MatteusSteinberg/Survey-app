@@ -8,6 +8,13 @@ import submissionModel from "../../models/submission.model"
 namespace Submission {
   export const submit = async (submission: ISubmission, user?: IUser) => {
 
+    const s = await submissionModel.create({
+      answers: submission.answers,
+      form: submission.form,
+      deviceId: submission.deviceId,
+    })
+
+    return s
   }
 
   const query = async (filter: ISubmissionFilter) => {

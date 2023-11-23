@@ -9,6 +9,13 @@ import { Button } from "../components/elements"
 import FormController from "../components/fields/FormController"
 import useAPI from "../hooks/use-api"
 
+
+import * as Application from 'expo-application';
+import { Platform } from 'expo-modules-core';
+import * as SecureStore from 'expo-secure-store';
+import { v4 as uuidv4 } from 'uuid';
+
+
 interface IProfileScreen {
   navigation?: any,
   route?: RouteProp<ParamListBase>
@@ -17,6 +24,19 @@ interface IProfileScreen {
 const SurveyScreen = ({ navigation, route }: IProfileScreen) => {
   const [submission, setSubmission] = useState<ISubmission>({})
 
+  const getDeviceId = async () => {
+    if (Platform.OS === 'android') {
+      return Application.androidId;
+    } else {
+      let deviceId = await SecureStore.getItemAsync('deviceId');
+      if (!deviceId) {
+        deviceId = uuidv4();
+        await SecureStore.setItemAsync('deviceId', deviceId as string);
+      }
+  
+      return deviceId;
+    }
+  }
 
   const { id }: { id: string } = route?.params as any
 
@@ -37,6 +57,7 @@ const SurveyScreen = ({ navigation, route }: IProfileScreen) => {
     const userSubmission = {
       ...submission,
       form: data?.id,
+      deviceId: await getDeviceId(),
     } as ISubmission
 
     const result = await create({ body: userSubmission })
