@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Keyboard, ScrollView, TouchableWithoutFeedback, View } from "react-native"
 
 // Components
@@ -34,6 +34,12 @@ export default function SignupScreen({ navigation }: any) {
       setRegisterSuccess(true)
     }
   }
+
+  useEffect(() => {
+    if (registerSuccess) {
+      refresh()
+    }
+  }, [registerSuccess])
 
   return (
     <>

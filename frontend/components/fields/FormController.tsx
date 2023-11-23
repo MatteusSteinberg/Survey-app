@@ -6,27 +6,32 @@ import FormText from "./FormText"
 interface IFormController {
   isEditing?: boolean,
   formField: IFormField,
-  onChange: (path: string, value: any) => void,
-  onOptionChange: (path: string, value: any, optionOrder: number) => void,
+  onChange?: (path: string, value: any) => void,
+  onAnswer?: (answer: any) => void,
+  onOptionChange?: (path: string, value: any, optionOrder: number) => void,
 }
 
-const FormController = ({ formField, isEditing, onChange, onOptionChange }: IFormController) => {
+const FormController = ({ formField, isEditing, onChange, onAnswer, onOptionChange }: IFormController) => {
 
   const handleTitleChange = (title: string) => {
-    onChange('fieldTitle', title)
+    onChange?.('fieldTitle', title)
   }
 
   const handleTextChange = (text: string) => {
-    onChange('answer.text', text)
+    onAnswer?.(text)
+  }
+
+  const handleMultipleAnswerChange = (multiple: string[]) => {
+    onAnswer?.(multiple)
   }
 
   const handleAddOption = () => {
     const nextOrder = (formField.options || []).length + 1
-    onChange('options', [...(formField.options || []), { order: nextOrder }] as IFormFieldOption[])
+    onChange?.('options', [...(formField.options || []), { order: nextOrder }] as IFormFieldOption[])
   }
 
   const handleOptionEdit = (path: string, value: any, order: number) => {
-    onOptionChange(path, value, order)
+    onOptionChange?.(path, value, order)
   }
 
   const isAnswering = !isEditing
@@ -41,6 +46,7 @@ const FormController = ({ formField, isEditing, onChange, onOptionChange }: IFor
       isAnswering={isAnswering}
       onAddOption={handleAddOption}
       onOptionChange={handleOptionEdit}
+      onMultipleAnswerChange={handleMultipleAnswerChange}
       onTitleChange={handleTitleChange}
     />}
     {formField.type === "image" && <FormImage {...formField}

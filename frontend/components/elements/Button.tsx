@@ -2,22 +2,23 @@ import React from "react"
 import styled, { css } from "styled-components/native"
 
 interface IButton {
-    title: string
-    onPress?: () => void
-    full?: boolean
-    icon?: React.ReactNode
-    variant: "primary" | "primary-outline" | "dark" | "dark-outline" | "error" | "error-outline"
+  title: string
+  onPress?: () => void
+  full?: boolean
+  icon?: React.ReactNode
+  variant: "primary" | "primary-outline" | "dark" | "dark-outline" | "error" | "error-outline"
+  disabled?: boolean
 }
 
 const Button = (props: IButton) => {
-    return (
-        <SButton {...props} onPress={props.onPress}>
-            <SView {...props}>
-                <SText {...props}>{props.title}</SText>
-                {props.icon && <SIcon>{props.icon}</SIcon>}
-            </SView>
-        </SButton>
-    )
+  return (
+    <SButton {...props} onPress={props.onPress}>
+      <SView {...props}>
+        <SText {...props}>{props.title}</SText>
+        {props.icon && <SIcon>{props.icon}</SIcon>}
+      </SView>
+    </SButton>
+  )
 }
 
 export default Button
@@ -30,43 +31,43 @@ const SButton = styled.Pressable<IButton>`
     width: 100%;
 
     ${(props) =>
-        props.variant === "primary" &&
-        css`
+    props.variant === "primary" &&
+    css`
             background-color: ${props.theme["PRIMARY_COLOR"]};
             border-color: ${props.theme["PRIMARY_COLOR"]};
         `}
 
     ${(props) =>
-        props.variant === "dark" &&
-        css`
+    props.variant === "dark" &&
+    css`
             background-color: ${props.theme["TEXT"]};
             border-color: ${props.theme["TEXT"]};
         `}
 
         ${(props) =>
-        props.variant === "error" &&
-        css`
+    props.variant === "error" &&
+    css`
             background-color: ${props.theme["ERROR"]};
             border-color: ${props.theme["ERROR"]};
         `}
 
         ${(props) =>
-        props.variant === "error-outline" &&
-        css`
+    props.variant === "error-outline" &&
+    css`
             background-color: transparent;
             border-color: ${props.theme["ERROR"]};
         `}
 
     ${(props) =>
-        props.variant === "primary-outline" &&
-        css`
+    props.variant === "primary-outline" &&
+    css`
             background-color: transparent;
             border-color: ${props.theme["PRIMARY_COLOR"]};
         `}
 
     ${(props) =>
-        props.variant === "dark-outline" &&
-        css`
+    props.variant === "dark-outline" &&
+    css`
             background-color: transparent;
             border-color: ${props.theme["TEXT"]};
         `}
@@ -88,38 +89,38 @@ const SText = styled.Text<IButton>`
     font-family: "Nunito_700Bold";
 
     ${(props) =>
-        props.variant === "primary" &&
-        css`
+    props.variant === "primary" &&
+    css`
             color: ${props.theme["WHITE"]};
         `}
 
     ${(props) =>
-        props.variant === "dark" &&
-        css`
+    props.variant === "dark" &&
+    css`
             color: ${props.theme["WHITE"]};
         `}
 
     ${(props) =>
-        props.variant === "error" &&
-        css`
+    props.variant === "error" &&
+    css`
             color: ${props.theme["WHITE"]};
         `}
 
         ${(props) =>
-        props.variant === "primary-outline" &&
-        css`
+    props.variant === "primary-outline" &&
+    css`
             color: ${props.theme["TEXT"]};
         `}
 
         ${(props) =>
-        props.variant === "dark-outline" &&
-        css`
+    props.variant === "dark-outline" &&
+    css`
             color: ${props.theme["TEXT"]};
         `}
 
         ${(props) =>
-        props.variant === "error-outline" &&
-        css`
+    props.variant === "error-outline" &&
+    css`
             color: ${props.theme["TEXT"]};
         `}
 `

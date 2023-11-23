@@ -1,3 +1,4 @@
+import { ParamListBase, RouteProp } from "@react-navigation/native"
 import React, { useRef, useState } from "react"
 import { Keyboard, ScrollView, TouchableWithoutFeedback, View } from "react-native"
 import styled from "styled-components/native"
@@ -8,16 +9,20 @@ import SurveyList from "../components/SurveyList"
 import useAPI from "../hooks/use-api"
 
 interface IDashboard {
-  navigation?: any
+  navigation?: any,
+  route?: RouteProp<ParamListBase>
 }
 
-const DashboardScreen = (props: IDashboard) => {
+const DashboardScreen = ({ navigation, route }: IDashboard) => {
   const [scrollEnabled, setScrollEnabled] = useState(true)
   const isDragging = useRef(false)
+  const [search, setSearch] = useState<string>('')
 
   const [modalVisible, setModalVisible] = useState(false)
 
-  const { data } = useAPI<IForm[]>({ url: '/form' }, { array: true })
+  const newSurveyid = (route?.params as any)?.['result']?.id
+
+  const { data } = useAPI<IForm[]>({ url: '/form', params: { search, new: newSurveyid } }, { array: true })
 
   const handleScroll = (event: any) => {
     if (scrollEnabled) {
@@ -31,16 +36,16 @@ const DashboardScreen = (props: IDashboard) => {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <SScroll scrollEnabled={scrollEnabled} onScroll={handleScroll} onMomentumScrollBegin={handleScroll} onMomentumScrollEnd={handleScroll} onStartShouldSetResponder={() => scrollEnabled} bounces={false}>
           <SHeader>
-            <DashboardHeader />
+            <DashboardHeader onSearchChange={(s) => setSearch(s)} />
           </SHeader>
           <SContainer>
             <SContent>
-              <SurveyList forms={data} navigation={props.navigation} setModalActive={setModalVisible} modalActive={modalVisible} isDragging={isDragging} setScrollEnabled={setScrollEnabled} />
+              <SurveyList forms={data} navigation={navigation} setModalActive={setModalVisible} modalActive={modalVisible} isDragging={isDragging} setScrollEnabled={setScrollEnabled} />
             </SContent>
           </SContainer>
         </SScroll>
       </TouchableWithoutFeedback>
-      <Navigation navigation={props.navigation} profileActive={false} dashboardActive={true} />
+      <Navigation navigation={navigation} profileActive={false} dashboardActive={true} />
     </>
   )
 }

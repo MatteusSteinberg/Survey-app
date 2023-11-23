@@ -3,44 +3,59 @@ import { Keyboard, ScrollView, Text, TouchableWithoutFeedback, View } from "reac
 
 // Components
 import styled from "styled-components/native"
+import { IForm } from "../../api/interfaces/form.interfaces"
 import AuthHeader from "../components/AuthHeader"
 import { Button } from "../components/elements"
 import PinInput from "../components/elements/PinInput"
+import useAPI from "../hooks/use-api"
 
 export default function PinCodeScreen({ navigation }: any) {
-    const [pincode, setPincode] = useState("")
+  const [pincode, setPincode] = useState("")
 
-    return (
-        <>
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <View>
-                    <SHeader>
-                        <AuthHeader />
-                    </SHeader>
-                    <SContainer>
-                        <SContent>
-                            <SScroll>
-                                <STitle>Pin code</STitle>
-                                <SText>Enter the pin code to join survey.</SText>
-                                <SInput>
-                                    <PinInput codeLength={6} onChange={p => setPincode(p)} currentValue={pincode} />
-                                    <SInputButtons>
-                                        <Button variant="primary" title={"Enter survey"} onPress={() => navigation.navigate("SurveyScreen")} />
-                                        <Button variant="dark" title={"Scan QR Code"} onPress={() => navigation.navigate("CameraScreen")} />
-                                    </SInputButtons>
-                                </SInput>
-                                <SFooter>
-                                    <SLogin>
-                                        Want to sign in instead? <SLoginLink onPress={() => navigation.navigate("LoginScreen")}>Sign in</SLoginLink>
-                                    </SLogin>
-                                </SFooter>
-                            </SScroll>
-                        </SContent>
-                    </SContainer>
-                </View>
-            </TouchableWithoutFeedback>
-        </>
-    )
+  const { request } = useAPI<IForm>({ url: '/form/pin', id: pincode }, { autoGet: false })
+
+  const handleEnterSurvey = async () => {
+    const result = await request({ method: "get" })
+
+    if (result.data) {
+      const form = result.data as IForm
+      navigation.navigate("SurveyScreen", { id: form.id })
+    }
+  }
+
+  const pinLength = 6
+
+  return (
+    <>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View>
+          <SHeader>
+            <AuthHeader />
+          </SHeader>
+          <SContainer>
+            <SContent>
+              <SScroll>
+                <STitle>Pin code</STitle>
+                <SText>Enter the pin code to join survey.</SText>
+                <SInput>
+                  <PinInput codeLength={pinLength} onChange={p => setPincode(p)} currentValue={pincode} />
+                  <SInputButtons>
+                    <Button disabled={pincode.length !== pinLength} variant="primary" title={"Enter survey"} onPress={handleEnterSurvey} />
+                    <Button variant="dark" title={"Scan QR Code"} onPress={() => navigation.navigate("CameraScreen")} />
+                  </SInputButtons>
+                </SInput>
+                <SFooter>
+                  <SLogin>
+                    Want to sign in instead? <SLoginLink onPress={() => navigation.navigate("LoginScreen")}>Sign in</SLoginLink>
+                  </SLogin>
+                </SFooter>
+              </SScroll>
+            </SContent>
+          </SContainer>
+        </View>
+      </TouchableWithoutFeedback>
+    </>
+  )
 }
 
 const SContainer = styled(View)`

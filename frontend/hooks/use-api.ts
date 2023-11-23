@@ -17,7 +17,7 @@ const defaultOptions: useAPIOptions = {
   array: false,
 }
 
-type RequestMethod = "post" | "patch" | "delete"
+type RequestMethod = "get" | "post" | "patch" | "delete"
 
 interface IBodyRequest<T = any> {
   method?: RequestMethod
@@ -71,10 +71,10 @@ const useAPI = <T>({ url, params, id }: { url: string; params?: any; id?: string
       const { data, status } = await axios.post(`${url}${withQueryString ? queryString : ""}`, body, opts.config)
 
       if (!noRequestUpdate) {
-        setRequestData({ data, statusCode: status, loading: false, error: data })
+        setRequestData({ data, statusCode: status, loading: false, error: undefined })
       }
 
-      return { data, statusCode: status, loading: false, error: data }
+      return { data, statusCode: status, loading: false, error: undefined }
     } catch (error: any) {
       console.error(error)
       setRequestData((r) => ({ ...r, error: error, loading: false }))

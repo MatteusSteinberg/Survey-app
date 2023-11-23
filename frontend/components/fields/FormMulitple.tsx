@@ -1,13 +1,22 @@
 import Checkbox from "expo-checkbox"
-import React from "react"
+import React, { useState } from "react"
 import { Pressable, Text, TextInput, View } from "react-native"
 import styled from "styled-components/native"
 import { IFormFieldComponent } from "../../../api/interfaces/form.interfaces"
 
-const FormMulitple = ({ isAnswering, fieldTitle, onAddOption, onTitleChange, options, onOptionChange }: IFormFieldComponent) => {
+const FormMulitple = ({ isAnswering, fieldTitle, onAddOption, onTitleChange, onMultipleAnswerChange, options, onOptionChange }: IFormFieldComponent) => {
+  const [checked, setChecked] = useState<string[]>([])
 
-  const handleCheck = (v: boolean, order: number) => {
-    onOptionChange?.('isChecked', v, order)
+  const handleCheck = (id: string, order: number) => {
+    const isChecked = checked.includes(id)
+    let changeTo = [...checked]
+    if (isChecked) {
+      changeTo = changeTo.filter(x => x !== id)
+    } else {
+      changeTo.push(id)
+    }
+    setChecked([...changeTo])
+    onMultipleAnswerChange?.(changeTo)
   }
 
   const handleNameChange = (name: string, order: number) => {
@@ -20,9 +29,10 @@ const FormMulitple = ({ isAnswering, fieldTitle, onAddOption, onTitleChange, opt
       <SInputHelp>Select 1 or more choices below</SInputHelp>
       <SChoices>
         {options?.map((item) => {
+          const isChecked = checked.includes(item._id)
           return (
             <SChoice key={item.order}>
-              <Checkbox value={item.isChecked} onValueChange={(v) => handleCheck(v, item.order || 0)} />
+              <Checkbox value={isChecked} onValueChange={(v) => handleCheck(item._id, item.order || 0)} />
               <SInputChoice editable={false} value={item.name} placeholder="Name your choice..." placeholderTextColor="#232323" />
             </SChoice>
           )
@@ -35,9 +45,10 @@ const FormMulitple = ({ isAnswering, fieldTitle, onAddOption, onTitleChange, opt
       <SInputHelp>Select 1 or more choices below</SInputHelp>
       <SChoices>
         {options?.map((item) => {
+          const isChecked = checked.includes(item._id)
           return (
             <SChoice key={item.order}>
-              <Checkbox disabled value={item.isChecked} onValueChange={(v) => handleCheck(v, item.order || 0)} />
+              <Checkbox disabled value={isChecked} onValueChange={(v) => handleCheck(item._id, item.order || 0)} />
               <SInputChoice onChangeText={(t) => handleNameChange(t, item.order || 0)} value={item.name} placeholder="Name your choice..." placeholderTextColor="#232323" />
             </SChoice>
           )

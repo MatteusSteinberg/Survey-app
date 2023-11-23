@@ -95,13 +95,16 @@ const CreateSurvey = ({ form, id, navigation }: ICreateSurvey) => {
 
   const handleCreateSurvey = async () => {
     const apiMethod = id ? update : create
-    await apiMethod({
+    const result = await apiMethod({
       body: {
         name: surveyName,
         fields: formFields
       } as IForm
     })
-    navigation.navigate("DashboardScreen")
+
+    if (!result.error) {
+      navigation.navigate("DashboardScreen", { result: result?.data })
+    }
   }
 
   return (
@@ -149,7 +152,7 @@ const CreateSurvey = ({ form, id, navigation }: ICreateSurvey) => {
                 </SAddFieldIcon>
                 <SAddFieldText>Add new field</SAddFieldText>
               </SAddField>
-              <Button variant="primary" title="Create survey" onPress={handleCreateSurvey} />
+              <Button variant="primary" title={id ? "Update survey" : "Create survey"} onPress={handleCreateSurvey} />
             </SContent>
           </SContainer>
         </SScroll>

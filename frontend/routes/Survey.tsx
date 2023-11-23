@@ -1,37 +1,86 @@
-import React from "react"
+import { ParamListBase, RouteProp } from "@react-navigation/native"
+import { produce } from "immer"
+import React, { useState } from "react"
 import { Keyboard, ScrollView, Text, TouchableWithoutFeedback, View } from "react-native"
+import { getUniqueId } from "react-native-device-info"
 import styled from "styled-components/native"
+import { IForm } from "../../api/interfaces/form.interfaces"
+import { ISubmission } from "../../api/interfaces/submission.interfaces"
 import { Button } from "../components/elements"
-import { FormImage, FormMultiple, FormText } from "../components/fields"
+import FormController from "../components/fields/FormController"
+import useAPI from "../hooks/use-api"
 
 interface IProfileScreen {
-    navigation?: any
+  navigation?: any,
+  route?: RouteProp<ParamListBase>
 }
 
-const SurveyScreen = (props: IProfileScreen) => {
-    return (
-        <>
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <SScroll bounces={false}>
-                    <SHeader>
-                        <SSurveyHeader>
-                            <SSurveyTitle>Survey name</SSurveyTitle>
-                        </SSurveyHeader>
-                    </SHeader>
-                    <SContainer>
-                        <SContent>
-                            <FormText readonly fieldTitle="Emil diller" />
-                            <FormMultiple readonly fieldTitle="Emil diller" />
-                            <FormImage readonly fieldTitle="Emil diller" />
-                        </SContent>
-                    </SContainer>
-                </SScroll>
-            </TouchableWithoutFeedback>
-            <SButton>
-                <Button variant="primary" title="Submit survey" onPress={() => props.navigation.navigate("DashboardScreen")} />
-            </SButton>
-        </>
-    )
+const SurveyScreen = ({ navigation, route }: IProfileScreen) => {
+  const [submission, setSubmission] = useState<ISubmission>({})
+
+
+  const { id }: { id: string } = route?.params as any
+
+  const { data } = useAPI<IForm>({ url: '/form', id }, { autoGet: !!id })
+
+  const handleAnswer = (id: string, answer: any) => {
+    setSubmission(produce(submissionDraft => {
+      if (!submissionDraft.answers) submissionDraft.answers = {}
+
+      submissionDraft.answers[id] = answer
+    }))
+  }
+
+  const { create } = useAPI({ url: "/submission" })
+
+  const handleSubmit = async () => {
+
+    const userSubmission = {
+      ...submission,
+      form: data?.id,
+      deviceId: await getUniqueId(),
+    } as ISubmission
+
+    const result = await create({ body: userSubmission })
+
+    if (!result.error) {
+      navigation.navigate("PinScreen")
+    }
+  }
+
+  return (
+    <>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <SScroll bounces={false}>
+          <SHeader>
+            <SSurveyHeader>
+              <SSurveyTitle>{data?.name}</SSurveyTitle>
+            </SSurveyHeader>
+          </SHeader>
+          <SContainer>
+            <SContent>
+              {(data?.fields || []).map((formField, index) => {
+
+                return (
+                  <SField>
+                    <FormController
+                      key={formField.order}
+                      onAnswer={(answer) => handleAnswer(formField._id, answer)}
+                      isEditing={false}
+                      formField={formField}
+                    />
+                  </SField>
+                )
+              })}
+            </SContent>
+          </SContainer>
+        </SScroll>
+      </TouchableWithoutFeedback>
+      <SButton>
+        <Button variant="primary" title="Submit survey" onPress={handleSubmit} />
+      </SButton>
+    </>
+  )
 }
 
 export default SurveyScreen
@@ -71,6 +120,11 @@ const SContent = styled(View)`
     justify-content: flex-start;
     margin-top: 32px;
     height: 100%;
+`
+
+const SField = styled(View)`
+    width: 100%;
+    position: relative;
 `
 
 const SScroll = styled(ScrollView)`

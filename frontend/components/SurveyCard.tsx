@@ -70,7 +70,7 @@ const SurveyCard = ({ form, modalActive, setModalActive, setScrollEnabled, navig
       >
         <SSurveyCard>
           <STitle>{form.name}</STitle>
-          <SReplies>{0} (NYI) Replies</SReplies>
+          <SReplies>{0} Replies - PIN: {form.pin}</SReplies>
           <Pressable onPress={() => navigation.navigate("AnswersScreen", { id: form.id })}>
             <SSurveyText>See replies</SSurveyText>
           </Pressable>
@@ -84,7 +84,7 @@ const SurveyCard = ({ form, modalActive, setModalActive, setScrollEnabled, navig
         </STrashOption>
       </SSliderView>
       <Modal
-        animationType="slide" // Change animation as per requirement
+        animationType="slide"
         transparent={true}
         visible={modalActive}
         onRequestClose={() => {

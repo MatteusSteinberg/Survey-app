@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Keyboard, ScrollView, TouchableWithoutFeedback, View } from "react-native"
 
 // Components
@@ -12,7 +12,7 @@ const LoginScreen = ({ navigation }: any) => {
   const [form, setForm] = useState<{ password?: string; email?: string }>({})
   const [success, setSuccess] = useState<boolean | undefined>(undefined)
 
-  const { authenticate } = useAuth()
+  const { authenticate, refresh } = useAuth()
 
   const handleOnLogin = async () => {
     if (!form?.email || !form?.password) return
@@ -22,6 +22,12 @@ const LoginScreen = ({ navigation }: any) => {
       setSuccess(true)
     }
   }
+
+  useEffect(() => {
+    if (success) {
+      refresh()
+    }
+  }, [success])
 
   return (
     <>
