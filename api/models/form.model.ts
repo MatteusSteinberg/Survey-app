@@ -39,7 +39,9 @@ const formSchema = new Schema<IForm>({
     ref: 'User'
   },
   pin: {
-    type: Number,
+    type: String,
+    unique: true,
+    index: true,
     required: false
   },
   name: {

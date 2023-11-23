@@ -10,8 +10,9 @@ export interface ISubmissionFilter {
 }
 
 export interface ISubmission {
-  id: any,
+  id?: any,
   submittedBy?: IUser | Types.ObjectId | string,
-  deviceId: string,
-  form: IForm | Types.ObjectId | string
+  deviceId?: string,
+  form?: IForm | Types.ObjectId | string,
+  answers?: { [fieldId: string]: string | Types.ObjectId | [Types.ObjectId] }
 }

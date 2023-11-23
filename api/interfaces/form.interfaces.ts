@@ -6,33 +6,29 @@ export interface IForm {
   id: any,
   name?: string,
   createdBy: IUser | Types.ObjectId | string
-  pin?: number,
+  pin?: string,
   fields: IFormField[]
 }
 
 export type FormFieldType = "text" | "multiple" | "image"
 
 export interface IFormFieldOption {
+  _id?: any,
   order?: number,
-  isChecked?: boolean,
   name?: string
 }
 export interface IFormField {
+  _id?: any,
   type: FormFieldType
   fieldTitle?: string
   order?: number
   options?: IFormFieldOption[],
-  answer?: {
-    text?: string
-    multiple?: any[]
-    image?: any
-  }
 }
 
 export interface IFormFieldComponent extends IFormField {
-  onTitleChange: (title: string) => void,
+  onTitleChange?: (title: string) => void,
   onTextAnswerChange?: (answer: string) => void,
-  onMultipleAnswerChange?: () => void,
+  onMultipleAnswerChange?: (multiple: string[]) => void,
   onAddOption?: () => void,
   onOptionChange?: (path: string, value: any, order: number) => void,
   onImageChange?: () => void,
